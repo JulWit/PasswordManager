@@ -105,14 +105,14 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="newDatabaseButton">
        <property name="text">
         <string>Neue Datenbank erstellen</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="openDatabaseButton">
        <property name="text">
         <string>Datenbank öffnen</string>
        </property>

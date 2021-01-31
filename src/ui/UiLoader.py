@@ -32,10 +32,11 @@
 """
 from __future__ import (print_function, division, unicode_literals, absolute_import)
 
+import logging
 import os
 import sys
 
-from PySide6.QtCore import QMetaObject, QFile, QIODevice
+from PySide6.QtCore import QFile, QIODevice
 from PySide6.QtUiTools import QUiLoader
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -148,9 +149,8 @@ def loadUi(uiFile, baseinstance=None, customWidgets=None, workingDirectory=None)
 
     file = QFile(uiFile)
     if not file.open(QIODevice.ReadOnly):
-        print("Cannot open {}: {}".format(uiFile, file.errorString()))
+        logging.error("Cannot open {}: {}".format(uiFile, file.errorString()))
         sys.exit(-1)
     widget = loader.load(file)
     file.close()
-    QMetaObject.connectSlotsByName(widget)
     return widget
