@@ -7,7 +7,7 @@ from src.ui import UiLoader
 class DatabaseWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/DatabaseWidget.ui"
 
-    def __init__(self, parent, file):
+    def __init__(self, parent=None, file=None):
         super(DatabaseWidget, self).__init__(parent)
 
         # Setup UI

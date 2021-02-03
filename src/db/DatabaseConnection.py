@@ -2,7 +2,7 @@ import logging
 import sqlcipher3
 
 
-class DBConnection:
+class DatabaseConnection:
     def __init__(self, file: str, password: str):
         if not file or not isinstance(file, str):
             raise TypeError("file is None or not a string")
@@ -19,20 +19,16 @@ class DBConnection:
         self._cursor.execute(f"PRAGMA KEY={password}")
 
         # Überprüfen, ob die Entschlüsselung funktioniert hat
+        # SQLCipher bietet keine eigene Methode für die Überprüfung,
+        # stattdessen wird eine Datenbankanfrage ausgeführt und Überprüft,
+        # ob die Anfrage ohne Fehler ausgeführt wird
         try:
-            self._cursor.execute("""CREATE TABLE IF NOT EXISTS Entries (
-                    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title       VARCHAR(128) NOT NULL,
-                    username    VARCHAR(128) NOT NULL,
-                    password    VARCHAR(128) NOT NULL,  
-                    url         VARCHAR(1024),
-                    notes       VARCHAR(128),
-                    date        DATE DEFAULT CURRENT_TIMESTAMP
-            );""")
             self.execute("SELECT COUNT(*) FROM sqlite_master")
         except sqlcipher3.dbapi2.DatabaseError as e:
             self.close()
             self.logger.error(f"Datenbank {file} konnte nicht entschlüsselt werden: {e}")
+            raise e
+
         self.logger.debug(f"Datenbank {file} erfolgreich entschlüsselt")
 
     def __enter__(self):

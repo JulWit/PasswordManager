@@ -7,7 +7,7 @@ from src.ui import UiLoader
 class NameWizardPage(QWizardPage):
     UI_FILE = ROOT_DIR + "/ui/NameWizardPage.ui"
 
-    def __init__(self, parent):
+    def __init__(self, parent=None):
         super(NameWizardPage, self).__init__(parent)
 
         # Setup UI

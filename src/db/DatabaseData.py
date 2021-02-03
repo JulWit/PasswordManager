@@ -1,4 +1,4 @@
-class DBData:
+class DatabaseData:
     def __init__(self, name: str, password: str, description: str = None):
         if not name or not isinstance(name, str):
             raise TypeError("name is None or not a string")

@@ -7,7 +7,7 @@ from src.ui import UiLoader
 class PasswordWizardPage(QWizardPage):
     UI_FILE = ROOT_DIR + "/ui/PasswordWizardPage.ui"
 
-    def __init__(self, parent):
+    def __init__(self, parent=None):
         super(PasswordWizardPage, self).__init__(parent)
 
         # Setup UI

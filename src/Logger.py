@@ -4,7 +4,7 @@ from src.__main__ import ROOT_DIR
 
 
 def setup_logger(name):
-    logging_format = "%(asctime)-15s %(module)-15s %(levelname)-8s %(message)s"
+    logging_format = "%(asctime)-15s %(module)-25s %(levelname)-8s %(message)s"
     date_format = "%d.%m.%y %H:%M"
 
     logging.basicConfig(level=logging.DEBUG,

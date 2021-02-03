@@ -19,42 +19,14 @@
   <property name="windowTitle">
    <string>Passwort Manager</string>
   </property>
-  <widget class="QWidget" name="widget">
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>80</y>
-      <width>191</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMaximumSize</enum>
-     </property>
-     <property name="leftMargin">
-      <number>50</number>
-     </property>
-     <property name="topMargin">
-      <number>50</number>
-     </property>
-     <property name="rightMargin">
-      <number>50</number>
-     </property>
-     <property name="bottomMargin">
-      <number>50</number>
-     </property>
-    </layout>
-   </widget>
-  </widget>
+  <widget class="QWidget" name="widget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>822</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDatenbank">
