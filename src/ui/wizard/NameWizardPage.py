@@ -13,7 +13,7 @@ class NameWizardPage(QWizardPage):
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
 
-        # Connect signal/slots
+        # Connect signals/slots
         self.ui.nameLineEdit.textChanged.connect(self.completeChanged)
 
     def name(self) -> str:
