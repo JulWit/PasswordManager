@@ -11,7 +11,7 @@ from src.ui.dialog.DecryptionFailedMessageBox import DecryptionFailedMessageBox
 class UnlockDatabaseWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/UnlockDatabaseWidget.ui"
 
-    unlock = Signal()
+    unlock = Signal(DatabaseConnection)
     cancel = Signal()
 
     def __init__(self, parent=None):
@@ -40,10 +40,10 @@ class UnlockDatabaseWidget(QWidget):
         password = self.ui.passwordLineEdit.text()
         try:
             connection = DatabaseConnection(self._file, password)
+            print(connection.query("SELECT * FROM Entries"))
+            self.unlock.emit(connection)
         except sqlcipher3.dbapi2.DatabaseError:
             DecryptionFailedMessageBox(self).exec_()
-
-        self.unlock.emit()
 
     @Slot()
     def on_cancelButton_clicked(self):

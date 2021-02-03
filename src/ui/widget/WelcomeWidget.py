@@ -1,7 +1,7 @@
 import logging
 import sqlcipher3
 
-from PySide6.QtCore import QDir, QMetaObject, Slot
+from PySide6.QtCore import QDir, QMetaObject, Slot, Signal
 from PySide6.QtWidgets import QWidget, QFileDialog
 
 from src.__main__ import ROOT_DIR
@@ -12,6 +12,8 @@ from src.ui.wizard.NewDatabaseWizard import NewDatabaseWizard
 
 class WelcomeWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/WelcomeWidget.ui"
+
+    open = Signal(str)
 
     def __init__(self, parent):
         super(WelcomeWidget, self).__init__(parent)
@@ -62,6 +64,10 @@ class WelcomeWidget(QWidget):
                                             date        DATE DEFAULT CURRENT_TIMESTAMP
                                         );"""
                                    )
+                    query = """INSERT INTO Entries (\"title\", \"username\", \"password\", \"url\", \"notes\") 
+                    VALUES (\"Test\", \"Test\", \"Test\", \"Test\", \"Test\")"""
+                    cursor.execute(query)
+                    connection.commit()
                 except sqlcipher3.dbapi2.DatabaseError as e:
                     connection.close()
                     self.logger.error(f"Datenbank: {file} konnte nicht erstellt werden: {e}")
@@ -77,6 +83,4 @@ class WelcomeWidget(QWidget):
                                            QDir.homePath(),
                                            self.tr("Datenbank Dateien (*.db)"))[0]
         if file:
-            self.logger.debug(f"Datenbank: {file} geöffnet")
-            self.unlock_widget.file = file
-            self.stacked_widget.setCurrentWidget(self.unlock_widget)
+            self.open.emit(file)
