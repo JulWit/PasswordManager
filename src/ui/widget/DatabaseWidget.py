@@ -1,5 +1,5 @@
 import PySide6
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QAbstractItemView
 
 from src.__main__ import ROOT_DIR
 from src.db.DatabaseConnection import DatabaseConnection
@@ -28,6 +28,7 @@ class DatabaseWidget(QWidget):
     def showEvent(self, event: PySide6.QtGui.QShowEvent) -> None:
         entrylist = self.connection.query("SELECT * FROM Entries")
         print(entrylist)
-        tabletest = TableModel(entrylist)
-        self.ui.tableView.setModel(tabletest)
+        entrymodel = TableModel(entrylist)
+        self.ui.tableView.setModel(entrymodel)
+        self.ui.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
 

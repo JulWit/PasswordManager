@@ -64,12 +64,12 @@ class WelcomeWidget(QWidget):
                                             date        DATE DEFAULT CURRENT_TIMESTAMP
                                         );"""
                                    )
-                    query = """INSERT INTO Entries (\"title\", \"username\", \"password\", \"url\", \"notes\") 
-                    VALUES (\"Test\", \"Test\", \"Test\", \"Test\", \"Test\")"""
-                    cursor.execute(query)
-                    query = """INSERT INTO Entries (\"title\", \"username\", \"password\", \"url\", \"notes\") 
-                    VALUES (\"Test2\", \"Test2\", \"Test2\", \"Test2\", \"Test2\")"""
-                    cursor.execute(query)
+                    #query = """INSERT INTO Entries (\"title\", \"username\", \"password\", \"url\", \"notes\")
+                    #VALUES (\"Test\", \"Test\", \"Test\", \"Test\", \"Test\")"""
+                    #cursor.execute(query)
+                    #query = """INSERT INTO Entries (\"title\", \"username\", \"password\", \"url\", \"notes\")
+                    #VALUES (\"Test2\", \"Test2\", \"Test2\", \"Test2\", \"Test2\")"""
+                    #cursor.execute(query)
                     connection.commit()
                 except sqlcipher3.dbapi2.DatabaseError as e:
                     connection.close()
