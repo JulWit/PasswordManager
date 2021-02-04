@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from src.__main__ import ROOT_DIR
 
@@ -6,6 +7,9 @@ from src.__main__ import ROOT_DIR
 def setup_logger(name):
     logging_format = "%(asctime)-15s %(module)-25s %(levelname)-8s %(message)s"
     date_format = "%d.%m.%y %H:%M"
+
+    # Ordner für Log-Datein erstellen, falls nicht vorhanden
+    Path(ROOT_DIR + "/log/").mkdir(parents=True, exist_ok=True)
 
     logging.basicConfig(level=logging.DEBUG,
                         format=logging_format,
