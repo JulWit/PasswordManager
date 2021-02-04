@@ -6,6 +6,7 @@ from src.__main__ import ROOT_DIR
 from src.db.DatabaseConnection import DatabaseConnection
 from src.ui import UiLoader
 from src.ui.dialog.DecryptionFailedMessageBox import DecryptionFailedMessageBox
+from src.ui.widget import DatabaseWidget
 
 
 class UnlockDatabaseWidget(QWidget):
@@ -40,8 +41,9 @@ class UnlockDatabaseWidget(QWidget):
         password = self.ui.passwordLineEdit.text()
         try:
             connection = DatabaseConnection(self._file, password)
-            print(connection.query("SELECT * FROM Entries"))
+            # print(connection.query("SELECT * FROM Entries"))
             self.unlock.emit(connection)
+            DatabaseWidget.DatabaseConnection = connection
         except sqlcipher3.dbapi2.DatabaseError:
             DecryptionFailedMessageBox(self).exec_()
 
