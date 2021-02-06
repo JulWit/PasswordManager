@@ -62,6 +62,11 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpenDatabase"/>
+   <addaction name="actionSaveDatabase"/>
+   <addaction name="separator"/>
+   <addaction name="actionNewEntry"/>
+   <addaction name="actionEditEntry"/>
+   <addaction name="actionDeleteEntry"/>
   </widget>
   <action name="actionNewDatabase">
    <property name="icon">
@@ -82,13 +87,57 @@
    </property>
   </action>
   <action name="actionExit">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/application-exit.svg</normaloff>../img/application-exit.svg</iconset>
+   </property>
    <property name="text">
     <string>Beenden</string>
    </property>
   </action>
   <action name="actionSaveDatabase">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/document-save.svg</normaloff>../img/document-save.svg</iconset>
+   </property>
    <property name="text">
     <string>Datenbank speichern</string>
+   </property>
+  </action>
+  <action name="actionNewEntry">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/entry-new.svg</normaloff>../img/entry-new.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Neuer Eintrag</string>
+   </property>
+  </action>
+  <action name="actionEditEntry">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/entry-edit.svg</normaloff>../img/entry-edit.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Eintrag bearbeiten</string>
+   </property>
+  </action>
+  <action name="actionDeleteEntry">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/entry-delete.svg</normaloff>../img/entry-delete.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Eintrag löschen</string>
    </property>
   </action>
  </widget>

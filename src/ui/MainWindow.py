@@ -58,14 +58,22 @@ class MainWindow(QMainWindow):
     @Slot()
     def show_welcome_widget(self):
         self.stacked_widget.setCurrentWidget(self.welcome_widget)
+        self.change_actions_enabled(False)
 
     @Slot(str)
     def show_unlock_widget(self, file: str):
         self.unlock_widget.file = file
         self.stacked_widget.setCurrentWidget(self.unlock_widget)
+        self.change_actions_enabled(False)
 
     @Slot(DatabaseConnection)
     def show_database_widget(self, connection: DatabaseConnection):
         self.database_widget.connection = connection
         self.stacked_widget.setCurrentWidget(self.database_widget)
+        self.change_actions_enabled(True)
+
+    def change_actions_enabled(self, enabled=False):
+        self.ui.actionNewEntry.setEnabled(enabled)
+        self.ui.actionEditEntry.setEnabled(enabled)
+        self.ui.actionDeleteEntry.setEnabled(enabled)
 

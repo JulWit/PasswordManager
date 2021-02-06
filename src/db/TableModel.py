@@ -11,14 +11,14 @@ class TableModel(QAbstractTableModel):
         else:
             self._data = data
 
-    def data(self, index, role):
+    def data(self, index, role=None):
         if role == Qt.DisplayRole:
             return self._data[index.row()][index.column()]
 
-    def rowCount(self, index):
+    def rowCount(self, index=None):
         return len(self._data)
 
-    def columnCount(self, index):
+    def columnCount(self, index=None):
         # return len(self._data[0])
         return 7
 
@@ -30,15 +30,15 @@ class TableModel(QAbstractTableModel):
             if section == 0:
                 return "ID"
             elif section == 1:
-                return "Title"
+                return "Titel"
             elif section == 2:
-                return "Username"
+                return "Benutzername"
             elif section == 3:
-                return "Password"
+                return "Passwort"
             elif section == 4:
                 return "URL"
             elif section == 5:
-                return "Notes"
+                return "Notizen"
             elif section == 6:
-                return "Date"
+                return "Zuletzt geändert"
         return None
