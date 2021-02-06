@@ -25,12 +25,19 @@ class PasswordWizardPage(QWizardPage):
 
     # Beurteilung der Passwortstärke
     def passwordLineEdit_changed(self):
-        strength = PasswordUtils.evaluate_password(self.password())
-        self.ui.passwordStrength.setStyleSheet("QProgressBar::chunk{background-color: red}")
-        self.ui.passwordStrength.setValue(strength * 100)
+        strength = PasswordUtils.evaluate_password_strength(self.password())
+        if 0 <= strength < 0.25:
+            color = 'red'
+        elif 0.25 < strength < 0.50:
+            color = 'orange'
+        elif 0.50 < strength < 0.75:
+            color = 'MediumSeaGreen'
+        elif 0.75 < strength <= 1:
+            color = 'green'
+        self.ui.passwordStrength.setStyleSheet("QProgressBar::chunk{background-color: " + color + "}")
+        self.ui.passwordStrength.setValue(round(strength * 100, 0))
 
     def isComplete(self) -> bool:
-        # TODO: REGEX
         return bool(
             self.ui.passwordLineEdit.text().strip() and
             self.ui.confirmationLineEdit.text().strip() and
