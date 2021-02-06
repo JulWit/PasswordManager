@@ -16,7 +16,7 @@ from src.ui import UiLoader
 
 class MainWindow(QMainWindow):
     UI_FILE = ROOT_DIR + "/ui/MainWindow.ui"
-    ICON_FILE = ROOT_DIR + "/img/logo.png"
+    ICON_FILE = ROOT_DIR + "/img/logo.svg"
 
     def __init__(self):
         super(MainWindow, self).__init__()

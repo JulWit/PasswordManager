@@ -10,7 +10,7 @@ from src.ui.wizard.PasswordWizardPage import PasswordWizardPage
 
 class NewDatabaseWizard(QWizard):
     UI_FILE = ROOT_DIR + "/ui/NewDatabaseWizard.ui"
-    BACKGROUND_IMAGE = ROOT_DIR + "/img/logo.png"
+    BACKGROUND_IMAGE = ROOT_DIR + "/img/logo.svg"
 
     def __init__(self, parent=None):
         super(NewDatabaseWizard, self).__init__(parent)
