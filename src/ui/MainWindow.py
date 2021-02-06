@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QMainWindow, QStackedWidget
 from src.__main__ import ROOT_DIR
 from src.db.DatabaseConnection import DatabaseConnection
 from src.ui.widget.DatabaseWidget import DatabaseWidget
+from src.ui.widget.NewEntryWidget import NewEntryWidget
 from src.ui.widget.UnlockDatabaseWidget import UnlockDatabaseWidget
 from src.ui.widget.WelcomeWidget import WelcomeWidget
 from src.ui import UiLoader
@@ -28,11 +29,13 @@ class MainWindow(QMainWindow):
         self.welcome_widget = WelcomeWidget(self)
         self.unlock_widget = UnlockDatabaseWidget(self)
         self.database_widget = DatabaseWidget(self)
+        self.new_entry_widget = NewEntryWidget(self)
 
         self.stacked_widget = QStackedWidget(self)
         self.stacked_widget.addWidget(self.welcome_widget)
         self.stacked_widget.addWidget(self.unlock_widget)
         self.stacked_widget.addWidget(self.database_widget)
+        self.stacked_widget.addWidget(self.new_entry_widget)
 
         self.setCentralWidget(self.stacked_widget)
         self.setWindowIcon(QIcon(self.ICON_FILE))
@@ -42,6 +45,7 @@ class MainWindow(QMainWindow):
         self.welcome_widget.open.connect(self.show_unlock_widget)
         self.unlock_widget.cancel.connect(self.show_welcome_widget)
         self.unlock_widget.unlock.connect(self.show_database_widget)
+        self.new_entry_widget.cancel.connect(self.show_database_widget)
 
     @Slot()
     def on_actionNewDatabase_triggered(self):
@@ -54,6 +58,10 @@ class MainWindow(QMainWindow):
     @Slot()
     def on_actionExit_triggered(self):
         sys.exit()
+
+    @Slot()
+    def on_actionNewEntry_triggered(self):
+        self.stacked_widget.setCurrentWidget(self.new_entry_widget)
 
     @Slot()
     def show_welcome_widget(self):
