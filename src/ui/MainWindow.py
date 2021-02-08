@@ -6,7 +6,6 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
 from src.__main__ import ROOT_DIR
-from src.db.DatabaseConnection import DatabaseConnection
 from src.ui.widget.DatabaseWidget import DatabaseWidget
 from src.ui.widget.NewEntryWidget import NewEntryWidget
 from src.ui.widget.UnlockDatabaseWidget import UnlockDatabaseWidget
@@ -74,9 +73,8 @@ class MainWindow(QMainWindow):
         self.stacked_widget.setCurrentWidget(self.unlock_widget)
         self.change_actions_enabled(False)
 
-    @Slot(DatabaseConnection)
-    def show_database_widget(self, connection: DatabaseConnection):
-        self.database_widget.connection = connection
+    @Slot()
+    def show_database_widget(self):
         self.stacked_widget.setCurrentWidget(self.database_widget)
         self.change_actions_enabled(True)
 
@@ -84,4 +82,3 @@ class MainWindow(QMainWindow):
         self.ui.actionNewEntry.setEnabled(enabled)
         self.ui.actionEditEntry.setEnabled(enabled)
         self.ui.actionDeleteEntry.setEnabled(enabled)
-

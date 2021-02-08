@@ -3,16 +3,15 @@ from PySide6.QtCore import QMetaObject, Slot, Signal
 from PySide6.QtWidgets import QWidget
 
 from src.__main__ import ROOT_DIR
-from src.db.DatabaseConnection import DatabaseConnection
+from src.db.DatabaseConnection import DBConnection
 from src.ui import UiLoader
 from src.ui.dialog.DecryptionFailedMessageBox import DecryptionFailedMessageBox
-from src.ui.widget import DatabaseWidget
 
 
 class UnlockDatabaseWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/UnlockDatabaseWidget.ui"
 
-    unlock = Signal(DatabaseConnection)
+    unlock = Signal()
     cancel = Signal()
 
     def __init__(self, parent=None):
@@ -40,10 +39,9 @@ class UnlockDatabaseWidget(QWidget):
     def on_okButton_clicked(self):
         password = self.ui.passwordLineEdit.text()
         try:
-            connection = DatabaseConnection(self._file, password)
-            # print(connection.query("SELECT * FROM Entries"))
-            self.unlock.emit(connection)
-            DatabaseWidget.DatabaseConnection = connection
+            DBConnection(self._file, password)
+            print(DBConnection().query("SELECT * FROM Entries"))
+            self.unlock.emit()
         except sqlcipher3.dbapi2.DatabaseError:
             DecryptionFailedMessageBox(self).exec_()
 

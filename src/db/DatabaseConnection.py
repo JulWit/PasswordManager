@@ -2,7 +2,17 @@ import logging
 import sqlcipher3
 
 
-class DatabaseConnection:
+class Singleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+
+class DBConnection(metaclass=Singleton):
+
     def __init__(self, file: str, password: str):
         if not file or not isinstance(file, str):
             raise TypeError("file is None or not a string")
