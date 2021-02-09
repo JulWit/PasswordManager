@@ -5,7 +5,6 @@ class TableModel(QAbstractTableModel):
     def __init__(self, data=None, parent=None):
         super(TableModel, self).__init__(parent)
 
-    # TODO: Handle empty db
         if data is None:
             self._data = []
         else:

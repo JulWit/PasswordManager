@@ -39,8 +39,8 @@ class UnlockDatabaseWidget(QWidget):
     def on_okButton_clicked(self):
         password = self.ui.passwordLineEdit.text()
         try:
+            # DBConnection Singleton initialisieren
             DBConnection(self._file, password)
-            print(DBConnection().query("SELECT * FROM Entries"))
             self.unlock.emit()
         except sqlcipher3.dbapi2.DatabaseError:
             DecryptionFailedMessageBox(self).exec_()
