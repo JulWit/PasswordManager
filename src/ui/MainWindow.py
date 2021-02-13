@@ -6,6 +6,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget
 
 from src.__main__ import ROOT_DIR
+from src.db.DatabaseConnection import DBConnection
 from src.ui.widget.DatabaseWidget import DatabaseWidget
 from src.ui.widget.NewEntryWidget import NewEntryWidget
 from src.ui.widget.UnlockDatabaseWidget import UnlockDatabaseWidget
@@ -59,7 +60,11 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionExit_triggered(self):
-        sys.exit()
+        # Falls DBConnection vorhanden, schließen und Programm beenden
+        try:
+            DBConnection().close()
+        finally:
+            sys.exit()
 
     @Slot()
     def on_actionNewEntry_triggered(self):

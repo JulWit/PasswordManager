@@ -14,6 +14,7 @@ policy = PasswordPolicy.from_names(
 
 
 def evaluate_password_strength(password):
+    """ Bestimmt anhand von Entropy-Bits die Stärke eines Passworts, Werte zwischen 0 und 1 """
     if len(password) < 1:
         return 0
     return PasswordStats(password).strength()

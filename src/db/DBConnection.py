@@ -2,17 +2,21 @@ import logging
 import sqlcipher3
 
 
-class Singleton(type):
-    _instances = {}
+class Singleton:
+    _instance = None;
 
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
+    def __init__(self, aClass):
+        self.aClass = aClass
+        self.instance = None
+
+    def __call__(self, *args, **kwargs):
+        if self.instance is None:
+            self.instance = self.aClass(*args, **kwargs)
+        return self.instance
 
 
-class DBConnection(metaclass=Singleton):
-
+@Singleton
+class DBConnection(object):
     def __init__(self, file: str, password: str):
         if not file or not isinstance(file, str):
             raise TypeError("file is None or not a string")
@@ -40,12 +44,6 @@ class DBConnection(metaclass=Singleton):
             raise e
 
         self.logger.debug(f"Datenbank {file} erfolgreich entschlüsselt")
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
 
     @property
     def connection(self):
