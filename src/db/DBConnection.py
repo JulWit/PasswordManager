@@ -3,24 +3,31 @@ import sqlcipher3
 
 
 class Singleton:
-    _instance = None;
+    _instance = None
 
     def __init__(self, aClass):
         self.aClass = aClass
-        self.instance = None
 
     def __call__(self, *args, **kwargs):
-        if self.instance is None:
-            self.instance = self.aClass(*args, **kwargs)
-        return self.instance
+        if Singleton._instance is None:
+            Singleton._instance = self.aClass(*args, **kwargs)
+        return Singleton._instance
+
+    @classmethod
+    def delete_instance(cls):
+        cls._instance = None
+
+    @classmethod
+    def instance(cls):
+        return cls._instance
 
 
 @Singleton
 class DBConnection(object):
     def __init__(self, file: str, password: str):
-        if not file or not isinstance(file, str):
+        if file == "" or not isinstance(file, str):
             raise TypeError("file is None or not a string")
-        if not password or not isinstance(password, str):
+        if password == "" or not isinstance(password, str):
             raise TypeError("password is None or not a string")
 
         # Setup logging
@@ -60,6 +67,7 @@ class DBConnection(object):
         if commit:
             self.commit()
         self.connection.close()
+        Singleton.delete_instance()
 
     def execute(self, sql, params=None):
         self.cursor.execute(sql, params or ())

@@ -30,13 +30,12 @@ class DatabaseWidget(QWidget):
 
         # ID- und Passwort-Spalte ausblenden
         self.ui.tableView.setColumnHidden(0, True)
-        self.ui.tableView.setColumnHidden(3, True)
 
         # Erste Zeile auswählen
         self.ui.tableView.selectRow(0)
 
     def showEvent(self, event: QShowEvent) -> None:
-        entry_list = DBConnection().query("SELECT * FROM Entries")
+        entry_list = DBConnection.instance().query("SELECT * FROM Entries")
         entry_model = TableModel(entry_list)
 
         self.ui.tableView.setModel(entry_model)

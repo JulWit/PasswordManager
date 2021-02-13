@@ -8,7 +8,7 @@ class TableModel(QAbstractTableModel):
     def __init__(self, data=None, parent=None):
         super(TableModel, self).__init__(parent)
 
-        # Setup logging
+        # Setup loggingand len(args) > 1
         self.logger = logging.getLogger('Logger')
 
         if data is None:
@@ -18,6 +18,8 @@ class TableModel(QAbstractTableModel):
 
     def data(self, index, role=Qt.DisplayRole):
         if role == Qt.DisplayRole:
+            if index.column() == 3:
+                return '********'
             return self._data[index.row()][index.column()]
 
     def rowCount(self, index=QModelIndex()):
