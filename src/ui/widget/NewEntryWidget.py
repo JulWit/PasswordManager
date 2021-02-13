@@ -1,28 +1,39 @@
-from PySide6.QtCore import Slot, Signal, QMetaObject
-from PySide6.QtWidgets import QWidget
+import logging
 
-from src.__main__ import ROOT_DIR
-from src.ui import UiLoader
+from PySide6.QtCore import Slot
+from src.db.DBConnection import DBConnection
+from src.ui.widget.EntryWidget import EntryWidget
 
 
-class NewEntryWidget(QWidget):
-    UI_FILE = ROOT_DIR + "/ui/NewEntryWidget.ui"
-
-    cancel = Signal()
-    ok = Signal()
-
+class NewEntryWidget(EntryWidget):
     def __init__(self, parent=None):
         super(NewEntryWidget, self).__init__(parent)
 
-        self.ui = UiLoader.loadUi(self.UI_FILE, self)
+        # Setup logging
+        self.logger = logging.getLogger("Logger")
 
-        # Connect signals/slots
-        QMetaObject.connectSlotsByName(self)
+        # Setup UI
+        self.ui.headerLabel.setText(self.tr("Neuer Eintrag:"))
+        self.ui.okButton.setEnabled(False)
 
     @Slot()
     def on_okButton_clicked(self):
+        title = self.ui.titleLineEdit.text()
+        username = self.ui.usernameLineEdit.text()
+        password = self.ui.passwordLineEdit.text()
+        url = self.ui.urlLineEdit.text()
+        notes = self.ui.notesTextEdit.toPlainText()
+
+        self.clear()
+
+        query = "INSERT INTO Entries  (title, username, password, url, notes) VALUES (?, ?, ?, ?, ?)"
+        connection = DBConnection()
+        connection.execute(query, (title, username, password, url, notes))
+        connection.commit()
+
         self.ok.emit()
 
     @Slot()
     def on_cancelButton_clicked(self):
+        self.clear()
         self.cancel.emit()

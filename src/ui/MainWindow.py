@@ -17,8 +17,8 @@ class MainWindow(QMainWindow):
     UI_FILE = ROOT_DIR + "/ui/MainWindow.ui"
     ICON_FILE = ROOT_DIR + "/img/logo.svg"
 
-    def __init__(self):
-        super(MainWindow, self).__init__()
+    def __init__(self, parent=None):
+        super(MainWindow, self).__init__(parent)
 
         # Setup logging
         self.logger = logging.getLogger('Logger')
@@ -44,7 +44,10 @@ class MainWindow(QMainWindow):
         self.welcome_widget.open.connect(self.show_unlock_widget)
         self.unlock_widget.cancel.connect(self.show_welcome_widget)
         self.unlock_widget.unlock.connect(self.show_database_widget)
+        self.new_entry_widget.ok.connect(self.show_database_widget)
         self.new_entry_widget.cancel.connect(self.show_database_widget)
+
+        self.ui.actionDeleteEntry.triggered.connect(self.database_widget.delete_entry)
 
     @Slot()
     def on_actionNewDatabase_triggered(self):
@@ -61,6 +64,10 @@ class MainWindow(QMainWindow):
     @Slot()
     def on_actionNewEntry_triggered(self):
         self.stacked_widget.setCurrentWidget(self.new_entry_widget)
+
+    @Slot()
+    def on_actionEditEntry_triggered(self):
+        pass
 
     @Slot()
     def show_welcome_widget(self):
