@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 from PySide6.QtCore import Slot
 from PySide6.QtGui import QShowEvent, Qt
@@ -13,7 +14,7 @@ from src.ui import UiLoader
 class DatabaseWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/DatabaseWidget.ui"
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(DatabaseWidget, self).__init__(parent)
 
         # Setup logging

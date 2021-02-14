@@ -1,4 +1,6 @@
-from PySide6.QtWidgets import QWizardPage
+from typing import Optional
+
+from PySide6.QtWidgets import QWizardPage, QWidget
 
 from src.__main__ import ROOT_DIR
 from src.ui import UiLoader
@@ -7,7 +9,7 @@ from src.ui import UiLoader
 class NameWizardPage(QWizardPage):
     UI_FILE = ROOT_DIR + "/ui/NameWizardPage.ui"
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(NameWizardPage, self).__init__(parent)
 
         # Setup UI

@@ -1,4 +1,6 @@
 import logging
+from typing import Optional
+
 import sqlcipher3
 
 from PySide6.QtCore import QDir, QMetaObject, Slot, Signal
@@ -15,7 +17,7 @@ class WelcomeWidget(QWidget):
 
     open = Signal(str)
 
-    def __init__(self, parent) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(WelcomeWidget, self).__init__(parent)
 
         # Setup logging

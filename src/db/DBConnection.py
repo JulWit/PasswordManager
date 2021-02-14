@@ -12,12 +12,12 @@ class DBConnection(object):
 class Singleton:
     _instance = None
 
-    def __init__(self, aClass) -> None:
-        self.aClass = aClass
+    def __init__(self, class_name: type) -> None:
+        self._class_name = class_name
 
-    def __call__(self, *args, **kwargs) -> DBConnection:
+    def __call__(self, *args: str, **kwargs: str) -> DBConnection:
         if Singleton._instance is None:
-            Singleton._instance = self.aClass(*args, **kwargs)
+            Singleton._instance = self._class_name(*args, **kwargs)
         return Singleton._instance
 
     @classmethod

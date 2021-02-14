@@ -1,8 +1,10 @@
-from PySide6.QtWidgets import QMessageBox
+from typing import Optional
+
+from PySide6.QtWidgets import QMessageBox, QWidget
 
 
 class ConfirmDeletetionMessageBox(QMessageBox):
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(ConfirmDeletetionMessageBox, self).__init__(parent)
 
         self.setWindowTitle("Eintrag löschen")

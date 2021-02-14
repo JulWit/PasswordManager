@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtCore import Signal, Slot, QMetaObject
 from PySide6.QtWidgets import QWidget, QLineEdit
 from src.__main__ import ROOT_DIR
@@ -10,7 +12,7 @@ class EntryWidget(QWidget):
     cancel = Signal()
     ok = Signal()
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(EntryWidget, self).__init__(parent)
 
         # Setup UI

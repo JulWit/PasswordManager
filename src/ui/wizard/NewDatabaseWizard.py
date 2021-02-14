@@ -1,5 +1,7 @@
+from typing import Optional
+
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QWizard
+from PySide6.QtWidgets import QWizard, QWidget
 
 from src.__main__ import ROOT_DIR
 from src.db.DBData import DBData
@@ -12,7 +14,7 @@ class NewDatabaseWizard(QWizard):
     UI_FILE = ROOT_DIR + "/ui/NewDatabaseWizard.ui"
     BACKGROUND_IMAGE = ROOT_DIR + "/img/logo.svg"
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(NewDatabaseWizard, self).__init__(parent)
 
         # Setup UI

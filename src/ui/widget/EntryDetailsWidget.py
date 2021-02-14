@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtWidgets import QWidget
 
 from src.__main__ import ROOT_DIR
@@ -7,7 +9,7 @@ from src.ui import UiLoader
 class EntryDetilsWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/EntryDetailsWidget.ui"
 
-    def __init__(self, parent) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(EntryDetilsWidget, self).__init__(parent)
 
         # Setup UI

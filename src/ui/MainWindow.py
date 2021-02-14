@@ -1,9 +1,10 @@
 import logging
 import sys
+from typing import Optional
 
 from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QStackedWidget
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget
 
 from src.__main__ import ROOT_DIR
 from src.db.DBConnection import DBConnection
@@ -18,7 +19,7 @@ class MainWindow(QMainWindow):
     UI_FILE = ROOT_DIR + "/ui/MainWindow.ui"
     ICON_FILE = ROOT_DIR + "/img/logo.svg"
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(MainWindow, self).__init__(parent)
 
         # Setup logging

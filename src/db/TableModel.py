@@ -3,10 +3,11 @@ import operator
 from typing import Optional, List
 
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
+from PySide6.QtWidgets import QWidget
 
 
 class TableModel(QAbstractTableModel):
-    def __init__(self, data=None, parent=None):
+    def __init__(self, data: Optional[List[str]] = None, parent: Optional[QWidget] = None):
         super(TableModel, self).__init__(parent)
 
         # Setup logging

@@ -1,11 +1,12 @@
 import logging
+from typing import Optional
 
 from PySide6.QtCore import Slot
 from src.ui.widget.EntryWidget import EntryWidget
 
 
 class EditEntryWidget(EntryWidget):
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(EditEntryWidget, self).__init__(parent)
 
         # Setup logging

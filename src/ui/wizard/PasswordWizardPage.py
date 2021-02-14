@@ -1,5 +1,7 @@
+from typing import Optional
+
 from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QWizardPage
+from PySide6.QtWidgets import QWizardPage, QWidget
 
 from src.__main__ import ROOT_DIR
 from src.ui import UiLoader
@@ -9,7 +11,7 @@ from src.util import PasswordUtils
 class PasswordWizardPage(QWizardPage):
     UI_FILE = ROOT_DIR + "/ui/PasswordWizardPage.ui"
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(PasswordWizardPage, self).__init__(parent)
 
         # Setup UI

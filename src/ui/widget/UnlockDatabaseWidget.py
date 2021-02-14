@@ -1,3 +1,5 @@
+from typing import Optional
+
 import sqlcipher3
 
 from PySide6.QtCore import QMetaObject, Slot, Signal
@@ -15,7 +17,7 @@ class UnlockDatabaseWidget(QWidget):
     unlock = Signal()
     cancel = Signal()
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(UnlockDatabaseWidget, self).__init__(parent)
         self._file = None
 
