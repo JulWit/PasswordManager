@@ -10,7 +10,7 @@ class EntryWidget(QWidget):
     cancel = Signal()
     ok = Signal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super(EntryWidget, self).__init__(parent)
 
         # Setup UI
@@ -19,27 +19,23 @@ class EntryWidget(QWidget):
         # Connect signals/slots
         QMetaObject.connectSlotsByName(self)
         self.ui.titleLineEdit.textChanged.connect(self.entry_information_changed)
-        self.ui.usernameLineEdit.textChanged.connect(self.entry_information_changed)
-        self.ui.passwordLineEdit.textChanged.connect(self.entry_information_changed)
 
     @Slot()
-    def on_okButton_clicked(self):
-        raise NotImplementedError("Die Methode on_okButton_clicked muss durch abgeleitete Klassen überschrieben "
-                                  "werden")
+    def on_okButton_clicked(self) -> None:
+        raise NotImplementedError("Die Methode on_okButton_clicked muss durch "
+                                  "abgeleitete Klassen überschrieben werden")
 
     @Slot()
-    def on_cancelButton_clicked(self):
-        raise NotImplementedError("Die Methode on_cancelButton_clicked muss durch abgeleitete Klassen überschrieben "
-                                  "werden")
+    def on_cancelButton_clicked(self) -> None:
+        raise NotImplementedError("Die Methode on_cancelButton_clicked muss durch "
+                                  "abgeleitete Klassen überschrieben werden")
 
     @Slot()
     def entry_information_changed(self) -> None:
-        self.ui.okButton.setEnabled(bool(
-            self.ui.titleLineEdit.text().strip() and
-            self.ui.usernameLineEdit.text().strip() and
-            self.ui.passwordLineEdit.text().strip()))
+        title = bool(self.ui.titleLineEdit.text().strip())
+        self.ui.okButton.setEnabled(title)
 
-    def clear(self):
+    def clear(self) -> None:
         line_edits = self.ui.findChildren(QLineEdit)
         for line_edit in line_edits:
             line_edit.clear()

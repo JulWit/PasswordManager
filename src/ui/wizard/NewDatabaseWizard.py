@@ -12,7 +12,7 @@ class NewDatabaseWizard(QWizard):
     UI_FILE = ROOT_DIR + "/ui/NewDatabaseWizard.ui"
     BACKGROUND_IMAGE = ROOT_DIR + "/img/logo.svg"
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super(NewDatabaseWizard, self).__init__(parent)
 
         # Setup UI

@@ -15,7 +15,7 @@ class WelcomeWidget(QWidget):
 
     open = Signal(str)
 
-    def __init__(self, parent):
+    def __init__(self, parent) -> None:
         super(WelcomeWidget, self).__init__(parent)
 
         # Setup logging
@@ -28,14 +28,14 @@ class WelcomeWidget(QWidget):
         QMetaObject.connectSlotsByName(self)
 
     @Slot()
-    def on_newDatabaseButton_clicked(self):
+    def on_newDatabaseButton_clicked(self) -> None:
         self.create_new_database()
 
     @Slot()
-    def on_openDatabaseButton_clicked(self):
+    def on_openDatabaseButton_clicked(self) -> None:
         self.open_database()
 
-    def create_new_database(self):
+    def create_new_database(self) -> None:
         # Neuen Wizard erstellen und anzeigen
         wizard = NewDatabaseWizard(self)
         if wizard.exec_():
@@ -44,7 +44,7 @@ class WelcomeWidget(QWidget):
 
             # Speicherort der Datenbank erfragen
             file = QFileDialog.getSaveFileName(self,
-                                               self.tr("Datenbank speichern"),
+                                               "Datenbank speichern",
                                                QDir.homePath() + f"/{data.name}.db")[0]
 
             # Wenn das Speichern abgebrochen wurde ist file = None
@@ -64,12 +64,6 @@ class WelcomeWidget(QWidget):
                                             date        DATE DEFAULT CURRENT_TIMESTAMP
                                         );"""
                                    )
-                    query = """INSERT INTO Entries (\"title\", \"username\", \"password\", \"url\", \"notes\")
-                    VALUES (\"Test\", \"Test\", \"Test\", \"Test\", \"Test\")"""
-                    cursor.execute(query)
-                    query = """INSERT INTO Entries (\"title\", \"username\", \"password\", \"url\", \"notes\")
-                    VALUES (\"Test2\", \"Test2\", \"Test2\", \"Test2\", \"Test2\")"""
-                    cursor.execute(query)
                     connection.commit()
                 except sqlcipher3.dbapi2.DatabaseError as e:
                     connection.close()
@@ -80,10 +74,10 @@ class WelcomeWidget(QWidget):
             else:
                 self.logger.debug("Speicherung der Datenbank abgebrochen")
 
-    def open_database(self):
+    def open_database(self) -> None:
         file = QFileDialog.getOpenFileName(self,
-                                           self.tr("Datenbank öffnen"),
+                                           "Datenbank öffnen",
                                            QDir.homePath(),
-                                           self.tr("Datenbank Dateien (*.db)"))[0]
+                                           "Datenbank Dateien (*.db)")[0]
         if file:
             self.open.emit(file)

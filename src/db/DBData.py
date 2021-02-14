@@ -1,5 +1,5 @@
 class DBData:
-    def __init__(self, name: str, password: str, description: str = None):
+    def __init__(self, name: str, password: str, description: str = None) -> None:
         if not name or not isinstance(name, str):
             raise TypeError("name is None or not a string")
         if not password or not isinstance(password, str):
@@ -11,7 +11,7 @@ class DBData:
         self._description = description
 
     def __str__(self):
-        return str(f"DatabaseData: {self._name}, {self._password}, {self._description}")
+        return str(f"DBData: {self._name}, {self._password}, {self._description}")
 
     @property
     def name(self) -> str:

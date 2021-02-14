@@ -7,7 +7,7 @@ from src.ui import UiLoader
 class EntryDetilsWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/EntryDetailsWidget.ui"
 
-    def __init__(self, parent, file):
+    def __init__(self, parent) -> None:
         super(EntryDetilsWidget, self).__init__(parent)
 
         # Setup UI

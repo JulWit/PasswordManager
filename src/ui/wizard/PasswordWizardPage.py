@@ -9,7 +9,7 @@ from src.util import PasswordUtils
 class PasswordWizardPage(QWizardPage):
     UI_FILE = ROOT_DIR + "/ui/PasswordWizardPage.ui"
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super(PasswordWizardPage, self).__init__(parent)
 
         # Setup UI
@@ -24,22 +24,21 @@ class PasswordWizardPage(QWizardPage):
         return self.ui.passwordLineEdit.text()
 
     # Beurteilung der Passwortstärke
-    def passwordLineEdit_changed(self):
+    def passwordLineEdit_changed(self) -> None:
         strength = PasswordUtils.evaluate_password_strength(self.password())
+        color = "white"
         if 0 <= strength < 0.25:
-            color = 'red'
-        elif 0.25 < strength < 0.50:
-            color = 'orange'
+            color = "red"
+        if 0.25 < strength < 0.50:
+            color = "orange"
         elif 0.50 < strength < 0.75:
-            color = 'MediumSeaGreen'
+            color = "MediumSeaGreen"
         elif 0.75 < strength <= 1:
-            color = 'green'
+            color = "green"
         self.ui.passwordStrength.setStyleSheet("QProgressBar::chunk{background-color: " + color + "}")
         self.ui.passwordStrength.setValue(round(strength * 100, 0))
 
     def isComplete(self) -> bool:
-        return bool(
-            self.ui.passwordLineEdit.text().strip() and
-            self.ui.confirmationLineEdit.text().strip() and
-            self.ui.passwordLineEdit.text() == self.confirmationLineEdit.text()
-        )
+        return bool(self.ui.passwordLineEdit.text().strip() and
+                    self.ui.confirmationLineEdit.text().strip() and
+                    self.ui.passwordLineEdit.text() == self.confirmationLineEdit.text())

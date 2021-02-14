@@ -5,7 +5,7 @@ from src import Logger
 from src.ui.MainWindow import MainWindow
 
 
-def main():
+def main() -> None:
     logger = Logger.setup_logger("Logger")
     logger.debug("Logging gestartet")
 

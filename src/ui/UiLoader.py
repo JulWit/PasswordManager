@@ -38,6 +38,8 @@ import sys
 
 from PySide6.QtCore import QFile, QIODevice
 from PySide6.QtUiTools import QUiLoader
+from PySide6.QtWidgets import QWidget
+from typing import Dict, Optional
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
@@ -54,7 +56,7 @@ class UiLoader(QUiLoader):
     This mimics the behaviour of :func:`PyQt4.uic.loadUi`.
     """
 
-    def __init__(self, baseinstance, customWidgets=None):
+    def __init__(self, baseinstance: QWidget, customWidgets: Dict[str, QWidget] = None) -> None:
         """
         Create a loader for the given ``baseinstance``.
 
@@ -74,7 +76,7 @@ class UiLoader(QUiLoader):
         self.baseinstance = baseinstance
         self.customWidgets = customWidgets
 
-    def createWidget(self, class_name, parent=None, name=''):
+    def createWidget(self, class_name: str, parent: Optional[QWidget] = None, name: str = '') -> None:
         """
         Function that is called for each widget defined in ui file,
         overridden here to populate baseinstance instead.
@@ -114,7 +116,10 @@ class UiLoader(QUiLoader):
             return widget
 
 
-def loadUi(uiFile, baseinstance=None, customWidgets=None, workingDirectory=None):
+def loadUi(uiFile: str,
+           baseinstance: Optional[QWidget] = None,
+           customWidgets: Optional[Dict[str, QWidget]] = None,
+           workingDirectory=None) -> QWidget:
     """
     dynamically load a user interface from the given ``uifile``.
 

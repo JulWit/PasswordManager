@@ -18,7 +18,7 @@ class MainWindow(QMainWindow):
     UI_FILE = ROOT_DIR + "/ui/MainWindow.ui"
     ICON_FILE = ROOT_DIR + "/img/logo.svg"
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super(MainWindow, self).__init__(parent)
 
         # Setup logging
@@ -51,45 +51,45 @@ class MainWindow(QMainWindow):
         self.ui.actionDeleteEntry.triggered.connect(self.database_widget.delete_entry)
 
     @Slot()
-    def on_actionNewDatabase_triggered(self):
+    def on_actionNewDatabase_triggered(self) -> None:
         self.welcome_widget.create_new_database()
 
     @Slot()
-    def on_actionOpenDatabase_triggered(self):
+    def on_actionOpenDatabase_triggered(self) -> None:
         self.welcome_widget.open_database()
 
     @Slot()
-    def on_actionExit_triggered(self):
+    def on_actionExit_triggered(self) -> None:
         # Falls DBConnection vorhanden, schließen und Programm beenden
         if DBConnection.instance() is not None:
             DBConnection.instance().close()
         sys.exit()
 
     @Slot()
-    def on_actionNewEntry_triggered(self):
+    def on_actionNewEntry_triggered(self) -> None:
         self.stacked_widget.setCurrentWidget(self.new_entry_widget)
 
     @Slot()
-    def on_actionEditEntry_triggered(self):
+    def on_actionEditEntry_triggered(self) -> None:
         pass
 
     @Slot()
-    def show_welcome_widget(self):
+    def show_welcome_widget(self) -> None:
         self.stacked_widget.setCurrentWidget(self.welcome_widget)
         self.change_actions_enabled(False)
 
     @Slot(str)
-    def show_unlock_widget(self, file: str):
+    def show_unlock_widget(self, file: str) -> None:
         self.unlock_widget.file = file
         self.stacked_widget.setCurrentWidget(self.unlock_widget)
         self.change_actions_enabled(False)
 
     @Slot()
-    def show_database_widget(self):
+    def show_database_widget(self) -> None:
         self.stacked_widget.setCurrentWidget(self.database_widget)
         self.change_actions_enabled(True)
 
-    def change_actions_enabled(self, enabled=False):
+    def change_actions_enabled(self, enabled: bool = False) -> None:
         self.ui.actionNewEntry.setEnabled(enabled)
         self.ui.actionEditEntry.setEnabled(enabled)
         self.ui.actionDeleteEntry.setEnabled(enabled)

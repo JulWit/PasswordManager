@@ -2,7 +2,7 @@ import logging
 
 from PySide6.QtCore import Slot
 from PySide6.QtGui import QShowEvent, Qt
-from PySide6.QtWidgets import QWidget, QHeaderView
+from PySide6.QtWidgets import QWidget
 
 from src.__main__ import ROOT_DIR
 from src.db.DBConnection import DBConnection
@@ -13,7 +13,7 @@ from src.ui import UiLoader
 class DatabaseWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/DatabaseWidget.ui"
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super(DatabaseWidget, self).__init__(parent)
 
         # Setup logging
@@ -25,10 +25,8 @@ class DatabaseWidget(QWidget):
         self.ui.tableView.setSortingEnabled(True)
         self.ui.tableView.resizeColumnsToContents()
 
-    def set_layout(self):
-        """ Layout der TableView anpassen """
-
-        # ID- und Passwort-Spalte ausblenden
+    def set_layout(self) -> None:
+        # ID-Spalte ausblenden
         self.ui.tableView.setColumnHidden(0, True)
 
         # Erste Zeile auswählen
@@ -37,21 +35,20 @@ class DatabaseWidget(QWidget):
     def showEvent(self, event: QShowEvent) -> None:
         entry_list = DBConnection.instance().query("SELECT * FROM Entries")
         entry_model = TableModel(entry_list)
-
         self.ui.tableView.setModel(entry_model)
         self.set_layout()
 
     @Slot()
-    def delete_entry(self):
+    def delete_entry(self) -> None:
         selection_model = self.ui.tableView.selectionModel()
         if selection_model.hasSelection():
             model = self.ui.tableView.model()
             index = selection_model.currentIndex()
             entry_id = index.sibling(index.row(), 0).data()
 
-            query = f"DELETE FROM Entries WHERE id = {entry_id}"
-            connection = DBConnection()
-            connection.execute(query)
+            query = "DELETE FROM Entries WHERE id = ?"
+            connection = DBConnection.instance()
+            connection.execute(query, (entry_id, ))
             connection.commit()
 
             removed = model.removeRow(index.row())

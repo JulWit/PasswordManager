@@ -1,4 +1,5 @@
 import sqlcipher3
+
 from PySide6.QtCore import QMetaObject, Slot, Signal
 from PySide6.QtWidgets import QWidget
 
@@ -14,7 +15,7 @@ class UnlockDatabaseWidget(QWidget):
     unlock = Signal()
     cancel = Signal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super(UnlockDatabaseWidget, self).__init__(parent)
         self._file = None
 
@@ -31,17 +32,18 @@ class UnlockDatabaseWidget(QWidget):
         return self._file
 
     @file.setter
-    def file(self, file: str):
+    def file(self, file: str) -> None:
         self._file = file
         self.ui.pathLabel.setText(file)
 
     @Slot()
-    def on_okButton_clicked(self):
+    def on_okButton_clicked(self) -> None:
         password = self.ui.passwordLineEdit.text()
         try:
             # DBConnection Singleton initialisieren
-            if DBConnection.instance() is not None:
-                DBConnection.instance().close()
+            instance = DBConnection.instance()
+            if instance is not None:
+                instance.close()
             DBConnection(self._file, password)
             self.unlock.emit()
             self.ui.passwordLineEdit.clear()
@@ -49,12 +51,11 @@ class UnlockDatabaseWidget(QWidget):
             DecryptionFailedMessageBox(self).exec_()
 
     @Slot()
-    def on_cancelButton_clicked(self):
+    def on_cancelButton_clicked(self) -> None:
         self.cancel.emit()
 
     @Slot()
-    def password_changed(self):
-        if self.ui.passwordLineEdit.text() == "":
-            self.ui.okButton.setEnabled(False)
-        else:
-            self.ui.okButton.setEnabled(True)
+    def password_changed(self) -> None:
+        password = bool(self.ui.passwordLineEdit.text().strip())
+        self.ui.okButton.setEnabled(password)
+

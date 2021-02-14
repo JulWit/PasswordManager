@@ -6,18 +6,18 @@ from src.ui.widget.EntryWidget import EntryWidget
 
 
 class NewEntryWidget(EntryWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super(NewEntryWidget, self).__init__(parent)
 
         # Setup logging
         self.logger = logging.getLogger("Logger")
 
         # Setup UI
-        self.ui.headerLabel.setText(self.tr("Neuer Eintrag:"))
+        self.ui.headerLabel.setText("Neuer Eintrag:")
         self.ui.okButton.setEnabled(False)
 
     @Slot()
-    def on_okButton_clicked(self):
+    def on_okButton_clicked(self) -> None:
         title = self.ui.titleLineEdit.text()
         username = self.ui.usernameLineEdit.text()
         password = self.ui.passwordLineEdit.text()
@@ -27,13 +27,13 @@ class NewEntryWidget(EntryWidget):
         self.clear()
 
         query = "INSERT INTO Entries  (title, username, password, url, notes) VALUES (?, ?, ?, ?, ?)"
-        connection = DBConnection()
+        connection = DBConnection.instance()
         connection.execute(query, (title, username, password, url, notes))
         connection.commit()
 
         self.ok.emit()
 
     @Slot()
-    def on_cancelButton_clicked(self):
+    def on_cancelButton_clicked(self) -> None:
         self.clear()
         self.cancel.emit()
