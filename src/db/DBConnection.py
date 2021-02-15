@@ -32,9 +32,9 @@ class Singleton:
 @Singleton
 class DBConnection(object):
     def __init__(self, file: str, password: str) -> None:
-        if file == "" or not isinstance(file, str):
+        if not file  or not isinstance(file, str):
             raise TypeError("Datei ist None oder kein String")
-        if password == "" or not isinstance(password, str):
+        if not password or not isinstance(password, str):
             raise TypeError("Passwort ist None oder kein String")
 
         # Setup logging

@@ -56,14 +56,15 @@ class WelcomeWidget(QWidget):
                     connection = sqlcipher3.connect(file)
                     cursor = connection.cursor()
                     cursor.execute(f"PRAGMA KEY={data.password}")
+                    cursor.execute("DROP TABLE IF EXISTS Entries")
                     cursor.execute("""CREATE TABLE Entries (
                                             id          INTEGER PRIMARY KEY AUTOINCREMENT,
                                             title       VARCHAR(128) NOT NULL,
-                                            username    VARCHAR(128) NOT NULL,
-                                            password    VARCHAR(128) NOT NULL,
+                                            username    VARCHAR(128),
+                                            password    VARCHAR(128),
                                             url         VARCHAR(1024),
                                             notes       VARCHAR(128),
-                                            date        DATE DEFAULT CURRENT_TIMESTAMP
+                                            modified    DATE DEFAULT CURRENT_TIMESTAMP
                                         );"""
                                    )
                     connection.commit()

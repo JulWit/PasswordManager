@@ -17,12 +17,13 @@ class UnlockDatabaseWidget(QWidget):
     unlock = Signal()
     cancel = Signal()
 
-    def __init__(self, parent: Optional[QWidget] = None) -> None:
+    def __init__(self, file: str = None, parent: Optional[QWidget] = None) -> None:
         super(UnlockDatabaseWidget, self).__init__(parent)
-        self._file = None
+        self._file = file
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
+        self.ui.pathLabel.setText(file)
         self.ui.okButton.setEnabled(False)
 
         # Connect signals/slots
@@ -30,13 +31,12 @@ class UnlockDatabaseWidget(QWidget):
         self.ui.passwordLineEdit.textChanged.connect(self.password_changed)
 
     @property
-    def file(self) -> str:
+    def file(self):
         return self._file
 
     @file.setter
-    def file(self, file: str) -> None:
+    def file(self, file):
         self._file = file
-        self.ui.pathLabel.setText(file)
 
     @Slot()
     def on_okButton_clicked(self) -> None:
