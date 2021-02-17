@@ -1,7 +1,6 @@
 import favicon
 import requests
-from urllib.parse import urlparse
-
+import os
 
 def download_favicon(url):
     # Methode zum Downloaden des Favicons einer bestimmten URL
@@ -11,18 +10,22 @@ def download_favicon(url):
     icon = icon[0]
 
     # Name der Datei erstellen
-    file_name = urlparse(url).netloc
-    file_name = '.'.join(file_name.split('.')[1:])
-    file_name = '.'.join(file_name.split('.')[:1])
+    i = 1
+    file_pattern = 'favicon-%s.%s'
+    while os.path.exists(file_pattern % (i, icon.format)):
+        i += 1
+    file_name = file_pattern % (i, icon.format)
 
     # Favicon Downloaden
     response = requests.get(icon.url, stream=True)
-    with open('{}.{}'.format(file_name, icon.format), 'wb') as image:
+    with open('{}'.format(file_name), 'wb') as image:
         for chunk in response.iter_content(1024):
             image.write(chunk)
 
 # Methode testen
-download_favicon("https://www.google.com/")
+download_favicon("https://www.fh-swf.de")
+#download_favicon("http://google.com")
+#download_favicon("google.com")
 
 
 
