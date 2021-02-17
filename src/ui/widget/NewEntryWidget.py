@@ -11,7 +11,7 @@ from src.ui.widget.EntryWidget import EntryWidget
 
 class NewEntryWidget(EntryWidget):
 
-    newEntryCreated = Signal(Entry)
+    entryCreated = Signal(Entry)
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(NewEntryWidget, self).__init__(parent)
@@ -31,7 +31,7 @@ class NewEntryWidget(EntryWidget):
         url = self.ui.urlLineEdit.text()
         notes = self.ui.notesTextEdit.toPlainText()
 
-        self.newEntryCreated.emit(Entry(None, title, username, password, url, notes))
+        self.entryCreated.emit(Entry(None, title, username, password, url, notes))
         self.ok.emit()
         self.clear()
 

@@ -16,7 +16,7 @@ from src.ui import UiLoader
 class DatabaseWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/DatabaseWidget.ui"
 
-    edit = Signal(Entry)
+    entrySelectionChanged = Signal(Entry)
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(DatabaseWidget, self).__init__(parent)
@@ -24,28 +24,50 @@ class DatabaseWidget(QWidget):
         # Setup logging
         self.logger = logging.getLogger("Logger")
 
+        # Setup UI
+        self.ui = UiLoader.loadUi(self.UI_FILE, self)
+        self.ui.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+        self.ui.tableView.setSortingEnabled(True)
+
+        # Setup Model
+        self.model = None
+
+        # Setup SelectionModel
+        self.selection_model = None
+
+    @Slot()
+    def database_changed(self):
         # Setup Model
         entries = []
         for entry in DBConnection.instance().query("SELECT * FROM Entries"):
             # Objekt für jeden Eintrag der Tabelle erstellen
             entries.append(Entry(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6]))
-        self.model = TableModel(entries)
 
-        # Setup UI
-        self.ui = UiLoader.loadUi(self.UI_FILE, self)
+        self.model = TableModel(entries)
         self.ui.tableView.setModel(self.model)
-        self.ui.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-        self.ui.tableView.setSortingEnabled(True)
         self.ui.tableView.resizeColumnsToContents()
         self.ui.tableView.setColumnHidden(0, True)
         self.ui.tableView.selectRow(0)
-
-        # SelectionModel
         self.selection_model = self.ui.tableView.selectionModel()
+        self.selection_model.selectionChanged.connect(self.selection_changed)
+
+    @Slot()
+    def selection_changed(self):
+        self.entrySelectionChanged.emit(self.selected_entry())
+
+    def selected_entry(self):
+        if self.selection_model.hasSelection():
+            index = self.selection_model.currentIndex()
+            entry = self.model.entries[index.row()]
+            return entry
+        return None
+
+    def delete_selected_entry(self):
+        entry = self.selected_entry()
+        self.delete_entry(entry)
 
     @Slot(Entry)
     def new_entry(self, entry: Entry):
-        self.logger.debug(f"Neuer Eintrag: {entry}")
         query = "INSERT INTO Entries  (title, username, password, url, notes, modified) VALUES (?, ?, ?, ?, ?, ?)"
         connection = DBConnection.instance()
         connection.execute(query, (entry.title, entry.username, entry.password, entry.url, entry.notes, entry.modified))
@@ -53,6 +75,8 @@ class DatabaseWidget(QWidget):
         connection.commit()
 
         self.model.insertRow(0)
+
+        # TODO: über Attribute iterieren
 
         # ID Setzen
         index = self.model.index(0, 0, QModelIndex())
@@ -93,17 +117,20 @@ class DatabaseWidget(QWidget):
             WHERE id = ?
             """
         connection = DBConnection.instance()
-        connection.execute(query, (entry.title, entry.username, entry.password, entry.url, entry.notes, entry.modified, entry.id))
+        connection.execute(query, (
+            entry.title, entry.username, entry.password, entry.url, entry.notes, entry.modified, entry.id))
         connection.commit()
 
-    def delete_entry(self, index: QModelIndex) -> None:
-        entry = self.model.entries[index.row()]
+    @Slot(Entry)
+    def delete_entry(self, entry: Entry) -> None:
+        try:
+            row = self.model.entries.index(entry)
+            self.model.removeRow(row)
 
-        query = "DELETE FROM Entries WHERE id = ?"
-        connection = DBConnection.instance()
-        connection.execute(query, (entry.id,))
-        connection.commit()
-
-        self.model.removeRow(index.row())
-        self.logger.debug(f"Eintrag {entry} entfernt")
+            query = "DELETE FROM Entries WHERE id = ?"
+            connection = DBConnection.instance()
+            connection.execute(query, (entry.id,))
+            connection.commit()
+        except ValueError as e:
+            self.logger.debug(f"Element {entry} nicht gefunden")
 

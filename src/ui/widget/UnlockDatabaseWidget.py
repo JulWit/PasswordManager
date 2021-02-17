@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 import sqlcipher3
@@ -15,11 +16,15 @@ class UnlockDatabaseWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/UnlockDatabaseWidget.ui"
 
     unlock = Signal()
+    # ok = Signal()
     cancel = Signal()
 
-    def __init__(self, file: str = None, parent: Optional[QWidget] = None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None, file: str = None) -> None:
         super(UnlockDatabaseWidget, self).__init__(parent)
         self._file = file
+
+        # Setup logging
+        self.logger = logging.getLogger("Logger")
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
@@ -29,14 +34,6 @@ class UnlockDatabaseWidget(QWidget):
         # Connect signals/slots
         QMetaObject.connectSlotsByName(self)
         self.ui.passwordLineEdit.textChanged.connect(self.password_changed)
-
-    @property
-    def file(self):
-        return self._file
-
-    @file.setter
-    def file(self, file):
-        self._file = file
 
     @Slot()
     def on_okButton_clicked(self) -> None:
@@ -61,3 +58,8 @@ class UnlockDatabaseWidget(QWidget):
         password = bool(self.ui.passwordLineEdit.text().strip())
         self.ui.okButton.setEnabled(password)
 
+    @Slot(str)
+    def set_database(self, file: str):
+        self.logger.debug(f"Datenbank: {file}")
+        self._file = file
+        self.ui.pathLabel.setText(file)
