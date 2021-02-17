@@ -39,7 +39,7 @@ import sys
 from PySide6.QtCore import QFile, QIODevice
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget
-from typing import Dict, Optional
+from typing import Dict, Optional, Type
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
@@ -56,7 +56,7 @@ class UiLoader(QUiLoader):
     This mimics the behaviour of :func:`PyQt4.uic.loadUi`.
     """
 
-    def __init__(self, baseinstance: QWidget, customWidgets: Dict[str, QWidget] = None) -> None:
+    def __init__(self, baseinstance: Optional[QWidget], customWidgets: Dict[str, Type[QWidget]] = None) -> None:
         """
         Create a loader for the given ``baseinstance``.
 
@@ -76,7 +76,7 @@ class UiLoader(QUiLoader):
         self.baseinstance = baseinstance
         self.customWidgets = customWidgets
 
-    def createWidget(self, class_name: str, parent: Optional[QWidget] = None, name: str = '') -> None:
+    def createWidget(self, class_name: str, parent: Optional[QWidget] = None, name: str = '') -> QWidget:
         """
         Function that is called for each widget defined in ui file,
         overridden here to populate baseinstance instead.
@@ -101,7 +101,7 @@ class UiLoader(QUiLoader):
                     widget = self.customWidgets[class_name](parent)
 
                 except (TypeError, KeyError):
-                    raise Exception('No custom widget ' + class_name + 'found in customWidgets param of UiLoader '
+                    raise Exception('No custom widget ' + class_name + ' found in customWidgets param of UiLoader '
                                                                        '__init__.')
 
             if self.baseinstance:
@@ -118,7 +118,7 @@ class UiLoader(QUiLoader):
 
 def loadUi(uiFile: str,
            baseinstance: Optional[QWidget] = None,
-           customWidgets: Optional[Dict[str, QWidget]] = None,
+           customWidgets: Optional[Dict[str, Type[QWidget]]] = None,
            workingDirectory=None) -> QWidget:
     """
     dynamically load a user interface from the given ``uifile``.

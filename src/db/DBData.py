@@ -10,6 +10,7 @@ class DBData:
             raise TypeError("password is None or not a string")
         if not isinstance(description, str):
             raise TypeError("description is not a string")
+
         self.name = name
         self.password = password
         self.description = description

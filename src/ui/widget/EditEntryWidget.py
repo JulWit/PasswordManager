@@ -40,8 +40,8 @@ class EditEntryWidget(EntryWidget):
 
     @Slot(Entry)
     def entry_changed(self, entry: Entry):
+        self._entry = entry
         if entry is not None:
-            self._entry = entry
             self.ui.titleLineEdit.setText(entry.title)
             self.ui.usernameLineEdit.setText(entry.username)
             self.ui.passwordLineEdit.setText(entry.password)

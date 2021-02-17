@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 from typing import Optional
 
 from PySide6.QtCore import Slot, Signal, QModelIndex
@@ -11,6 +10,7 @@ from src.db.DBConnection import DBConnection
 from src.db.Entry import Entry
 from src.db.TableModel import TableModel
 from src.ui import UiLoader
+from src.ui.widget.EntryDetailsFrame import EntryDetailsFrame
 
 
 class DatabaseWidget(QWidget):
@@ -25,7 +25,7 @@ class DatabaseWidget(QWidget):
         self.logger = logging.getLogger("Logger")
 
         # Setup UI
-        self.ui = UiLoader.loadUi(self.UI_FILE, self)
+        self.ui = UiLoader.loadUi(self.UI_FILE, self, {"EntryDetailsFrame": EntryDetailsFrame})
         self.ui.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
         self.ui.tableView.setSortingEnabled(True)
 
@@ -48,12 +48,15 @@ class DatabaseWidget(QWidget):
         self.ui.tableView.resizeColumnsToContents()
         self.ui.tableView.setColumnHidden(0, True)
         self.ui.tableView.selectRow(0)
+
         self.selection_model = self.ui.tableView.selectionModel()
         self.selection_model.selectionChanged.connect(self.selection_changed)
+        self.selection_changed()
 
     @Slot()
     def selection_changed(self):
         self.entrySelectionChanged.emit(self.selected_entry())
+        self.ui.entryDetailsFrame.update_entry_information(self.selected_entry())
 
     def selected_entry(self):
         if self.selection_model.hasSelection():
@@ -121,6 +124,8 @@ class DatabaseWidget(QWidget):
             entry.title, entry.username, entry.password, entry.url, entry.notes, entry.modified, entry.id))
         connection.commit()
 
+        self.ui.entryDetailsFrame.update_entry_information(self.selected_entry())
+
     @Slot(Entry)
     def delete_entry(self, entry: Entry) -> None:
         try:
@@ -132,5 +137,5 @@ class DatabaseWidget(QWidget):
             connection.execute(query, (entry.id,))
             connection.commit()
         except ValueError as e:
-            self.logger.debug(f"Element {entry} nicht gefunden")
+            self.logger.debug(f"Element {entry} nicht gefunden: {e}")
 
