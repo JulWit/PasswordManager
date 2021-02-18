@@ -44,7 +44,16 @@
      <string>Hilfe</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuEintr_ge">
+    <property name="title">
+     <string>Einträge</string>
+    </property>
+    <addaction name="actionNewEntry"/>
+    <addaction name="actionEditEntry"/>
+    <addaction name="actionDeleteEntry"/>
+   </widget>
    <addaction name="menuDatenbank"/>
+   <addaction name="menuEintr_ge"/>
    <addaction name="menuHilfe"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

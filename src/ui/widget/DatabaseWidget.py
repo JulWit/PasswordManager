@@ -1,6 +1,7 @@
 import logging
 from typing import Optional
 
+from PySide6 import QtCore
 from PySide6.QtCore import Slot, Signal, QModelIndex
 from PySide6.QtGui import Qt
 from PySide6.QtWidgets import QWidget
@@ -35,6 +36,9 @@ class DatabaseWidget(QWidget):
         # Setup SelectionModel
         self.selection_model = None
 
+        # Connect Signals/Slots
+        self.entrySelectionChanged.connect(self.ui.entryDetailsFrame.update_entry_information)
+
     @Slot()
     def database_changed(self):
         # Setup Model
@@ -56,7 +60,6 @@ class DatabaseWidget(QWidget):
     @Slot()
     def selection_changed(self):
         self.entrySelectionChanged.emit(self.selected_entry())
-        self.ui.entryDetailsFrame.update_entry_information(self.selected_entry())
 
     def selected_entry(self):
         if self.selection_model.hasSelection():
@@ -120,11 +123,11 @@ class DatabaseWidget(QWidget):
             WHERE id = ?
             """
         connection = DBConnection.instance()
-        connection.execute(query, (
-            entry.title, entry.username, entry.password, entry.url, entry.notes, entry.modified, entry.id))
+        connection.execute(query, (entry.title, entry.username, entry.password,
+                                   entry.url, entry.notes, entry.modified, entry.id))
         connection.commit()
 
-        self.ui.entryDetailsFrame.update_entry_information(self.selected_entry())
+        self.entrySelectionChanged.emit(self.selected_entry())
 
     @Slot(Entry)
     def delete_entry(self, entry: Entry) -> None:
@@ -138,4 +141,3 @@ class DatabaseWidget(QWidget):
             connection.commit()
         except ValueError as e:
             self.logger.debug(f"Element {entry} nicht gefunden: {e}")
-

@@ -1,10 +1,12 @@
 import logging
 import sys
+
 from typing import Optional
 
+from PySide6 import QtCore
 from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu
 
 from src.__main__ import ROOT_DIR
 from src.db.DBConnection import DBConnection
@@ -33,7 +35,6 @@ class MainWindow(QMainWindow):
         self.database_widget = DatabaseWidget(self)
         self.new_entry_widget = NewEntryWidget(self)
         self.edit_entry_widget = EditEntryWidget(self)
-        self.entry_details_widget = None
 
         self.stacked_widget = QStackedWidget(self)
         self.stacked_widget.addWidget(self.welcome_widget)
@@ -44,27 +45,25 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(self.stacked_widget)
         self.setWindowIcon(QIcon(self.ICON_FILE))
+        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+
+        # Setup ContextMenu
+        self.entryContextMenu = QMenu(self)
+        self.entryContextMenu.addAction(self.ui.actionNewEntry)
+        self.entryContextMenu.addAction(self.ui.actionEditEntry)
+        self.entryContextMenu.addAction(self.ui.actionDeleteEntry)
 
         # Connect signals / slots
         QMetaObject.connectSlotsByName(self)
-
-        # WelcomeWidget
+        self.customContextMenuRequested.connect(self.showContextMenu)
         self.welcome_widget.open.connect(self.unlock_widget.set_database)
         self.welcome_widget.open.connect(self.show_unlock_widget)
-
-        # UnlockWidget
         self.unlock_widget.unlock.connect(self.database_widget.database_changed)
         self.unlock_widget.unlock.connect(self.show_database_widget)
-
-        # DatabaseWidget
         self.database_widget.entrySelectionChanged.connect(self.edit_entry_widget.entry_changed)
-
-        # NewEntryWidget
         self.new_entry_widget.ok.connect(self.show_database_widget)
         self.new_entry_widget.cancel.connect(self.show_database_widget)
         self.new_entry_widget.entryCreated.connect(self.database_widget.new_entry)
-
-        # EditEntryWidget
         self.edit_entry_widget.ok.connect(self.show_database_widget)
         self.edit_entry_widget.cancel.connect(self.show_database_widget)
         self.edit_entry_widget.entryEdited.connect(self.database_widget.edit_entry)
@@ -120,6 +119,10 @@ class MainWindow(QMainWindow):
     def show_edit_entry_widget(self) -> None:
         self.stacked_widget.setCurrentWidget(self.edit_entry_widget)
         self.disable_entry_actions()
+
+    @Slot()
+    def showContextMenu(self, pos):
+        self.entryContextMenu.popup(self.sender().mapToGlobal(pos))
 
     def enable_entry_actions(self) -> None:
         self.ui.actionNewEntry.setEnabled(True)
