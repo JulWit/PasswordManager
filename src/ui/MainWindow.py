@@ -6,7 +6,7 @@ from typing import Optional
 from PySide6 import QtCore
 from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu, QApplication
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu, QApplication, QLineEdit
 
 from src.__main__ import ROOT_DIR
 from src.db.DBConnection import DBConnection
@@ -30,11 +30,13 @@ class MainWindow(QMainWindow):
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
+
         self.welcome_widget = WelcomeWidget(self)
         self.unlock_widget = UnlockDatabaseWidget(self)
         self.database_widget = DatabaseWidget(self)
         self.new_entry_widget = NewEntryWidget(self)
         self.edit_entry_widget = EditEntryWidget(self)
+        self.searchBar = QLineEdit(self)
 
         self.stacked_widget = QStackedWidget(self)
         self.stacked_widget.addWidget(self.welcome_widget)
@@ -42,6 +44,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.database_widget)
         self.stacked_widget.addWidget(self.new_entry_widget)
         self.stacked_widget.addWidget(self.edit_entry_widget)
+        self.ui.toolBar.addWidget(self.searchBar)
 
         self.setCentralWidget(self.stacked_widget)
         self.setWindowIcon(QIcon(self.ICON_FILE))
@@ -67,6 +70,7 @@ class MainWindow(QMainWindow):
         self.edit_entry_widget.ok.connect(self.show_database_widget)
         self.edit_entry_widget.cancel.connect(self.show_database_widget)
         self.edit_entry_widget.entryEdited.connect(self.database_widget.edit_entry)
+        self.searchBar.textChanged.connect(self.database_widget.filter)
 
     @Slot()
     def on_actionNewDatabase_triggered(self) -> None:
@@ -75,6 +79,10 @@ class MainWindow(QMainWindow):
     @Slot()
     def on_actionOpenDatabase_triggered(self) -> None:
         self.welcome_widget.open_database()
+
+    @Slot()
+    def on_actionSaveDatabase_triggered(self) -> None:
+        print("Yes")
 
     @Slot()
     def on_actionExit_triggered(self) -> None:

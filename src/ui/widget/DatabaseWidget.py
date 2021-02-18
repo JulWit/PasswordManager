@@ -2,7 +2,7 @@ import logging
 from typing import Optional
 
 from PySide6 import QtCore
-from PySide6.QtCore import Slot, Signal, QModelIndex
+from PySide6.QtCore import Slot, Signal, QModelIndex, QSortFilterProxyModel
 from PySide6.QtGui import Qt
 from PySide6.QtWidgets import QWidget
 
@@ -28,10 +28,10 @@ class DatabaseWidget(QWidget):
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self, {"EntryDetailsFrame": EntryDetailsFrame})
         self.ui.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-        self.ui.tableView.setSortingEnabled(True)
 
         # Setup Model
         self.model = None
+        self.proxy_model = None
 
         # Setup SelectionModel
         self.selection_model = None
@@ -49,9 +49,13 @@ class DatabaseWidget(QWidget):
 
         # Setup Model
         self.model = TableModel(entries)
+        self.proxy_model = QSortFilterProxyModel()
+        self.proxy_model.setSourceModel(self.model)
+        self.proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self.proxy_model.setFilterKeyColumn(1)
 
         # Setup UI
-        self.ui.tableView.setModel(self.model)
+        self.ui.tableView.setModel(self.proxy_model)
         self.ui.tableView.resizeColumnsToContents()
         self.ui.tableView.setColumnHidden(0, True)
         self.ui.tableView.selectRow(0)
@@ -67,6 +71,11 @@ class DatabaseWidget(QWidget):
     @Slot()
     def selection_changed(self):
         self.entrySelectionChanged.emit(self.selected_entry())
+
+    @Slot(str)
+    def filter(self, regex):
+        if self.proxy_model:
+            self.proxy_model.setFilterRegularExpression(regex)
 
     def selected_entry(self):
         if self.selection_model.hasSelection():

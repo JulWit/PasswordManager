@@ -83,6 +83,7 @@
    <addaction name="actionCopyUsername"/>
    <addaction name="actionCopyPassword"/>
    <addaction name="actionCopyUrl"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionNewDatabase">
    <property name="icon">
@@ -112,6 +113,9 @@
    </property>
   </action>
   <action name="actionSaveDatabase">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>../img/document-save.svg</normaloff>../img/document-save.svg</iconset>
