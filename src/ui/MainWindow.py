@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon(self.ICON_FILE))
         self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
 
-        # Setup ContextMenu
+        # Setup entryContextMenu
         self.entryContextMenu = QMenu(self)
         self.entryContextMenu.addAction(self.ui.actionNewEntry)
         self.entryContextMenu.addAction(self.ui.actionEditEntry)
@@ -122,7 +122,8 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def showContextMenu(self, pos):
-        self.entryContextMenu.popup(self.sender().mapToGlobal(pos))
+        if self.stacked_widget.currentWidget() == self.database_widget:
+            self.entryContextMenu.popup(self.sender().mapToGlobal(pos))
 
     def enable_entry_actions(self) -> None:
         self.ui.actionNewEntry.setEnabled(True)
