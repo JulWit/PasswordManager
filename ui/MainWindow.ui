@@ -56,7 +56,6 @@
    <addaction name="menuEintr_ge"/>
    <addaction name="menuHilfe"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
