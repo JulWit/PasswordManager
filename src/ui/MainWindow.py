@@ -6,7 +6,7 @@ from typing import Optional
 from PySide6 import QtCore
 from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu, QApplication
 
 from src.__main__ import ROOT_DIR
 from src.db.DBConnection import DBConnection
@@ -96,6 +96,27 @@ class MainWindow(QMainWindow):
         self.database_widget.delete_selected_entry()
 
     @Slot()
+    def on_actionCopyUsername_triggered(self) -> None:
+        clipboard = QApplication.clipboard()
+        entry = self.database_widget.selected_entry()
+        if entry and entry.username:
+            clipboard.setText(entry.username)
+
+    @Slot()
+    def on_actionCopyPassword_triggered(self) -> None:
+        clipboard = QApplication.clipboard()
+        entry = self.database_widget.selected_entry()
+        if entry and entry.password:
+            clipboard.setText(entry.password)
+
+    @Slot()
+    def on_actionCopyUrl_triggered(self) -> None:
+        clipboard = QApplication.clipboard()
+        entry = self.database_widget.selected_entry()
+        if entry and entry.url:
+            clipboard.setText(entry.url)
+
+    @Slot()
     def show_welcome_widget(self) -> None:
         self.stacked_widget.setCurrentWidget(self.welcome_widget)
         self.disable_entry_actions()
@@ -129,8 +150,14 @@ class MainWindow(QMainWindow):
         self.ui.actionNewEntry.setEnabled(True)
         self.ui.actionEditEntry.setEnabled(True)
         self.ui.actionDeleteEntry.setEnabled(True)
+        self.ui.actionCopyUsername.setEnabled(True)
+        self.ui.actionCopyPassword.setEnabled(True)
+        self.ui.actionCopyUrl.setEnabled(True)
 
     def disable_entry_actions(self) -> None:
         self.ui.actionNewEntry.setDisabled(True)
         self.ui.actionEditEntry.setDisabled(True)
         self.ui.actionDeleteEntry.setDisabled(True)
+        self.ui.actionCopyUsername.setDisabled(True)
+        self.ui.actionCopyPassword.setDisabled(True)
+        self.ui.actionCopyUrl.setDisabled(True)

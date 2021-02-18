@@ -47,14 +47,21 @@ class DatabaseWidget(QWidget):
             # Objekt für jeden Eintrag der Tabelle erstellen
             entries.append(Entry(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6]))
 
+        # Setup Model
         self.model = TableModel(entries)
+
+        # Setup UI
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.resizeColumnsToContents()
         self.ui.tableView.setColumnHidden(0, True)
         self.ui.tableView.selectRow(0)
 
+        # Setup SelectionModel
         self.selection_model = self.ui.tableView.selectionModel()
+
+        # Connect Signals/Slots
         self.selection_model.selectionChanged.connect(self.selection_changed)
+        self.model.layoutChanged.connect(self.selection_changed)
         self.selection_changed()
 
     @Slot()

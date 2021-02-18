@@ -51,6 +51,10 @@
     <addaction name="actionNewEntry"/>
     <addaction name="actionEditEntry"/>
     <addaction name="actionDeleteEntry"/>
+    <addaction name="separator"/>
+    <addaction name="actionCopyUsername"/>
+    <addaction name="actionCopyPassword"/>
+    <addaction name="actionCopyUrl"/>
    </widget>
    <addaction name="menuDatenbank"/>
    <addaction name="menuEintr_ge"/>
@@ -75,6 +79,10 @@
    <addaction name="actionNewEntry"/>
    <addaction name="actionEditEntry"/>
    <addaction name="actionDeleteEntry"/>
+   <addaction name="separator"/>
+   <addaction name="actionCopyUsername"/>
+   <addaction name="actionCopyPassword"/>
+   <addaction name="actionCopyUrl"/>
   </widget>
   <action name="actionNewDatabase">
    <property name="icon">
@@ -146,6 +154,42 @@
    </property>
    <property name="text">
     <string>Eintrag löschen</string>
+   </property>
+  </action>
+  <action name="actionCopyUsername">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/username-copy.svg</normaloff>../img/username-copy.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Benutzernamen kopieren</string>
+   </property>
+  </action>
+  <action name="actionCopyPassword">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/password-copy.svg</normaloff>../img/password-copy.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Passwort kopieren</string>
+   </property>
+  </action>
+  <action name="actionCopyUrl">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/url-copy.svg</normaloff>../img/url-copy.svg</iconset>
+   </property>
+   <property name="text">
+    <string>URL kopieren</string>
    </property>
   </action>
  </widget>
