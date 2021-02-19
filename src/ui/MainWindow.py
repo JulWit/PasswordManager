@@ -16,6 +16,8 @@ from src.ui.dialog.DatabaseInformationMessageBox import DatabaseInformationMessa
 from src.ui.widget.DatabaseWidget import DatabaseWidget
 from src.ui.widget.EditEntryWidget import EditEntryWidget
 from src.ui.widget.NewEntryWidget import NewEntryWidget
+from src.ui.widget.PasswordGeneratorFrame import PasswordGeneratorFrame
+from src.ui.widget.PasswordGeneratorWidget import PasswordGeneratorWidget
 from src.ui.widget.SearchBar import SearchBar
 from src.ui.widget.UnlockDatabaseWidget import UnlockDatabaseWidget
 from src.ui.widget.WelcomeWidget import WelcomeWidget
@@ -40,6 +42,7 @@ class MainWindow(QMainWindow):
         self.database_widget = DatabaseWidget(self)
         self.new_entry_widget = NewEntryWidget(self)
         self.edit_entry_widget = EditEntryWidget(self)
+        self.password_generator_widget = PasswordGeneratorWidget(self)
         self.searchBar = SearchBar(self)
 
         self.stacked_widget = QStackedWidget(self)
@@ -48,6 +51,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.database_widget)
         self.stacked_widget.addWidget(self.new_entry_widget)
         self.stacked_widget.addWidget(self.edit_entry_widget)
+        self.stacked_widget.addWidget(self.password_generator_widget)
         self.ui.toolBar.addWidget(self.searchBar)
 
         self.setCentralWidget(self.stacked_widget)
@@ -147,7 +151,8 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionPasswordGenerator_triggered(self) -> None:
-        print("actionPasswordGenerator")
+        self.stacked_widget.setCurrentWidget(self.password_generator_widget)
+        self.disable_entry_actions()
 
     @Slot()
     def on_actionAbout_triggered(self) -> None:
