@@ -1,7 +1,7 @@
 import sys
 
 from PySide6.QtWidgets import QApplication
-from src import Logger
+from src.util import Logger
 from src.ui.MainWindow import MainWindow
 
 

@@ -2,6 +2,7 @@ import favicon
 import requests
 import os
 
+
 def download_favicon(url):
     # Methode zum Downloaden des Favicons einer bestimmten URL
 
@@ -22,12 +23,8 @@ def download_favicon(url):
         for chunk in response.iter_content(1024):
             image.write(chunk)
 
+
 # Methode testen
 download_favicon("https://www.fh-swf.de")
-#download_favicon("http://google.com")
-#download_favicon("google.com")
-
-
-
-
-
+# download_favicon("http://google.com")
+# download_favicon("google.com")

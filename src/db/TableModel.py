@@ -88,35 +88,9 @@ class TableModel(QAbstractTableModel):
                    role: Qt.ItemDataRole = Qt.DisplayRole) -> Optional[str]:
         if role != Qt.DisplayRole:
             return None
-
         if orientation == Qt.Horizontal:
             return self._sections[section]
-
         return None
-
-    def sort(self, column: int, order: Qt.SortOrder = Qt.AscendingOrder) -> None:
-        self.layoutAboutToBeChanged.emit()
-
-        key = "id"
-        if column == 0:
-            key = "id"
-        elif column == 1:
-            key = "title"
-        elif column == 2:
-            key = "username"
-        elif column == 3:
-            key = "password"
-        elif column == 4:
-            key = "url"
-        elif column == 5:
-            key = "notes"
-        elif column == 6:
-            key = "modified"
-
-        self.entries = sorted(self.entries, key=operator.attrgetter(key))
-        if order == Qt.DescendingOrder:
-            self.entries.reverse()
-        self.layoutChanged.emit()
 
     def insertRows(self, position, rows=1, index=QModelIndex()) -> bool:
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)

@@ -1,7 +1,6 @@
 import logging
 from typing import Optional
 
-from PySide6 import QtCore
 from PySide6.QtCore import Slot, Signal, QModelIndex, QSortFilterProxyModel
 from PySide6.QtGui import Qt
 from PySide6.QtWidgets import QWidget
@@ -29,11 +28,9 @@ class DatabaseWidget(QWidget):
         self.ui = UiLoader.loadUi(self.UI_FILE, self, {"EntryDetailsFrame": EntryDetailsFrame})
         self.ui.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
 
-        # Setup Model
+        # Setup Models
         self.model = None
         self.proxy_model = None
-
-        # Setup SelectionModel
         self.selection_model = None
 
         # Connect Signals/Slots
@@ -150,7 +147,6 @@ class DatabaseWidget(QWidget):
         try:
             row = self.model.entries.index(entry)
             self.model.removeRow(row)
-
             query = "DELETE FROM Entries WHERE id = ?"
             connection = DBConnection.instance()
             connection.execute(query, (entry.id,))

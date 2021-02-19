@@ -13,6 +13,7 @@ from src.db.DBConnection import DBConnection
 from src.ui.widget.DatabaseWidget import DatabaseWidget
 from src.ui.widget.EditEntryWidget import EditEntryWidget
 from src.ui.widget.NewEntryWidget import NewEntryWidget
+from src.ui.widget.SearchBar import SearchBar
 from src.ui.widget.UnlockDatabaseWidget import UnlockDatabaseWidget
 from src.ui.widget.WelcomeWidget import WelcomeWidget
 from src.ui import UiLoader
@@ -36,7 +37,7 @@ class MainWindow(QMainWindow):
         self.database_widget = DatabaseWidget(self)
         self.new_entry_widget = NewEntryWidget(self)
         self.edit_entry_widget = EditEntryWidget(self)
-        self.searchBar = QLineEdit(self)
+        self.searchBar = SearchBar(self)
 
         self.stacked_widget = QStackedWidget(self)
         self.stacked_widget.addWidget(self.welcome_widget)
@@ -82,7 +83,19 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionSaveDatabase_triggered(self) -> None:
-        print("Yes")
+        print("actionSaveDatabase")
+
+    @Slot()
+    def on_actionCloseDatabase_triggered(self) -> None:
+        print("actionCloseDatabase")
+
+    @Slot()
+    def on_actionLockDatabase_triggered(self) -> None:
+        print("actionLockDatabase")
+
+    @Slot()
+    def on_actionShowInformation_triggered(self) -> None:
+        print("actionShowInformation")
 
     @Slot()
     def on_actionExit_triggered(self) -> None:
@@ -125,6 +138,18 @@ class MainWindow(QMainWindow):
             clipboard.setText(entry.url)
 
     @Slot()
+    def on_actionOpenUrl_triggered(self) -> None:
+        print("actionOpenUrl")
+
+    @Slot()
+    def on_actionPasswordGenerator_triggered(self) -> None:
+        print("actionPasswordGenerator")
+
+    @Slot()
+    def on_actionAbout_triggered(self) -> None:
+        print("actionAbout")
+
+    @Slot()
     def show_welcome_widget(self) -> None:
         self.stacked_widget.setCurrentWidget(self.welcome_widget)
         self.disable_entry_actions()
@@ -137,6 +162,7 @@ class MainWindow(QMainWindow):
     @Slot()
     def show_database_widget(self) -> None:
         self.stacked_widget.setCurrentWidget(self.database_widget)
+        self.enable_database_actions()
         self.enable_entry_actions()
 
     @Slot()
@@ -154,6 +180,16 @@ class MainWindow(QMainWindow):
         if self.stacked_widget.currentWidget() == self.database_widget:
             self.entryContextMenu.popup(self.sender().mapToGlobal(pos))
 
+    def enable_database_actions(self) -> None:
+        self.ui.actionSaveDatabase.setEnabled(True)
+        self.ui.actionCloseDatabase.setEnabled(True)
+        self.ui.actionLockDatabase.setEnabled(True)
+
+    def disable_database_actions(self) -> None:
+        self.ui.actionSaveDatabase.setDisabled(True)
+        self.ui.actionCloseDatabase.setDisabled(True)
+        self.ui.actionLockDatabase.setDisabled(True)
+
     def enable_entry_actions(self) -> None:
         self.ui.actionNewEntry.setEnabled(True)
         self.ui.actionEditEntry.setEnabled(True)
@@ -161,6 +197,8 @@ class MainWindow(QMainWindow):
         self.ui.actionCopyUsername.setEnabled(True)
         self.ui.actionCopyPassword.setEnabled(True)
         self.ui.actionCopyUrl.setEnabled(True)
+        self.ui.actionOpenUrl.setEnabled(True)
+        self.searchBar.setEnabled(True)
 
     def disable_entry_actions(self) -> None:
         self.ui.actionNewEntry.setDisabled(True)
@@ -169,3 +207,5 @@ class MainWindow(QMainWindow):
         self.ui.actionCopyUsername.setDisabled(True)
         self.ui.actionCopyPassword.setDisabled(True)
         self.ui.actionCopyUrl.setDisabled(True)
+        self.ui.actionOpenUrl.setDisabled(True)
+        self.searchBar.setDisabled(True)
