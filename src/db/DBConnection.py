@@ -79,12 +79,12 @@ class DBConnection(object):
     def execute(self, sql, params: () = None) -> None:
         self.cursor.execute(sql, params or ())
 
-    def fetch_all(self) -> List[List[str]]:
+    def fetchall(self) -> List[List[str]]:
         return self.cursor.fetchall()
 
-    def fetch_one(self) -> List[str]:
+    def fetchone(self) -> List[str]:
         return self.cursor.fetchone()
 
     def query(self, sql: str, params: () = None) -> List[List[str]]:
         self.cursor.execute(sql, params or ())
-        return self.fetch_all()
+        return self.fetchall()

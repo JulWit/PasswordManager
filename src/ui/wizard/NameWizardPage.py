@@ -1,5 +1,7 @@
+import re
 from typing import Optional
 
+from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QWizardPage, QWidget
 
 from src.__main__ import ROOT_DIR
@@ -11,6 +13,9 @@ class NameWizardPage(QWizardPage):
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:
         super(NameWizardPage, self).__init__(parent)
+
+        # Setup Pattern
+        self.pattern = re.compile(r"^[^\s]{1,128}$")
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
@@ -24,6 +29,8 @@ class NameWizardPage(QWizardPage):
     def description(self) -> str:
         return self.descriptionLineEdit.text()
 
+    @Slot()
     def isComplete(self) -> bool:
-        # TODO: REGEX
-        return bool(self.ui.nameLineEdit.text().strip())
+        return bool(self.pattern.match(self.ui.nameLineEdit.text()))
+
+

@@ -7,7 +7,7 @@ from typing import Optional
 from PySide6 import QtCore
 from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu, QApplication, QLineEdit, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu, QApplication, QMessageBox
 
 from src.__main__ import ROOT_DIR
 from src.db.DBConnection import DBConnection
@@ -17,7 +17,6 @@ from src.ui.dialog.DatabaseInformationDialog import DatabaseInformationDialog
 from src.ui.widget.DatabaseWidget import DatabaseWidget
 from src.ui.widget.EditEntryWidget import EditEntryWidget
 from src.ui.widget.NewEntryWidget import NewEntryWidget
-from src.ui.widget.PasswordGeneratorFrame import PasswordGeneratorFrame
 from src.ui.widget.PasswordGeneratorWidget import PasswordGeneratorWidget
 from src.ui.widget.SearchBar import SearchBar
 from src.ui.widget.UnlockDatabaseWidget import UnlockDatabaseWidget
@@ -64,6 +63,11 @@ class MainWindow(QMainWindow):
         self.entryContextMenu.addAction(self.ui.actionNewEntry)
         self.entryContextMenu.addAction(self.ui.actionEditEntry)
         self.entryContextMenu.addAction(self.ui.actionDeleteEntry)
+        self.entryContextMenu.addSeparator()
+        self.entryContextMenu.addAction(self.ui.actionCopyUsername)
+        self.entryContextMenu.addAction(self.ui.actionCopyPassword)
+        self.entryContextMenu.addAction(self.ui.actionCopyUrl)
+        self.entryContextMenu.addAction(self.ui.actionOpenUrl)
 
         # Connect signals / slots
         QMetaObject.connectSlotsByName(self)
