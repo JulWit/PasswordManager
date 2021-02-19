@@ -86,7 +86,7 @@ class WelcomeWidget(QWidget):
                     DatabaseCreationFailedMessageBox(self).exec_()
                 self.logger.debug(f"Datenbank: {file} erfolgreich erstellt")
             else:
-                self.logger.debug("Speicherung der Datenbank abgebrochen")
+                self.logger.debug("Speichern der Datenbank abgebrochen")
 
     def open_database(self) -> None:
         file = QFileDialog.getOpenFileName(self,
