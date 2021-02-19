@@ -1,5 +1,6 @@
 import logging
 import sys
+import webbrowser
 
 from typing import Optional
 
@@ -12,7 +13,7 @@ from src.__main__ import ROOT_DIR
 from src.db.DBConnection import DBConnection
 from src.ui.dialog.AboutDialog import AboutDialog
 from src.ui.dialog.ConfirmDeletionMessageBox import ConfirmDeletetionMessageBox
-from src.ui.dialog.DatabaseInformationMessageBox import DatabaseInformationMessageBox
+from src.ui.dialog.DatabaseInformationDialog import DatabaseInformationDialog
 from src.ui.widget.DatabaseWidget import DatabaseWidget
 from src.ui.widget.EditEntryWidget import EditEntryWidget
 from src.ui.widget.NewEntryWidget import NewEntryWidget
@@ -89,15 +90,19 @@ class MainWindow(QMainWindow):
         instance = DBConnection.instance()
         if instance is not None:
             instance.close()
+        self.disable_database_actions()
+        self.disable_entry_actions()
         self.show_welcome_widget()
 
     @Slot()
     def on_actionLockDatabase_triggered(self) -> None:
-        print("actionLockDatabase")
+        self.disable_database_actions()
+        self.disable_entry_actions()
+        self.show_unlock_widget()
 
     @Slot()
     def on_actionShowInformation_triggered(self) -> None:
-        DatabaseInformationMessageBox().exec_()
+        DatabaseInformationDialog(self).exec_()
 
     @Slot()
     def on_actionExit_triggered(self) -> None:
@@ -143,7 +148,9 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionOpenUrl_triggered(self) -> None:
-        print("actionOpenUrl")
+        entry = self.database_widget.selected_entry()
+        if entry and entry.url:
+            webbrowser.open(entry.url)
 
     @Slot()
     def on_actionPasswordGenerator_triggered(self) -> None:
@@ -196,13 +203,14 @@ class MainWindow(QMainWindow):
 
     def enable_entry_actions(self) -> None:
         self.ui.actionNewEntry.setEnabled(True)
-        self.ui.actionEditEntry.setEnabled(True)
-        self.ui.actionDeleteEntry.setEnabled(True)
-        self.ui.actionCopyUsername.setEnabled(True)
-        self.ui.actionCopyPassword.setEnabled(True)
-        self.ui.actionCopyUrl.setEnabled(True)
-        self.ui.actionOpenUrl.setEnabled(True)
         self.searchBar.setEnabled(True)
+        if self.database_widget.selected_entry():
+            self.ui.actionEditEntry.setEnabled(True)
+            self.ui.actionDeleteEntry.setEnabled(True)
+            self.ui.actionCopyUsername.setEnabled(True)
+            self.ui.actionCopyPassword.setEnabled(True)
+            self.ui.actionCopyUrl.setEnabled(True)
+            self.ui.actionOpenUrl.setEnabled(True)
 
     def disable_entry_actions(self) -> None:
         self.ui.actionNewEntry.setDisabled(True)

@@ -67,7 +67,9 @@ class DatabaseWidget(QWidget):
 
     @Slot()
     def selection_changed(self):
-        self.entrySelectionChanged.emit(self.selected_entry())
+        entry = self.selected_entry()
+        if entry:
+            self.entrySelectionChanged.emit(entry)
 
     @Slot(str)
     def filter(self, regex):

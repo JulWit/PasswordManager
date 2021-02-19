@@ -9,3 +9,4 @@ class DatabaseCreationFailedMessageBox(QMessageBox):
 
         self.setWindowTitle("Datenbankerstllung fehlgeschlagen")
         self.setText("Die Datenbank konnte nicht erstellt werden")
+        self.setIcon(QMessageBox.Critical)
