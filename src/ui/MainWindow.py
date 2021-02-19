@@ -6,10 +6,13 @@ from typing import Optional
 from PySide6 import QtCore
 from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu, QApplication, QLineEdit
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu, QApplication, QLineEdit, QMessageBox
 
 from src.__main__ import ROOT_DIR
 from src.db.DBConnection import DBConnection
+from src.ui.dialog.AboutDialog import AboutDialog
+from src.ui.dialog.ConfirmDeletionMessageBox import ConfirmDeletetionMessageBox
+from src.ui.dialog.DatabaseInformationMessageBox import DatabaseInformationMessageBox
 from src.ui.widget.DatabaseWidget import DatabaseWidget
 from src.ui.widget.EditEntryWidget import EditEntryWidget
 from src.ui.widget.NewEntryWidget import NewEntryWidget
@@ -82,12 +85,11 @@ class MainWindow(QMainWindow):
         self.welcome_widget.open_database()
 
     @Slot()
-    def on_actionSaveDatabase_triggered(self) -> None:
-        print("actionSaveDatabase")
-
-    @Slot()
     def on_actionCloseDatabase_triggered(self) -> None:
-        print("actionCloseDatabase")
+        instance = DBConnection.instance()
+        if instance is not None:
+            instance.close()
+        self.show_welcome_widget()
 
     @Slot()
     def on_actionLockDatabase_triggered(self) -> None:
@@ -95,7 +97,7 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionShowInformation_triggered(self) -> None:
-        print("actionShowInformation")
+        DatabaseInformationMessageBox().exec_()
 
     @Slot()
     def on_actionExit_triggered(self) -> None:
@@ -114,7 +116,9 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionDeleteEntry_triggered(self) -> None:
-        self.database_widget.delete_selected_entry()
+        message_box = ConfirmDeletetionMessageBox(self)
+        if message_box.exec_() == QMessageBox.Ok:
+            self.database_widget.delete_selected_entry()
 
     @Slot()
     def on_actionCopyUsername_triggered(self) -> None:
@@ -147,7 +151,7 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionAbout_triggered(self) -> None:
-        print("actionAbout")
+        AboutDialog(self).exec_()
 
     @Slot()
     def show_welcome_widget(self) -> None:
@@ -181,14 +185,14 @@ class MainWindow(QMainWindow):
             self.entryContextMenu.popup(self.sender().mapToGlobal(pos))
 
     def enable_database_actions(self) -> None:
-        self.ui.actionSaveDatabase.setEnabled(True)
         self.ui.actionCloseDatabase.setEnabled(True)
         self.ui.actionLockDatabase.setEnabled(True)
+        self.ui.actionShowInformation.setEnabled(True)
 
     def disable_database_actions(self) -> None:
-        self.ui.actionSaveDatabase.setDisabled(True)
         self.ui.actionCloseDatabase.setDisabled(True)
         self.ui.actionLockDatabase.setDisabled(True)
+        self.ui.actionShowInformation.setDisabled(True)
 
     def enable_entry_actions(self) -> None:
         self.ui.actionNewEntry.setEnabled(True)

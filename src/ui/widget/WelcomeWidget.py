@@ -2,11 +2,11 @@ import logging
 from typing import Optional
 
 import sqlcipher3
-
 from PySide6.QtCore import QDir, QMetaObject, Slot, Signal
 from PySide6.QtWidgets import QWidget, QFileDialog
 
 from src.__main__ import ROOT_DIR
+from src.db.DBConnection import DBConnection
 from src.ui import UiLoader
 from src.ui.dialog.DatabaseCreationFailedMessageBox import DatabaseCreationFailedMessageBox
 from src.ui.wizard.NewDatabaseWizard import NewDatabaseWizard
@@ -53,11 +53,10 @@ class WelcomeWidget(QWidget):
             if file:
                 connection = None
                 try:
-                    connection = sqlcipher3.connect(file)
-                    cursor = connection.cursor()
-                    cursor.execute(f"PRAGMA KEY={data.password}")
-                    cursor.execute("DROP TABLE IF EXISTS Entries")
-                    cursor.execute("""CREATE TABLE Entries (
+                    connection = DBConnection(file, data.password)
+
+                    connection.execute("DROP TABLE IF EXISTS Entries;")
+                    connection.execute("""CREATE TABLE Entries (
                                             id          INTEGER PRIMARY KEY AUTOINCREMENT,
                                             title       VARCHAR(128) NOT NULL,
                                             username    VARCHAR(128),
@@ -66,13 +65,25 @@ class WelcomeWidget(QWidget):
                                             notes       VARCHAR(128),
                                             modified    DATE DEFAULT CURRENT_TIMESTAMP
                                         );"""
-                                   )
+                                       )
+                    connection.commit()
+
+                    connection.execute("DROP TABLE IF EXISTS Metadata;")
+                    connection.execute("""CREATE TABLE Metadata (
+                                            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+                                            name        VARCHAR(128) NOT NULL,
+                                            description VARCHAR(128)
+                                        );"""
+                                       )
+                    connection.commit()
+
+                    query = "INSERT INTO Metadata (name, description) VALUES (?, ?);"
+                    connection.execute(query, (data.name, data.description))
                     connection.commit()
                 except sqlcipher3.dbapi2.DatabaseError as e:
                     connection.close()
                     self.logger.error(f"Datenbank: {file} konnte nicht erstellt werden: {e}")
                     DatabaseCreationFailedMessageBox(self).exec_()
-
                 self.logger.debug(f"Datenbank: {file} erfolgreich erstellt")
             else:
                 self.logger.debug("Speicherung der Datenbank abgebrochen")

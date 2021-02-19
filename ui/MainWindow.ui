@@ -35,7 +35,6 @@
     </property>
     <addaction name="actionNewDatabase"/>
     <addaction name="actionOpenDatabase"/>
-    <addaction name="actionSaveDatabase"/>
     <addaction name="separator"/>
     <addaction name="actionCloseDatabase"/>
     <addaction name="actionLockDatabase"/>
@@ -95,7 +94,6 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpenDatabase"/>
-   <addaction name="actionSaveDatabase"/>
    <addaction name="actionLockDatabase"/>
    <addaction name="separator"/>
    <addaction name="actionNewEntry"/>
@@ -135,18 +133,6 @@
    </property>
    <property name="text">
     <string>Beenden</string>
-   </property>
-  </action>
-  <action name="actionSaveDatabase">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/document-save.svg</normaloff>../img/document-save.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Datenbank speichern</string>
    </property>
   </action>
   <action name="actionNewEntry">
@@ -264,6 +250,9 @@
    </property>
   </action>
   <action name="actionShowInformation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>../img/help-about.svg</normaloff>../img/help-about.svg</iconset>

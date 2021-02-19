@@ -9,3 +9,6 @@ class ConfirmDeletetionMessageBox(QMessageBox):
 
         self.setWindowTitle("Eintrag löschen")
         self.setText("Möchten sie den ausgewählten Eintrag wirklich löschen?")
+        self.setIcon(QMessageBox.Question)
+        self.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+

@@ -40,6 +40,7 @@ class PasswordWizardPage(QWizardPage):
         self.ui.passwordStrength.setValue(round(strength * 100, 0))
 
     def isComplete(self) -> bool:
+        # TODO: REGEX
         return bool(self.ui.passwordLineEdit.text().strip() and
                     self.ui.confirmationLineEdit.text().strip() and
                     self.ui.passwordLineEdit.text() == self.confirmationLineEdit.text())

@@ -16,3 +16,5 @@ class SearchBar(QLineEdit):
         self.setClearButtonEnabled(True)
         self.setPlaceholderText("Einträge durchsuchen...")
         self.addAction(QIcon(self.ICON_FILE), QLineEdit.LeadingPosition)
+
+        # TODO: Padding?
