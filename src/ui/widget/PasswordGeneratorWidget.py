@@ -20,4 +20,4 @@ class PasswordGeneratorWidget(QWidget):
         self.logger = logging.getLogger("Logger")
 
         # Setup UI
-        self.ui = UiLoader.loadUi(self.UI_FILE, self, {"PasswordGeneratorWidget": PasswordGeneratorFrame})
+        self.ui = UiLoader.loadUi(self.UI_FILE, self, {"PasswordGeneratorFrame": PasswordGeneratorFrame})
