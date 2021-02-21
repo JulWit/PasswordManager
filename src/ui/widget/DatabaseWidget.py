@@ -59,7 +59,7 @@ class DatabaseWidget(QWidget):
         entries = []
         for entry in DBConnection.instance().query("SELECT * FROM Entries"):
             # Objekt für jeden Eintrag der Tabelle erstellen
-            entries.append(Entry(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6]))
+            entries.append(Entry(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6], entry[7]))
 
         # Setup Model & ProxyModel
         self.model = TableModel(entries)
@@ -134,9 +134,10 @@ class DatabaseWidget(QWidget):
         :param entry: Neuer Eintrag.
         :return: None.
         """
-        query = "INSERT INTO Entries  (title, username, password, url, notes, modified) VALUES (?, ?, ?, ?, ?, ?)"
+        query = "INSERT INTO Entries  (title, username, password, url, notes, icon, modified) VALUES (?, ?, ?, ?, ?, ?, ?)"
         connection = DBConnection.instance()
-        connection.execute(query, (entry.title, entry.username, entry.password, entry.url, entry.notes, entry.modified))
+        connection.execute(query, (
+            entry.title, entry.username, entry.password, entry.url, entry.notes, entry.icon, entry.modified))
         entry.id = connection.cursor.lastrowid
         connection.commit()
 
@@ -148,6 +149,7 @@ class DatabaseWidget(QWidget):
 
         # Titel setzen
         index = self.model.index(0, 1, QModelIndex())
+        self.model.setData(index, entry.icon, Qt.DecorationRole)
         self.model.setData(index, entry.title, Qt.EditRole)
 
         # Benutzernamen setzen
@@ -183,12 +185,12 @@ class DatabaseWidget(QWidget):
         """
         query = """
             UPDATE Entries
-            SET title = ?, username = ?, password = ?, url = ?, notes = ?, modified = ?
+            SET title = ?, username = ?, password = ?, url = ?, notes = ?, icon = ?, modified = ?
             WHERE id = ?
             """
         connection = DBConnection.instance()
         connection.execute(query, (entry.title, entry.username, entry.password,
-                                   entry.url, entry.notes, entry.modified, entry.id))
+                                   entry.url, entry.notes, entry.icon, entry.modified, entry.id))
         connection.commit()
         self.entrySelectionChanged.emit(self.selected_entry())
 

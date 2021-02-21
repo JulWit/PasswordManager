@@ -1,9 +1,11 @@
 import string
 import secrets
 import random
+from typing import List
 
 
-def password_combination(capital_letters: bool, numbers: bool, spaces: bool, special_characters: bool, brackets: bool):
+def password_combination(capital_letters: bool, numbers: bool, spaces: bool, special_characters: bool,
+                         brackets: bool) -> List[str]:
     # Methode zum erstellen einer benutzerdefinierten Struktur den generierten Passworts
 
     string_printable = string.ascii_lowercase
@@ -29,7 +31,7 @@ def password_combination(capital_letters: bool, numbers: bool, spaces: bool, spe
     return included_characters_list
 
 
-def password_generator(length, included_characters):
+def password_generator(length, included_characters) -> str:
     # Methode zum generieren eines zufälligen Passworts
 
     password = ''.join(secrets.choice(included_characters) for i in range(length))

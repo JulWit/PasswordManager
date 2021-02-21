@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from PySide6.QtCore import QByteArray
+
+
 @dataclass
 class Entry:
     """
@@ -8,6 +11,7 @@ class Entry:
     """
     def __init__(self, id: str = None, title: str = None, username: str = None,
                  password: str = None, url: str = None, notes: str = None,
+                 icon: QByteArray = None,
                  modified: str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')) -> None:
         """
         Initialisiert ein neues Entry-Objekt.
@@ -18,6 +22,7 @@ class Entry:
         :param password: Passwort des Eintrags.
         :param url: URL des Eintrags.
         :param notes: Notizen des Eintrags.
+        :param icon: Icon der Webseite des Eintags.
         :param modified: Änderungszeitpunkt des Eintrags.
         """
         self.id = id
@@ -26,8 +31,8 @@ class Entry:
         self.password = password
         self.url = url
         self.notes = notes
+        self.icon = icon
         self.modified = modified
-        self.icon = None
 
     def __str__(self) -> str:
         """

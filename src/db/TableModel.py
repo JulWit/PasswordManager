@@ -2,7 +2,7 @@ import logging
 
 from typing import Optional, List
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QWidget
 
 from src.db.Entry import Entry
@@ -59,7 +59,9 @@ class TableModel(QAbstractTableModel):
         if role == Qt.DecorationRole:
             entry = self.entries[index.row()]
             if index.column() == 1:
-                return QIcon("/home/marius/PycharmProjects/PasswordManager" + "/src/util/favicon-2.ico")
+                pixmap = QPixmap()
+                pixmap.loadFromData(entry.icon, "ICO")
+                return QIcon(pixmap)
             return None
 
         if role == Qt.DisplayRole:
@@ -89,27 +91,32 @@ class TableModel(QAbstractTableModel):
         :param role: Rolle der Daten.
         :return: True, falls das Setzen funktioniert hat, false sonst.
         """
-        if role != Qt.EditRole:
+
+        if role == Qt.DecorationRole:
+            entry = self.entries[index.row()]
+            if index.column() == 1:
+                entry.icon = value
             return False
 
-        if index.isValid() and 0 <= index.row() < len(self.entries):
-            entry = self.entries[index.row()]
-            if index.column() == 0:
-                entry.id = value
-            elif index.column() == 1:
-                entry.title = value
-            elif index.column() == 2:
-                entry.username = value
-            elif index.column() == 3:
-                entry.password = value
-            elif index.column() == 4:
-                entry.url = value
-            elif index.column() == 5:
-                entry.notes = value
-            elif index.column() == 6:
-                entry.modified = value
-            self.dataChanged.emit(index, index)
-            return True
+        if role == Qt.EditRole:
+            if index.isValid() and 0 <= index.row() < len(self.entries):
+                entry = self.entries[index.row()]
+                if index.column() == 0:
+                    entry.id = value
+                elif index.column() == 1:
+                    entry.title = value
+                elif index.column() == 2:
+                    entry.username = value
+                elif index.column() == 3:
+                    entry.password = value
+                elif index.column() == 4:
+                    entry.url = value
+                elif index.column() == 5:
+                    entry.notes = value
+                elif index.column() == 6:
+                    entry.modified = value
+                self.dataChanged.emit(index, index)
+                return True
         return False
 
     def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:

@@ -2,6 +2,8 @@ import favicon
 import requests
 import os
 
+from PySide6.QtCore import QByteArray, QFile, QIODevice
+
 
 def download_favicon(url):
     # Methode zum Downloaden des Favicons einer bestimmten URL
@@ -10,21 +12,18 @@ def download_favicon(url):
     icons = favicon.get(url)
     icon = icons[0]
 
-    # Name der Datei erstellen
-    i = 1
-    file_pattern = 'favicon-%s.%s'
-    while os.path.exists(file_pattern % (i, icon.format)):
-        i += 1
-    file_name = file_pattern % (i, format(icon.format))
-
     # Favicon Downloaden
     response = requests.get(icon.url, stream=True)
-    with open('{}'.format(file_name), 'wb') as image:
-        for chunk in response.iter_content(1024):
-            image.write(chunk)
+    img_bytes = QByteArray()
+    for chunk in response.iter_content(1024):
+        img_bytes.append(chunk)
 
+    return img_bytes
 
-# Methode testen
-download_favicon("https://www.fh-swf.de")
-#download_favicon("http://google.com")
-# download_favicon("google.com")
+"""
+    file = QFile("/home/marius/test.ico")
+    file.open(QIODevice.WriteOnly)
+    file.write(img_bytes)
+    file.close()
+"""
+

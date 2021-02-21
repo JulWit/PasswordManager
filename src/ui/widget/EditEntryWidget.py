@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QWidget
 
 from src.db.Entry import Entry
 from src.ui.widget.EntryWidget import EntryWidget
+from src.util.FaviconDownloader import download_favicon
 
 
 class EditEntryWidget(EntryWidget):
@@ -45,7 +46,9 @@ class EditEntryWidget(EntryWidget):
         self._entry.password = self.ui.passwordLineEdit.text()
         self._entry.url = self.ui.urlLineEdit.text()
         self._entry.notes = self.ui.notesTextEdit.toPlainText()
+        self._entry.icon = download_favicon(self._entry.url)
         self._entry.modified = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
         self.entryEdited.emit(self._entry)
         self.ok.emit()
 
