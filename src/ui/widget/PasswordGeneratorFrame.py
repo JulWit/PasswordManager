@@ -1,7 +1,7 @@
 from typing import Optional
 
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QFrame, QWidget
+from PySide6.QtCore import Slot, QMetaObject
+from PySide6.QtWidgets import QFrame, QWidget, QApplication, QLineEdit
 
 from src.__main__ import ROOT_DIR
 from src.ui import UiLoader
@@ -27,7 +27,14 @@ class PasswordGeneratorFrame(QFrame):
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
         self.ui.passwordLineEdit.textChanged.connect(self.refresh_password_strength)
 
+        # Connect signals / slots
+        QMetaObject.connectSlotsByName(self)
+
+        # Passwortlänge
         self.ui.passwordLengthSlider.valueChanged.connect(self.new_password)
+        self.ui.passwordLengthSlider.valueChanged.connect(self.refresh_password_length_label)
+
+        # CheckBoxen
         self.ui.capitalLettersCheckBox.stateChanged.connect(self.new_password)
         self.ui.numbersCheckBox.stateChanged.connect(self.new_password)
         self.ui.spacesCheckBox.stateChanged.connect(self.new_password)
@@ -40,11 +47,13 @@ class PasswordGeneratorFrame(QFrame):
         self.password_length = None
 
         self.refresh_included_characters()
-        self.refresh_password_length()
+        self.refresh_password_length_slider()
         self.new_password()
 
+
+    @Slot()
     def new_password(self) -> None:
-        self.refresh_password_length()
+        self.refresh_password_length_slider()
         self.refresh_included_characters()
 
         self.password = password_generator(self.password_length, self.included_characters)
@@ -71,7 +80,11 @@ class PasswordGeneratorFrame(QFrame):
         self.ui.passwordStrengthProgressBar.setValue(round(strength * 100, 0))
 
     @Slot()
-    def refresh_password_length(self):
+    def refresh_password_length_label(self) -> None:
+        self.ui.passwordLengthLabel.setText(str(self.password_length))
+
+    @Slot()
+    def refresh_password_length_slider(self) -> None:
         self.password_length = self.ui.passwordLengthSlider.value()
 
     @Slot()
@@ -81,3 +94,19 @@ class PasswordGeneratorFrame(QFrame):
                                                         self.ui.spacesCheckBox.isChecked(),
                                                         self.ui.specialCharactersCheckBox.isChecked(),
                                                         self.ui.bracketsCheckBox.isChecked())
+
+    @Slot()
+    def on_refreshButton_clicked(self) -> None:
+        self.new_password()
+
+    @Slot()
+    def on_copyToClipboardButton_clicked(self) -> None:
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.password)
+
+    @Slot()
+    def on_echoButton_toggled(self) -> None:
+        if self.ui.echoButton.isChecked():
+            self.ui.passwordLineEdit.setEchoMode(QLineEdit.Normal)
+        else:
+            self.ui.passwordLineEdit.setEchoMode(QLineEdit.Password)
