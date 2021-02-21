@@ -25,14 +25,23 @@ from src.ui import UiLoader
 
 
 class MainWindow(QMainWindow):
+    """
+    Hauptfenster der Anwendung.
+    """
+
+    # UI-Datei
     UI_FILE = ROOT_DIR + "/ui/MainWindow.ui"
+
+    # Icon-Datei
     ICON_FILE = ROOT_DIR + "/img/logo.svg"
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:
-        super(MainWindow, self).__init__(parent)
+        """
+        Initialisiert ein neues MainWindow-Objekt.
 
-        # Setup logging
-        self.logger = logging.getLogger('Logger')
+        :param parent: Übergeordnetes QWidget.
+        """
+        super(MainWindow, self).__init__(parent)
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
@@ -72,7 +81,7 @@ class MainWindow(QMainWindow):
         # Connect signals / slots
         QMetaObject.connectSlotsByName(self)
         self.customContextMenuRequested.connect(self.showContextMenu)
-        self.welcome_widget.open.connect(self.unlock_widget.set_database)
+        self.welcome_widget.open.connect(self.unlock_widget.database_changed)
         self.welcome_widget.open.connect(self.show_unlock_widget)
         self.unlock_widget.unlock.connect(self.database_widget.database_changed)
         self.unlock_widget.unlock.connect(self.show_database_widget)
@@ -87,14 +96,29 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionNewDatabase_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für die Erstelltung einer neuen Datenbank geklickt wurde.
+
+        :return: None.
+        """
         self.welcome_widget.create_new_database()
 
     @Slot()
     def on_actionOpenDatabase_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Öffnen einer Datenbank geklickt wurde.
+
+        :return: None.
+        """
         self.welcome_widget.open_database()
 
     @Slot()
     def on_actionCloseDatabase_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Schließen der Datenbank geklickt wurde.
+
+        :return: None.
+        """
         instance = DBConnection.instance()
         if instance is not None:
             instance.close()
@@ -104,16 +128,34 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionLockDatabase_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Sperren der Datenbank geklickt wurde.
+
+        :return: None.
+        """
+        instance = DBConnection.instance()
+        if instance is not None:
+            instance.close()
         self.disable_database_actions()
         self.disable_entry_actions()
         self.show_unlock_widget()
 
     @Slot()
     def on_actionShowInformation_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Anzeigen der Datenbankinformationen geklickt wurde.
+
+        :return: None.
+        """
         DatabaseInformationDialog(self).exec_()
 
     @Slot()
     def on_actionExit_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Beenden der Anwendung geklickt wurde.
+
+        :return: None.
+        """
         instance = DBConnection.instance()
         if instance is not None:
             instance.close()
@@ -121,20 +163,40 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionNewEntry_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Erstellen eines neuen Eintrags geklickt wurde.
+
+        :return: None.
+        """
         self.show_new_entry_widget()
 
     @Slot()
     def on_actionEditEntry_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Bearbeiten eines Eintrags geklickt wurde.
+
+        :return: None.
+        """
         self.show_edit_entry_widget()
 
     @Slot()
     def on_actionDeleteEntry_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Löschen eines Eintrags geklickt wurde.
+
+        :return: None.
+        """
         message_box = ConfirmDeletetionMessageBox(self)
         if message_box.exec_() == QMessageBox.Ok:
             self.database_widget.delete_selected_entry()
 
     @Slot()
     def on_actionCopyUsername_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Kopieren des Benutzernamens eines Eintrags geklickt wurde.
+
+        :return: None.
+        """
         clipboard = QApplication.clipboard()
         entry = self.database_widget.selected_entry()
         if entry and entry.username:
@@ -142,6 +204,11 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionCopyPassword_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Kopieren des Passworts eines Eintrags geklickt wurde.
+
+        :return: None.
+        """
         clipboard = QApplication.clipboard()
         entry = self.database_widget.selected_entry()
         if entry and entry.password:
@@ -149,6 +216,11 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionCopyUrl_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Kopieren der URL eines Eintrags geklickt wurde.
+
+        :return: None.
+        """
         clipboard = QApplication.clipboard()
         entry = self.database_widget.selected_entry()
         if entry and entry.url:
@@ -156,37 +228,72 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def on_actionOpenUrl_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Öffnen der URL eines Eintrags geklickt wurde.
+
+        :return: None.
+        """
         entry = self.database_widget.selected_entry()
         if entry and entry.url:
             webbrowser.open(entry.url)
 
     @Slot()
     def on_actionPasswordGenerator_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Anzeigen des Passwortgenerators geklickt wurde.
+
+        :return: None.
+        """
         self.stacked_widget.setCurrentWidget(self.password_generator_widget)
         self.disable_entry_actions()
 
     @Slot()
     def on_actionAbout_triggered(self) -> None:
+        """
+        Wird aufgerufen, wenn die Aktion für das Anzeigen des Über-Dialogs geklickt wurde.
+
+        :return: None.
+        """
         AboutDialog(self).exec_()
 
     @Slot()
     def show_welcome_widget(self) -> None:
+        """
+        Zeigt das WelcomeWidget an.
+
+        :return: None
+        """
         self.stacked_widget.setCurrentWidget(self.welcome_widget)
         self.disable_entry_actions()
 
     @Slot()
     def show_unlock_widget(self) -> None:
+        """
+        Zeigt das UnlockWidget an.
+
+        :return: None.
+        """
         self.stacked_widget.setCurrentWidget(self.unlock_widget)
         self.disable_entry_actions()
 
     @Slot()
     def show_database_widget(self) -> None:
+        """
+        Zeigt das DatabaseWidget an.
+
+        :return: None.
+        """
         self.stacked_widget.setCurrentWidget(self.database_widget)
         self.enable_database_actions()
         self.enable_entry_actions()
 
     @Slot()
     def show_new_entry_widget(self) -> None:
+        """
+        Zeigt das NewEntryWidget an.
+
+        :return: None.
+        """
         self.stacked_widget.setCurrentWidget(self.new_entry_widget)
         self.disable_entry_actions()
 
@@ -196,21 +303,42 @@ class MainWindow(QMainWindow):
         self.disable_entry_actions()
 
     @Slot()
-    def showContextMenu(self, pos):
+    def showContextMenu(self, pos) -> None:
+        """
+        Zeigt das Kontextmenü an der übergebenen Position an.
+
+        :param pos: Position.
+        :return: None.
+        """
         if self.stacked_widget.currentWidget() == self.database_widget:
             self.entryContextMenu.popup(self.sender().mapToGlobal(pos))
 
     def enable_database_actions(self) -> None:
+        """
+        Aktiviert die Datenbankaktionen.
+
+        :return: None.
+        """
         self.ui.actionCloseDatabase.setEnabled(True)
         self.ui.actionLockDatabase.setEnabled(True)
         self.ui.actionShowInformation.setEnabled(True)
 
     def disable_database_actions(self) -> None:
+        """
+        Deaktiviert die Datenbankaktionen.
+
+        :return: None.
+        """
         self.ui.actionCloseDatabase.setDisabled(True)
         self.ui.actionLockDatabase.setDisabled(True)
         self.ui.actionShowInformation.setDisabled(True)
 
     def enable_entry_actions(self) -> None:
+        """
+        Aktiviert die Eintragsaktionen.
+
+        :return: None.
+        """
         self.ui.actionNewEntry.setEnabled(True)
         self.searchBar.setEnabled(True)
         if self.database_widget.selected_entry():
@@ -222,6 +350,11 @@ class MainWindow(QMainWindow):
             self.ui.actionOpenUrl.setEnabled(True)
 
     def disable_entry_actions(self) -> None:
+        """
+        Deaktiviert die Eintragsaktionen.
+
+        :return: None.
+        """
         self.ui.actionNewEntry.setDisabled(True)
         self.ui.actionEditEntry.setDisabled(True)
         self.ui.actionDeleteEntry.setDisabled(True)

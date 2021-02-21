@@ -1,7 +1,6 @@
 import logging
-import operator
 
-from typing import Optional
+from typing import Optional, List
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from PySide6.QtWidgets import QWidget
 
@@ -9,7 +8,17 @@ from src.db.Entry import Entry
 
 
 class TableModel(QAbstractTableModel):
-    def __init__(self, data=None, parent: Optional[QWidget] = None):
+    """
+    Datenmodell der TableView
+    """
+
+    def __init__(self, data: List[Entry] = None, parent: Optional[QWidget] = None):
+        """
+        Initialisiert ein neues TableModel-Objekt.
+
+        :param data: Daten des Models.
+        :param parent: Übergeordnetes QWidget.
+        """
         super(TableModel, self).__init__(parent)
 
         # Setup logging
@@ -31,7 +40,15 @@ class TableModel(QAbstractTableModel):
         else:
             self.entries = data
 
-    def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.DisplayRole):
+    def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.DisplayRole) -> Optional[str]:
+        """
+        Gibt die Daten für die übergebene Rolle am übergebenen Index zurück.
+
+        :param index: Index der Daten.
+        :param role: Rolle der Daten.
+        :return: Daten am übergebenen Index mit der übergebenen Rolle als String.
+        Falls am übergebenen Index keine Daten existieren, wird None zurückgegeben.
+        """
         if not index.isValid():
             return None
 
@@ -56,7 +73,15 @@ class TableModel(QAbstractTableModel):
                 return entry.modified
         return None
 
-    def setData(self, index: QModelIndex, value: str, role: Qt.ItemDataRole = Qt.EditRole):
+    def setData(self, index: QModelIndex, value: str, role: Qt.ItemDataRole = Qt.EditRole) -> bool:
+        """
+        Setzt die Daten für die übergebene Rolle am übergebenen Index.
+
+        :param index: Index der Daten.
+        :param value: Neuer Wert der Daten.
+        :param role: Rolle der Daten.
+        :return: True, falls das Setzen funktioniert hat, false sonst.
+        """
         if role != Qt.EditRole:
             return False
 
@@ -77,29 +102,70 @@ class TableModel(QAbstractTableModel):
             elif index.column() == 6:
                 entry.modified = value
             self.dataChanged.emit(index, index)
+            return True
+        return False
 
-    def rowCount(self, index: QModelIndex = QModelIndex()) -> int:
+    def rowCount(self, parent: QModelIndex = QModelIndex()) -> int:
+        """
+        Gibt die Anzahl der Zeilen unter dem übergebenen parent zurück.
+        Ist der parent gültig, so wird die Anzahl der Kinder des parent zurückgegeben.
+
+        :param parent: parent-Element.
+        :return: Anzahl der Zeilen.
+        """
         return len(self.entries)
 
-    def columnCount(self, index: QModelIndex = QModelIndex()) -> int:
+    def columnCount(self, parent: QModelIndex = QModelIndex()) -> int:
+        """
+        Gibt die Anzahl der Spalten unter dem übergebenen parent zurück.
+
+        :param parent: parent-Element.
+        :return: Anzahl der Spalten.
+        """
         return len(self._sections)
 
     def headerData(self, section: int, orientation: Qt.Orientation,
                    role: Qt.ItemDataRole = Qt.DisplayRole) -> Optional[str]:
+        """
+        Gibt die Daten für die übergebene Rolle und Sektion im Header mit der übergebenen Orientierung zurück.
+
+        :param section: Sektion der Daten.
+        :param orientation: Orientierung des Headers.
+        :param role: Rolle der Daten.
+        :return: Daten für die übergebene Rolle und Sektion im Header mit der übergebenen Orientierung.
+        """
         if role != Qt.DisplayRole:
             return None
         if orientation == Qt.Horizontal:
             return self._sections[section]
         return None
 
-    def insertRows(self, position, rows=1, index=QModelIndex()) -> bool:
+    def insertRows(self, position: int, rows: int = 1, parent: QModelIndex = QModelIndex()) -> bool:
+        """
+        Fügt die übergebene Anzahl von Zeilen vor der übergebenen Position ein.
+        Die neu eingefügten Zeilen werden zu Kindern des übergebenen parent-Elements.
+
+        :param position: Position, vor der die Zeilen eingefügt werden sollen.
+        :param rows: Anzahl der einzufügenden Zeilen.
+        :param parent: parent-Element.
+        :return: True, wenn das Einfügen funktioniert hat.
+        """
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
         for row in range(rows):
             self.entries.insert(position + row, Entry())
         self.endInsertRows()
         return True
 
-    def removeRows(self, position: int, rows: int = 1, index: QModelIndex = QModelIndex()) -> bool:
+    def removeRows(self, position: int, rows: int = 1, parent: QModelIndex = QModelIndex()) -> bool:
+        """
+        Entfernt die übergebene Anzahl von Zeilen beginnend ab der übergebenen Position 
+        unter dem übergebenen parent-Element.
+        
+        :param position: Position, ab der die Zeilen entfernt werden sollen.
+        :param rows: Anzahl der zu entfernenden Zeilen.
+        :param parent: parent-Element.
+        :return: True, wenn das Entfernen funktioniert hat.
+        """
         self.beginRemoveRows(QModelIndex(), position, position + rows - 1)
         del self.entries[position:position + rows]
         self.endRemoveRows()

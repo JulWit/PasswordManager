@@ -10,21 +10,36 @@ from src.ui.widget.EntryWidget import EntryWidget
 
 
 class EditEntryWidget(EntryWidget):
+    """
+    Widget mit einer Maske für das Bearbeiten eines Eintrags.
+    """
+
+    # Signal, dass entsandt wird, wenn ein Eintrag geändert wurde
     entryEdited = Signal(Entry)
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:
+        """
+        Initialisiert ein neues EditEntryWidget-Objekt.
+
+        :param parent: Übergeordnetes QWidget.
+        """
         super(EditEntryWidget, self).__init__(parent)
 
+        # Eintrag
         self._entry = None
-
-        # Setup logging
-        self.logger = logging.getLogger("Logger")
 
         # Setup UI
         self.ui.headerLabel.setText("Eintrag bearbeiten:")
 
     @Slot()
     def on_okButton_clicked(self) -> None:
+        """
+        Wird aufgerufen, wenn der ok-Button geklickt wurde.
+        Liest die Informationen aus der Maske aus und entsendet ein entryEdited-Signal mit dem geänderten Eintrag.
+        Entsendet darüber hinaus ein ok-Signal.
+
+        :return: None
+        """
         self._entry.title = self.ui.titleLineEdit.text()
         self._entry.username = self.ui.usernameLineEdit.text()
         self._entry.password = self.ui.passwordLineEdit.text()
@@ -36,10 +51,22 @@ class EditEntryWidget(EntryWidget):
 
     @Slot()
     def on_cancelButton_clicked(self) -> None:
+        """
+        Wird aufgerufen, wenn der abbrechen-Button geklickt wurde. Entsendet ein cancel-Signal.
+
+        :return: None.
+        """
         self.cancel.emit()
 
     @Slot(Entry)
-    def entry_changed(self, entry: Entry):
+    def entry_changed(self, entry: Entry) -> None:
+        """
+        Wird aufgerufen, wenn der in der TableView ausgewählte Eintrag geängert wurde.
+        Aktualisiert den Eintrag des Widgets.
+
+        :param entry: Ausgewählter Eintrag.
+        :return: None.
+        """
         self._entry = entry
         if entry is not None:
             self.ui.titleLineEdit.setText(entry.title)

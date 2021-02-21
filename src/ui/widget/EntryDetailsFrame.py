@@ -1,6 +1,7 @@
 from typing import Optional
 
-from PySide6.QtWidgets import QFrame, QWidget
+from PySide6.QtCore import Slot
+from PySide6.QtWidgets import QFrame, QWidget, QLabel
 
 from src.__main__ import ROOT_DIR
 from src.db.Entry import Entry
@@ -8,17 +9,36 @@ from src.ui import UiLoader
 
 
 class EntryDetailsFrame(QFrame):
+    """
+    Frame mit Details zu einem ausgewählten Eintrag.
+    """
+
+    # UI-Datei
     UI_FILE = ROOT_DIR + "/ui/EntryDetailsFrame.ui"
 
-    def __init__(self, parent: Optional[QWidget] = None, entry: Optional[Entry] = None) -> None:
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
+        """
+        Initialisiert ein neues EntryDetailsFrame-Objekt.
+
+        :param parent: Übergeordnetes QWidget.
+        """
         super(EntryDetailsFrame, self).__init__(parent)
 
-        self._entry = entry
+        # Eintrag
+        self._entry = None
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
 
-    def update_entry_information(self, entry: Entry):
+    @Slot()
+    def entry_changed(self, entry: Entry):
+        """
+        Wird aufgerufen, wenn der in der TableView ausgewählte Eintrag geängert wurde.
+        Aktualisiert den Eintrag des Widgets.
+
+        :param entry: Ausgewählter Eintrag.
+        :return: None.
+        """
         self._entry = entry
         if entry is not None:
             self.ui.titleLabel.setText(entry.title)
@@ -27,8 +47,7 @@ class EntryDetailsFrame(QFrame):
             self.ui.urlLabel.setText(entry.url)
             self.ui.notesLabel.setText(entry.notes)
         else:
-            self.ui.titleLabel.clear()
-            self.ui.usernameLabel.clear()
-            self.ui.passwordLabel.clear()
-            self.ui.urlLabel.clear()
-            self.ui.notesLabel.clear()
+            labels = self.ui.findChildren(QLabel)
+            for label in labels:
+                label.clear()
+

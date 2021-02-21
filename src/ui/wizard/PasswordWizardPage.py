@@ -9,9 +9,19 @@ from src.util import PasswordUtils
 
 
 class PasswordWizardPage(QWizardPage):
+    """
+    Seite eines Wizards für die Eingabe eines Passworts, dass für die Verschlüsselung der Datenbank genutzt wird.
+    """
+
+    # UI-Datei
     UI_FILE = ROOT_DIR + "/ui/PasswordWizardPage.ui"
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:
+        """
+        Initialisiert ein neues PasswordWizardPage-Objekt.
+
+        :param parent: Übergeordnetes QWidget.
+        """
         super(PasswordWizardPage, self).__init__(parent)
 
         # Setup Pattern
@@ -21,15 +31,24 @@ class PasswordWizardPage(QWizardPage):
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
 
         # Connect signals/slots
-        self.ui.passwordLineEdit.textChanged.connect(self.passwordLineEdit_changed)
+        self.ui.passwordLineEdit.textChanged.connect(self.password_changed)
         self.ui.passwordLineEdit.textChanged.connect(self.completeChanged)
         self.ui.confirmationLineEdit.textChanged.connect(self.completeChanged)
 
     def password(self) -> str:
+        """
+        Gibt das eingegebene Passwort zurück.
+
+        :return: eingegebenes Passwort.
+        """
         return self.ui.passwordLineEdit.text()
 
-    # Beurteilung der Passwortstärke
-    def passwordLineEdit_changed(self) -> None:
+    def password_changed(self) -> None:
+        """
+        Beurteilt die Stärke des eingegebenen Passworts.
+
+        :return: None.
+        """
         strength = PasswordUtils.evaluate_password_strength(self.password())
         color = "white"
         if 0 <= strength < 0.25:
@@ -44,6 +63,12 @@ class PasswordWizardPage(QWizardPage):
         self.ui.passwordStrength.setValue(round(strength * 100, 0))
 
     def isComplete(self) -> bool:
-        return bool(self.pattern.match(self.ui.passwordLineEdit.text())) and \
-               bool(self.pattern.match(self.ui.confirmationLineEdit.text())) and \
-               bool(self.ui.passwordLineEdit.text() == self.confirmationLineEdit.text())
+        """
+        Wird aufgerufen, wenn die eingegbenen Passwörter geändert wurden.
+        Überprüft, ob die Passwörter gültig sind und deaktiviert ggf. den next-Button.
+
+        :return: True, falls die Passwörter gültig sind, False sonst.
+        """
+        return bool(self.pattern.match(self.ui.passwordLineEdit.text()) and
+                    self.pattern.match(self.ui.confirmationLineEdit.text()) and
+                    self.ui.passwordLineEdit.text() == self.confirmationLineEdit.text())

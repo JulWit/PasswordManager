@@ -5,6 +5,12 @@ from src.__main__ import ROOT_DIR
 
 
 def setup_logger(name: str) -> logging.Logger:
+    """
+    Erstellt und Konfiguriert einen Logger mit dem übergebenen Namen.
+
+    :param name: Name des Loggers.
+    :return: Logger.
+    """
     logging_format = "%(asctime)-15s %(module)-25s %(levelname)-8s %(message)s"
     date_format = "%d.%m.%y %H:%M"
 

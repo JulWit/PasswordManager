@@ -56,6 +56,9 @@
      </item>
      <item row="1" column="1">
       <widget class="QLineEdit" name="nameLineEdit">
+       <property name="maxLength">
+        <number>128</number>
+       </property>
        <property name="placeholderText">
         <string>Name</string>
        </property>
@@ -73,6 +76,9 @@
      </item>
      <item row="2" column="1">
       <widget class="QLineEdit" name="descriptionLineEdit">
+       <property name="maxLength">
+        <number>128</number>
+       </property>
        <property name="placeholderText">
         <string>Beschreibung</string>
        </property>

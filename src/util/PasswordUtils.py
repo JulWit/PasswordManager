@@ -1,8 +1,10 @@
 import re
 from password_strength import PasswordPolicy, PasswordStats
 
+# Passwort-Regex
 pw_regex = re.compile(r"^(?=.*[A-Z])(?=.*[\W])(?=.*[0-9])(?=.*[a-z]).{8,}$")
 
+# Passwort-Policy
 policy = PasswordPolicy.from_names(
     length=8,  # min length: 8
     uppercase=2,  # need min. 2 uppercase letters
@@ -13,7 +15,12 @@ policy = PasswordPolicy.from_names(
 
 
 def evaluate_password_strength(password: str) -> float:
-    """ Bestimmt anhand von Entropy-Bits die Stärke eines Passworts, Werte zwischen 0 und 1 """
+    """
+    Bestimmt anhand von Entropy-Bits die Stärke eines Passworts, Werte zwischen 0 und 1
+
+    :param password: Passwort.
+    :return: Stärke des Passworts.
+    """
     if len(password) < 1:
         return 0
     return PasswordStats(password).strength()

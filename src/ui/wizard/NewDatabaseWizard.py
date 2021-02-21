@@ -11,10 +11,21 @@ from src.ui.wizard.PasswordWizardPage import PasswordWizardPage
 
 
 class NewDatabaseWizard(QWizard):
+    """
+    Wizard für die Erstellung neuer Datenbanken.
+    """
+
+    # UI-Datei
     UI_FILE = ROOT_DIR + "/ui/NewDatabaseWizard.ui"
+
+    # Hintergrundbild
     BACKGROUND_IMAGE = ROOT_DIR + "/img/logo.svg"
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:
+        """
+        Initialisiert ein neues NewDatabaseWizard-Objekt.
+        :param parent:
+        """
         super(NewDatabaseWizard, self).__init__(parent)
 
         # Setup UI
@@ -28,6 +39,11 @@ class NewDatabaseWizard(QWizard):
         self.addPage(self.password_page)
 
     def database_data(self) -> DBData:
+        """
+        Gibt die eingegebene Datenbankinformationen zurück.
+
+        :return: Datenbankinformationen.
+        """
         name = self.name_page.name()
         description = self.name_page.description()
         password = self.password_page.password()

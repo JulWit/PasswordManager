@@ -6,6 +6,11 @@ from src.ui.MainWindow import MainWindow
 
 
 def main() -> None:
+    """
+    Startet die Anwendung.
+
+    :return: None.
+    """
     logger = Logger.setup_logger("Logger")
     logger.debug("Logging gestartet")
 
