@@ -32,7 +32,7 @@ class WelcomeWidget(QWidget):
         super(WelcomeWidget, self).__init__(parent)
 
         # Setup logging
-        self.logger = logging.getLogger('Logger')
+        self.logger = logging.getLogger("Logger")
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)

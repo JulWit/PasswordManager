@@ -27,6 +27,7 @@ class Entry:
         self.url = url
         self.notes = notes
         self.modified = modified
+        self.icon = None
 
     def __str__(self) -> str:
         """

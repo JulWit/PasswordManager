@@ -2,6 +2,7 @@ import logging
 
 from typing import Optional, List
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget
 
 from src.db.Entry import Entry
@@ -53,6 +54,12 @@ class TableModel(QAbstractTableModel):
             return None
 
         if not 0 <= index.row() < len(self.entries):
+            return None
+
+        if role == Qt.DecorationRole:
+            entry = self.entries[index.row()]
+            if index.column() == 1:
+                return QIcon("/home/marius/PycharmProjects/PasswordManager" + "/src/util/favicon-2.ico")
             return None
 
         if role == Qt.DisplayRole:

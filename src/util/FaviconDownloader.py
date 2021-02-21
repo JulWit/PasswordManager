@@ -7,15 +7,15 @@ def download_favicon(url):
     # Methode zum Downloaden des Favicons einer bestimmten URL
 
     # Favicon URL herausfinden
-    icon = favicon.get(url)
-    icon = icon[0]
+    icons = favicon.get(url)
+    icon = icons[0]
 
     # Name der Datei erstellen
     i = 1
     file_pattern = 'favicon-%s.%s'
     while os.path.exists(file_pattern % (i, icon.format)):
         i += 1
-    file_name = file_pattern % (i, icon.format)
+    file_name = file_pattern % (i, format(icon.format))
 
     # Favicon Downloaden
     response = requests.get(icon.url, stream=True)
@@ -26,5 +26,5 @@ def download_favicon(url):
 
 # Methode testen
 download_favicon("https://www.fh-swf.de")
-# download_favicon("http://google.com")
+#download_favicon("http://google.com")
 # download_favicon("google.com")
