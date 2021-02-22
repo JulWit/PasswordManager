@@ -1,12 +1,12 @@
 import logging
 import sqlcipher3
 
-from typing import Optional, List
+from typing import List, Optional
 from sqlite3 import Connection, Cursor
 
 
 # Vorwärtsdeklaration
-class DBConnection:
+class DBConnection(object):
     pass
 
 
@@ -15,7 +15,7 @@ class Singleton:
     Singeleton Dekorierer.
 
     :attributes:
-        _instanz: Einzige Instanz der dekorierten Klasse.
+        _instance: Einzige Instanz der dekorierten Klasse.
     """
 
     _instance = None
@@ -46,7 +46,7 @@ class Singleton:
 
         :return: None.
         """
-        del cls._instance
+        cls._instance = None
 
     @classmethod
     def instance(cls) -> Optional[DBConnection]:
@@ -60,7 +60,7 @@ class Singleton:
 
 
 @Singleton
-class DBConnection:
+class DBConnection(object):
     """
     Verwaltet eine Verbindung zur Datenbank.
     Stellt ein connection- und ein cursor-Objekt für Datenbankanfragen zur Verfügung.

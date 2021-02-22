@@ -1,6 +1,6 @@
 from typing import Optional
 
-from PySide6.QtCore import Slot
+from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtWidgets import QFrame, QWidget, QLabel
 
@@ -31,6 +31,9 @@ class EntryDetailsFrame(QFrame):
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
 
+        # Connect Signals/Slots
+        QMetaObject.connectSlotsByName(self)
+
     @Slot()
     def entry_changed(self, entry: Entry):
         """
@@ -41,10 +44,11 @@ class EntryDetailsFrame(QFrame):
         :return: None.
         """
         self._entry = entry
+        self.ui.echoButton.setChecked(False)
         if entry is not None:
             self.ui.titleLabel.setText(entry.title)
             self.ui.usernameLabel.setText(entry.username)
-            self.ui.passwordLabel.setText(entry.password)
+            self.ui.passwordLabel.setText("*" * len(entry.password))
             self.ui.urlLabel.setText(entry.url)
             self.ui.notesLabel.setText(entry.notes)
 
@@ -56,3 +60,15 @@ class EntryDetailsFrame(QFrame):
             for label in labels:
                 label.clear()
 
+    @Slot()
+    def on_echoButton_clicked(self) -> None:
+        """
+        Wird aufgerufen, wenn der echo-Button geklickt wurde.
+        Ändert den echo-Mode des Passwort-Labels.
+
+        :return: None.
+        """
+        if self.ui.echoButton.isChecked():
+            self.ui.passwordLabel.setText(self._entry.password)
+        else:
+            self.ui.passwordLabel.setText("*" * len(self._entry.password))

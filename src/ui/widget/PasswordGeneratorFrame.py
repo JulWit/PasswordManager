@@ -50,7 +50,6 @@ class PasswordGeneratorFrame(QFrame):
         self.refresh_password_length_slider()
         self.new_password()
 
-
     @Slot()
     def new_password(self) -> None:
         self.refresh_password_length_slider()

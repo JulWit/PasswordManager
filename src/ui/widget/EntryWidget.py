@@ -1,9 +1,10 @@
 from typing import Optional
 
 from PySide6.QtCore import Signal, Slot, QMetaObject
-from PySide6.QtWidgets import QWidget, QLineEdit
+from PySide6.QtWidgets import QWidget, QLineEdit, QDialog
 from src.__main__ import ROOT_DIR
 from src.ui import UiLoader
+from src.ui.dialog.PasswordGeneratorDialog import PasswordGeneratorDialog
 
 
 class EntryWidget(QWidget):
@@ -34,6 +35,31 @@ class EntryWidget(QWidget):
         # Connect signals/slots
         QMetaObject.connectSlotsByName(self)
         self.ui.titleLineEdit.textChanged.connect(self.title_changed)
+
+    @Slot()
+    def on_echoButton_clicked(self) -> None:
+        """
+        Wird aufgerufen, wenn der echo-Button geklickt wurde.
+        Ändert den echo-Mode des Passwort-LineEdits.
+
+        :return: None.
+        """
+        if self.ui.echoButton.isChecked():
+            self.ui.passwordLineEdit.setEchoMode(QLineEdit.Normal)
+        else:
+            self.ui.passwordLineEdit.setEchoMode(QLineEdit.Password)
+
+    @Slot()
+    def on_passwordButton_clicked(self) -> None:
+        """
+        Wird aufgerufen, wenn der password-Button geklickt wurde.
+        Zeigt einen Dialog zum Generieren eines Passowrts an.
+
+        :return: None.
+        """
+        dialog = PasswordGeneratorDialog(self)
+        if dialog.exec_() == QDialog.Accepted:
+            self.ui.passwordLineEdit.setText(dialog.password())
 
     @Slot()
     def on_okButton_clicked(self) -> None:
