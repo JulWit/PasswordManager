@@ -6,6 +6,10 @@ from PySide6.QtCore import QByteArray, QFile, QIODevice
 
 import re
 
+from PySide6.QtGui import QPixmap
+
+from src.__main__ import ROOT_DIR
+
 
 def formaturl(url):
     if not re.match('(?:http|ftp|https)://', url):
@@ -30,7 +34,9 @@ def download_favicon(url):
         return img_bytes
 
     except:
-        return None
+        with open(ROOT_DIR + "/img/globe.svg", "rb") as image:
+            icon = image.read()
+        return bytearray(icon)
 
 
 """
