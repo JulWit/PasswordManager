@@ -60,7 +60,7 @@ class TableModel(QAbstractTableModel):
             entry = self.entries[index.row()]
             if index.column() == 1:
                 pixmap = QPixmap()
-                pixmap.loadFromData(entry.icon, "ICO")
+                pixmap.loadFromData(entry.icon, "")
                 return QIcon(pixmap)
             return None
 
