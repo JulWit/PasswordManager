@@ -232,6 +232,9 @@
    </property>
   </action>
   <action name="actionPasswordGenerator">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>../img/password-generator.svg</normaloff>../img/password-generator.svg</iconset>

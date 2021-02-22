@@ -96,7 +96,6 @@ class DBConnection:
             self.close()
             self.logger.error(f"Die Datenbank {file} konnte nicht entschlüsselt werden: {e}")
             raise e
-
         self.logger.debug(f"Die Datenbank {file} wurde erfolgreich entschlüsselt")
 
     @property

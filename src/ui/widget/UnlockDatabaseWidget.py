@@ -38,6 +38,9 @@ class UnlockDatabaseWidget(QWidget):
         # Datenbankdatei
         self._file = file
 
+        # Setup logging
+        self.logger = logging.getLogger("Logger")
+
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
         self.ui.pathLabel.setText(file)
