@@ -77,10 +77,14 @@ class WelcomeWidget(QWidget):
             if file:
                 connection = None
                 try:
-                    connection = DBConnection(file, data.password)
+                    connection = sqlcipher3.connect(file)
+                    cursor = connection.cursor()
+                    cursor.execute(f"PRAGMA KEY={data.password}")
 
-                    connection.execute("DROP TABLE IF EXISTS Entries;")
-                    connection.execute("""CREATE TABLE Entries (
+                    cursor.execute("DROP TABLE IF EXISTS Entries;")
+                    connection.commit()
+
+                    cursor.execute("""CREATE TABLE Entries (
                                             id          INTEGER PRIMARY KEY AUTOINCREMENT,
                                             title       VARCHAR(128) NOT NULL,
                                             username    VARCHAR(128),
@@ -90,20 +94,22 @@ class WelcomeWidget(QWidget):
                                             icon        BLOB,
                                             modified    DATE DEFAULT CURRENT_TIMESTAMP
                                         );"""
-                                       )
+                                   )
                     connection.commit()
 
-                    connection.execute("DROP TABLE IF EXISTS Metadata;")
-                    connection.execute("""CREATE TABLE Metadata (
+                    cursor.execute("DROP TABLE IF EXISTS Metadata;")
+                    connection.commit()
+
+                    cursor.execute("""CREATE TABLE Metadata (
                                             id          INTEGER PRIMARY KEY AUTOINCREMENT,
                                             name        VARCHAR(128) NOT NULL,
                                             description VARCHAR(128)
                                         );"""
-                                       )
+                                   )
                     connection.commit()
 
                     query = "INSERT INTO Metadata (name, description) VALUES (?, ?);"
-                    connection.execute(query, (data.name, data.description))
+                    cursor.execute(query, (data.name, data.description))
                     connection.commit()
                 except sqlcipher3.dbapi2.DatabaseError as e:
                     connection.close()

@@ -86,6 +86,7 @@ class MainWindow(QMainWindow):
         self.welcome_widget.open.connect(self.show_unlock_widget)
         self.unlock_widget.unlock.connect(self.database_widget.database_changed)
         self.unlock_widget.unlock.connect(self.show_database_widget)
+        self.unlock_widget.cancel.connect(self.show_welcome_widget)
         self.database_widget.entrySelectionChanged.connect(self.edit_entry_widget.entry_changed)
         self.new_entry_widget.ok.connect(self.show_database_widget)
         self.new_entry_widget.cancel.connect(self.show_database_widget)

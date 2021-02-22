@@ -80,6 +80,7 @@ class UnlockDatabaseWidget(QWidget):
 
         :return: None.
         """
+        self.ui.passwordLineEdit.clear()
         self.cancel.emit()
 
     @Slot()
