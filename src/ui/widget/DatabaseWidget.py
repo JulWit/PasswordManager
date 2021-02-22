@@ -39,6 +39,9 @@ class DatabaseWidget(QWidget):
         self.ui = UiLoader.loadUi(self.UI_FILE, self, {"EntryDetailsFrame": EntryDetailsFrame})
         self.ui.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
 
+        # Splitter anpassen
+        self.ui.splitter.setSizes([400, 50])
+
         # Setup Models
         self.model = None
         self.proxy_model = None
