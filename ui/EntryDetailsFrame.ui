@@ -126,7 +126,7 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="iconLabel">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -138,20 +138,20 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>40</width>
-            <height>40</height>
+            <width>20</width>
+            <height>20</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>40</width>
-            <height>40</height>
+            <width>20</width>
+            <height>20</height>
            </size>
           </property>
           <property name="baseSize">
            <size>
-            <width>50</width>
-            <height>50</height>
+            <width>20</width>
+            <height>20</height>
            </size>
           </property>
           <property name="layoutDirection">

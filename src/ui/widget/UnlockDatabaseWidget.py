@@ -35,6 +35,9 @@ class UnlockDatabaseWidget(QWidget):
         """
         super(UnlockDatabaseWidget, self).__init__(parent)
 
+        # Setup logging
+        self.logger = logging.getLogger("Logger")
+
         # Datenbankdatei
         self._file = file
 

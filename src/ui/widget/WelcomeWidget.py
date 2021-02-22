@@ -71,9 +71,7 @@ class WelcomeWidget(QWidget):
             data = wizard.database_data()
 
             # Speicherort der Datenbank erfragen
-            file = QFileDialog.getSaveFileName(self,
-                                               "Datenbank speichern",
-                                               QDir.homePath() + f"/{data.name}.db")[0]
+            file = QFileDialog.getSaveFileName(self, "Datenbank speichern", QDir.homePath() + f"/{data.name}.db")[0]
 
             # Wenn das Speichern abgebrochen wurde ist file = None
             if file:
@@ -89,6 +87,7 @@ class WelcomeWidget(QWidget):
                                             password    VARCHAR(128),
                                             url         VARCHAR(1024),
                                             notes       VARCHAR(128),
+                                            icon        BLOB,
                                             modified    DATE DEFAULT CURRENT_TIMESTAMP
                                         );"""
                                        )

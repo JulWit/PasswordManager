@@ -1,6 +1,7 @@
 from typing import Optional
 
 from PySide6.QtCore import Slot
+from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtWidgets import QFrame, QWidget, QLabel
 
 from src.__main__ import ROOT_DIR
@@ -46,6 +47,10 @@ class EntryDetailsFrame(QFrame):
             self.ui.passwordLabel.setText(entry.password)
             self.ui.urlLabel.setText(entry.url)
             self.ui.notesLabel.setText(entry.notes)
+
+            pixmap = QPixmap()
+            pixmap.loadFromData(entry.icon, "")
+            self.ui.iconLabel.setPixmap(pixmap)
         else:
             labels = self.ui.findChildren(QLabel)
             for label in labels:

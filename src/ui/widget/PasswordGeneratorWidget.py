@@ -1,7 +1,7 @@
 import logging
 from typing import Optional
 
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, Slot, QMetaObject
 from PySide6.QtWidgets import QWidget
 
 from src.__main__ import ROOT_DIR
@@ -18,7 +18,7 @@ class PasswordGeneratorWidget(QWidget):
     UI_FILE = ROOT_DIR + "/ui/PasswordGeneratorWidget.ui"
 
     # Signal, dass entsandt wird, wenn der abbrechen-Button geklickt wurde.
-    cancel = Signal()
+    back = Signal()
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:
         """
@@ -26,8 +26,12 @@ class PasswordGeneratorWidget(QWidget):
         """
         super(PasswordGeneratorWidget, self).__init__(parent)
 
-        # Setup logging
-        self.logger = logging.getLogger("Logger")
-
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self, {"PasswordGeneratorFrame": PasswordGeneratorFrame})
+
+        # Setup Signal/Slots
+        QMetaObject.connectSlotsByName(self)
+
+    @Slot()
+    def on_backButton_clicked(self) -> None:
+        self.back.emit()

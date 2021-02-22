@@ -1,5 +1,6 @@
 import logging
 from typing import Optional
+from urllib.parse import urlparse
 
 from PySide6.QtCore import Slot, Signal
 from PySide6.QtWidgets import QWidget
@@ -7,6 +8,7 @@ from PySide6.QtWidgets import QWidget
 from src.db.DBConnection import DBConnection
 from src.db.Entry import Entry
 from src.ui.widget.EntryWidget import EntryWidget
+from src.util.FaviconDownloader import download_favicon
 
 
 class NewEntryWidget(EntryWidget):
@@ -38,8 +40,9 @@ class NewEntryWidget(EntryWidget):
         password = self.ui.passwordLineEdit.text()
         url = self.ui.urlLineEdit.text()
         notes = self.ui.notesTextEdit.toPlainText()
+        icon = download_favicon(url)
 
-        self.entryCreated.emit(Entry(None, title, username, password, url, notes))
+        self.entryCreated.emit(Entry(None, title, username, password, url, notes, icon))
         self.ok.emit()
         self.clear()
 

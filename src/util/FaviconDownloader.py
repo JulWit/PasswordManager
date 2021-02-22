@@ -2,29 +2,46 @@ import favicon
 import requests
 import os
 
+from PySide6.QtCore import QByteArray, QFile, QIODevice
+
+import re
+
+from PySide6.QtGui import QPixmap
+
+from src.__main__ import ROOT_DIR
+
+
+def formaturl(url):
+    if not re.match('(?:http|ftp|https)://', url):
+        return 'http://{}'.format(url)
+    return url
+
 
 def download_favicon(url):
     # Methode zum Downloaden des Favicons einer bestimmten URL
 
     # Favicon URL herausfinden
-    icon = favicon.get(url)
-    icon = icon[0]
+    try:
+        icons = favicon.get(formaturl(url), timeout=2)
+        icon = icons[0]
 
-    # Name der Datei erstellen
-    i = 1
-    file_pattern = 'favicon-%s.%s'
-    while os.path.exists(file_pattern % (i, icon.format)):
-        i += 1
-    file_name = file_pattern % (i, icon.format)
-
-    # Favicon Downloaden
-    response = requests.get(icon.url, stream=True)
-    with open('{}'.format(file_name), 'wb') as image:
+        # Favicon Downloaden
+        response = requests.get(icon.url, stream=True)
+        img_bytes = QByteArray()
         for chunk in response.iter_content(1024):
-            image.write(chunk)
+            img_bytes.append(chunk)
+
+        return img_bytes
+
+    except:
+        with open(ROOT_DIR + "/img/globe.svg", "rb") as image:
+            icon = image.read()
+        return bytearray(icon)
 
 
-# Methode testen
-download_favicon("https://www.fh-swf.de")
-# download_favicon("http://google.com")
-# download_favicon("google.com")
+"""
+    file = QFile("/home/marius/test.ico")
+    file.open(QIODevice.WriteOnly)
+    file.write(img_bytes)
+    file.close()
+"""

@@ -63,6 +63,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.password_generator_widget)
         self.ui.toolBar.addWidget(self.searchBar)
 
+        self.last_widget = None
         self.setCentralWidget(self.stacked_widget)
         self.setWindowIcon(QIcon(self.ICON_FILE))
         self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
@@ -92,6 +93,7 @@ class MainWindow(QMainWindow):
         self.edit_entry_widget.ok.connect(self.show_database_widget)
         self.edit_entry_widget.cancel.connect(self.show_database_widget)
         self.edit_entry_widget.entryEdited.connect(self.database_widget.edit_entry)
+        self.password_generator_widget.back.connect(self.show_last_widget)
         self.searchBar.textChanged.connect(self.database_widget.filter)
 
     @Slot()
@@ -244,8 +246,11 @@ class MainWindow(QMainWindow):
 
         :return: None.
         """
-        self.stacked_widget.setCurrentWidget(self.password_generator_widget)
-        self.disable_entry_actions()
+        if self.ui.actionPasswordGenerator.isChecked():
+            self.last_widget = self.stacked_widget.currentWidget()
+            self.show_password_generator_widget()
+        else:
+            self.show_last_widget()
 
     @Slot()
     def on_actionAbout_triggered(self) -> None:
@@ -301,6 +306,26 @@ class MainWindow(QMainWindow):
     def show_edit_entry_widget(self) -> None:
         self.stacked_widget.setCurrentWidget(self.edit_entry_widget)
         self.disable_entry_actions()
+
+    @Slot()
+    def show_password_generator_widget(self) -> None:
+        self.stacked_widget.setCurrentWidget(self.password_generator_widget)
+        self.disable_database_actions()
+        self.disable_entry_actions()
+
+    @Slot()
+    def show_last_widget(self) -> None:
+        self.ui.actionPasswordGenerator.setChecked(False)
+        if self.last_widget == self.welcome_widget:
+            self.show_welcome_widget()
+        elif self.last_widget == self.unlock_widget:
+            self.show_unlock_widget()
+        elif self.last_widget == self.database_widget:
+            self.show_database_widget()
+        elif self.last_widget == self.new_entry_widget:
+            self.show_new_entry_widget()
+        elif self.last_widget == self.edit_entry_widget:
+            self.show_edit_entry_widget()
 
     @Slot()
     def showContextMenu(self, pos) -> None:
