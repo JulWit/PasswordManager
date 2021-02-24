@@ -9,7 +9,7 @@ from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu, QApplication, QMessageBox
 
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 from src.db.DBConnection import DBConnection
 from src.ui.dialog.AboutDialog import AboutDialog
 from src.ui.dialog.ConfirmDeletionMessageBox import ConfirmDeletetionMessageBox

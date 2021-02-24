@@ -1,23 +1,17 @@
 import favicon
 import requests
-import os
-
-from PySide6.QtCore import QByteArray, QFile, QIODevice
-
 import re
-
-from PySide6.QtGui import QPixmap
-
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
+from PySide6.QtCore import QByteArray
 
 
-def formaturl(url):
+def formaturl(url) -> str:
     if not re.match('(?:http|ftp|https)://', url):
         return 'http://{}'.format(url)
     return url
 
 
-def download_favicon(url):
+def download_favicon(url) -> bytearray:
     # Methode zum Downloaden des Favicons einer bestimmten URL
 
     # Favicon URL herausfinden
@@ -37,11 +31,3 @@ def download_favicon(url):
         with open(ROOT_DIR + "/img/globe.svg", "rb") as image:
             icon = image.read()
         return bytearray(icon)
-
-
-"""
-    file = QFile("/home/marius/test.ico")
-    file.open(QIODevice.WriteOnly)
-    file.write(img_bytes)
-    file.close()
-"""

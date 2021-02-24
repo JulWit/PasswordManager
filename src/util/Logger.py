@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 
 
 def setup_logger(name: str) -> logging.Logger:

@@ -3,7 +3,7 @@ from typing import Optional
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWizard, QWidget
 
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 from src.db.DBData import DBData
 from src.ui import UiLoader
 from src.ui.wizard.NameWizardPage import NameWizardPage

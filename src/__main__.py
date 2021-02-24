@@ -1,8 +1,4 @@
-import os
-import PasswordManager
-
-# Root-Verzeichnis der Anwendung
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+from src import PasswordManager
 
 if __name__ == '__main__':
     """

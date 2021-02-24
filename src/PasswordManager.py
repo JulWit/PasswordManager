@@ -5,7 +5,7 @@ from src.util import Logger
 from src.ui.MainWindow import MainWindow
 
 
-def main() -> None:
+def main():
     """
     Startet die Anwendung.
 

@@ -3,7 +3,7 @@ from typing import Optional
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QLineEdit, QWidget
 
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 
 
 class SearchBar(QLineEdit):

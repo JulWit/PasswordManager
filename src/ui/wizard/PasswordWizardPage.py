@@ -3,7 +3,7 @@ from typing import Optional
 
 from PySide6.QtWidgets import QWizardPage, QWidget
 
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 from src.ui import UiLoader
 from src.util import PasswordUtils
 

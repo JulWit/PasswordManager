@@ -3,7 +3,7 @@ from typing import Optional
 from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtWidgets import QFrame, QWidget, QApplication, QLineEdit
 
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 from src.ui import UiLoader
 from src.util import PasswordUtils
 from src.util.PasswordGenerator import password_combination, password_generator
