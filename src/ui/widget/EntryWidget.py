@@ -2,7 +2,7 @@ from typing import Optional
 
 from PySide6.QtCore import Signal, Slot, QMetaObject
 from PySide6.QtWidgets import QWidget, QLineEdit, QDialog
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 from src.ui import UiLoader
 from src.ui.dialog.PasswordGeneratorDialog import PasswordGeneratorDialog
 

@@ -6,7 +6,7 @@ from typing import Optional
 from PySide6.QtCore import QMetaObject, Slot, Signal
 from PySide6.QtWidgets import QWidget
 
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 from src.db.DBConnection import DBConnection
 from src.ui import UiLoader
 from src.ui.dialog.DecryptionFailedMessageBox import DecryptionFailedMessageBox

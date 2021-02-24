@@ -4,7 +4,7 @@ from PySide6.QtCore import Slot, QMetaObject
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtWidgets import QFrame, QWidget, QLabel
 
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 from src.db.Entry import Entry
 from src.ui import UiLoader
 

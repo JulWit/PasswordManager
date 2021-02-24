@@ -5,7 +5,7 @@ from PySide6.QtCore import Slot, Signal, QModelIndex, QSortFilterProxyModel
 from PySide6.QtGui import Qt
 from PySide6.QtWidgets import QWidget
 
-from src.__main__ import ROOT_DIR
+from src import ROOT_DIR
 from src.db.DBConnection import DBConnection
 from src.db.Entry import Entry
 from src.db.TableModel import TableModel

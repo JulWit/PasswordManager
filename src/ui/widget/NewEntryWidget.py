@@ -1,11 +1,8 @@
-import logging
 from typing import Optional
-from urllib.parse import urlparse
 
 from PySide6.QtCore import Slot, Signal
 from PySide6.QtWidgets import QWidget
 
-from src.db.DBConnection import DBConnection
 from src.db.Entry import Entry
 from src.ui.widget.EntryWidget import EntryWidget
 from src.util.FaviconDownloader import download_favicon
