@@ -77,6 +77,7 @@ class MainWindow(QMainWindow):
         self.entryContextMenu.addAction(self.ui.actionCopyUsername)
         self.entryContextMenu.addAction(self.ui.actionCopyPassword)
         self.entryContextMenu.addAction(self.ui.actionCopyUrl)
+        self.entryContextMenu.addSeparator()
         self.entryContextMenu.addAction(self.ui.actionOpenUrl)
 
         # Connect signals / slots

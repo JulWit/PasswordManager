@@ -15,6 +15,7 @@ def main() -> None:
     logger.debug("Logging gestartet")
 
     app = QApplication(sys.argv)
+    app.setApplicationName("Passwort Manager")
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())

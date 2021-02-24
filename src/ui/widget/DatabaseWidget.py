@@ -73,7 +73,6 @@ class DatabaseWidget(QWidget):
 
         # Setup UI
         self.ui.tableView.setModel(self.proxy_model)
-        self.ui.tableView.resizeColumnsToContents()
         self.ui.tableView.setColumnHidden(0, True)
         self.ui.tableView.selectRow(0)
 
