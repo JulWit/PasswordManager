@@ -7,8 +7,8 @@ from PySide6.QtWidgets import QWidget
 
 from src import ROOT_DIR
 from src.db.DBConnection import DBConnection
-from src.db.Entry import Entry
-from src.db.TableModel import TableModel
+from src.model.Entry import Entry
+from src.model.TableModel import TableModel
 from src.ui import UiLoader
 from src.ui.widget.EntryDetailsFrame import EntryDetailsFrame
 

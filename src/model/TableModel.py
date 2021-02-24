@@ -5,7 +5,7 @@ from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QWidget
 
-from src.db.Entry import Entry
+from src.model.Entry import Entry
 
 
 class TableModel(QAbstractTableModel):

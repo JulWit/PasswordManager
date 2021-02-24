@@ -3,7 +3,7 @@ from typing import Optional
 from PySide6.QtCore import Slot, Signal
 from PySide6.QtWidgets import QWidget
 
-from src.db.Entry import Entry
+from src.model.Entry import Entry
 from src.ui.widget.EntryWidget import EntryWidget
 from src.util.FaviconDownloader import download_favicon
 

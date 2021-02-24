@@ -4,7 +4,7 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWizard, QWidget
 
 from src import ROOT_DIR
-from src.db.DBData import DBData
+from src.ui.wizard.DBData import DBData
 from src.ui import UiLoader
 from src.ui.wizard.NameWizardPage import NameWizardPage
 from src.ui.wizard.PasswordWizardPage import PasswordWizardPage

@@ -1,11 +1,11 @@
 from typing import Optional
 
 from PySide6.QtCore import Slot, QMetaObject
-from PySide6.QtGui import QPixmap, QIcon
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QFrame, QWidget, QLabel
 
 from src import ROOT_DIR
-from src.db.Entry import Entry
+from src.model.Entry import Entry
 from src.ui import UiLoader
 
 
