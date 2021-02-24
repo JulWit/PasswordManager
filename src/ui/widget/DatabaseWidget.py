@@ -115,7 +115,7 @@ class DatabaseWidget(QWidget):
         """
         if self.selection_model.hasSelection():
             index = self.selection_model.currentIndex()
-            entry = self.model.entries[index.row()]
+            entry = self.model._data[index.row()]
             return entry
         return None
 
@@ -205,7 +205,7 @@ class DatabaseWidget(QWidget):
         :return: None.
         """
         try:
-            row = self.model.entries.index(entry)
+            row = self.model._data.index(entry)
             self.model.removeRow(row)
             query = "DELETE FROM Entries WHERE id = ?"
             connection = DBConnection.instance()

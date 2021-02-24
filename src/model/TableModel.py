@@ -37,9 +37,9 @@ class TableModel(QAbstractTableModel):
         }
 
         if data is None:
-            self.entries = []
+            self._data = []
         else:
-            self.entries = data
+            self._data = data
 
     def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.DisplayRole) -> Optional[str]:
         """
@@ -53,11 +53,11 @@ class TableModel(QAbstractTableModel):
         if not index.isValid():
             return None
 
-        if not 0 <= index.row() < len(self.entries):
+        if not 0 <= index.row() < len(self._data):
             return None
 
         if role == Qt.DecorationRole:
-            entry = self.entries[index.row()]
+            entry = self._data[index.row()]
             if index.column() == 1:
                 pixmap = QPixmap()
                 pixmap.loadFromData(entry.icon, "")
@@ -65,7 +65,7 @@ class TableModel(QAbstractTableModel):
             return None
 
         if role == Qt.DisplayRole:
-            entry = self.entries[index.row()]
+            entry = self._data[index.row()]
             if index.column() == 0:
                 return entry.id
             elif index.column() == 1:
@@ -93,14 +93,14 @@ class TableModel(QAbstractTableModel):
         """
 
         if role == Qt.DecorationRole:
-            entry = self.entries[index.row()]
+            entry = self._data[index.row()]
             if index.column() == 1:
                 entry.icon = value
             return False
 
         if role == Qt.EditRole:
-            if index.isValid() and 0 <= index.row() < len(self.entries):
-                entry = self.entries[index.row()]
+            if index.isValid() and 0 <= index.row() < len(self._data):
+                entry = self._data[index.row()]
                 if index.column() == 0:
                     entry.id = value
                 elif index.column() == 1:
@@ -127,7 +127,7 @@ class TableModel(QAbstractTableModel):
         :param parent: parent-Element.
         :return: Anzahl der Zeilen.
         """
-        return len(self.entries)
+        return len(self._data)
 
     def columnCount(self, parent: QModelIndex = QModelIndex()) -> int:
         """
@@ -166,7 +166,7 @@ class TableModel(QAbstractTableModel):
         """
         self.beginInsertRows(QModelIndex(), position, position + rows - 1)
         for row in range(rows):
-            self.entries.insert(position + row, Entry())
+            self._data.insert(position + row, Entry())
         self.endInsertRows()
         return True
 
@@ -181,6 +181,6 @@ class TableModel(QAbstractTableModel):
         :return: True, wenn das Entfernen funktioniert hat.
         """
         self.beginRemoveRows(QModelIndex(), position, position + rows - 1)
-        del self.entries[position:position + rows]
+        del self._data[position:position + rows]
         self.endRemoveRows()
         return True
