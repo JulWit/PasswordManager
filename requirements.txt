@@ -3,5 +3,3 @@ sqlcipher3-binary~=0.4.5
 password-strength~=0.0.3.post2
 favicon~=0.7.0
 requests~=2.25.1
-setuptools~=53.0.0
-pypandoc~=1.5

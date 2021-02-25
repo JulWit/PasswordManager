@@ -5,11 +5,6 @@ from typing import List, Optional
 from sqlite3 import Connection, Cursor
 
 
-# Vorwärtsdeklaration
-class DBConnection(object):
-    pass
-
-
 class Singleton:
     """
     Singeleton Dekorierer.
@@ -26,7 +21,7 @@ class Singleton:
         """
         self._class_name = class_name
 
-    def __call__(self, *args: str, **kwargs: str) -> DBConnection:
+    def __call__(self, *args: str, **kwargs: str):
         """
         Wird beim Aufruf der dekorierten Klasse aufgerufen. Gibt die einzige Instanz der dekorierten Klasse zurück.
         Falls keine Instanz existiert wird eine Instanz erzeugt.
@@ -49,7 +44,7 @@ class Singleton:
         cls._instance = None
 
     @classmethod
-    def instance(cls) -> Optional[DBConnection]:
+    def instance(cls):
         """
         Gibt die einzige Instanz der Klasse zurück, falls diese existiert.
         Existiert keine Instanz wird None zurückgegeben

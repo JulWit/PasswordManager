@@ -26,6 +26,7 @@ class PasswordGeneratorFrame(QFrame):
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
         self.ui.passwordLineEdit.textChanged.connect(self.refresh_password_strength)
+        self.ui.passwordLineEdit.textChanged.connect(self.password_changed)
 
         # Connect signals / slots
         QMetaObject.connectSlotsByName(self)
@@ -49,6 +50,10 @@ class PasswordGeneratorFrame(QFrame):
         self.refresh_included_characters()
         self.refresh_password_length_slider()
         self.new_password()
+
+    @Slot()
+    def password_changed(self) -> None:
+        self.password = self.ui.passwordLineEdit.text()
 
     @Slot()
     def new_password(self) -> None:

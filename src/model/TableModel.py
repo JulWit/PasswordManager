@@ -73,7 +73,10 @@ class TableModel(QAbstractTableModel):
             elif index.column() == 2:
                 return entry.username
             elif index.column() == 3:
-                return "*" * 8
+                if len(entry.password) > 0:
+                    return "*" * 8
+                else:
+                    return ""
             elif index.column() == 4:
                 return entry.url
             elif index.column() == 5:
