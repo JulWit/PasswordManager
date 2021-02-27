@@ -1,5 +1,4 @@
 Installation:
-
 1. `sudo apt install git`
 2. `sudo apt install libopengl0`
 3. `sudo apt install python3-pip`
