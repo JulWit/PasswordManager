@@ -75,6 +75,7 @@ class DatabaseWidget(QWidget):
         self.ui.tableView.setModel(self.proxy_model)
         self.ui.tableView.setColumnHidden(0, True)
         self.ui.tableView.selectRow(0)
+        self.ui.entryDetailsFrame.clear_details()
 
         # Setup SelectionModel
         self.selection_model = self.ui.tableView.selectionModel()
@@ -83,6 +84,7 @@ class DatabaseWidget(QWidget):
         self.selection_model.selectionChanged.connect(self.selection_changed)
         self.model.layoutChanged.connect(self.selection_changed)
         self.selection_changed()
+
 
     @Slot()
     def selection_changed(self) -> None:
@@ -127,6 +129,8 @@ class DatabaseWidget(QWidget):
         """
         entry = self.selected_entry()
         self.delete_entry(entry)
+        if not self.selected_entry():
+            self.ui.entryDetailsFrame.clear_details()
 
     @Slot(Entry)
     def new_entry(self, entry: Entry) -> None:

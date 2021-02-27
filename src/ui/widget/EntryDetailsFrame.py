@@ -56,9 +56,19 @@ class EntryDetailsFrame(QFrame):
             pixmap.loadFromData(entry.icon, "")
             self.ui.iconLabel.setPixmap(pixmap)
         else:
-            labels = self.ui.findChildren(QLabel)
-            for label in labels:
-                label.clear()
+            self.clear_details()
+
+    @Slot()
+    def clear_details(self) -> None:
+        self.ui.titleLabel.clear()
+        self.ui.usernameLabel.clear()
+        self.ui.passwordLabel.clear()
+        self.ui.urlLabel.clear()
+        self.ui.notesLabel.clear()
+
+        pixmap = QPixmap(ROOT_DIR + "/img/globe.svg")
+        self.ui.iconLabel.setPixmap(pixmap)
+
 
     @Slot()
     def on_echoButton_clicked(self) -> None:

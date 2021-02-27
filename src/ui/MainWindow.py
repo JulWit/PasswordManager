@@ -249,10 +249,12 @@ class MainWindow(QMainWindow):
         :return: None.
         """
         if self.ui.actionPasswordGenerator.isChecked():
+            self.ui.actionOpenDatabase.setDisabled(True)
             self.last_widget = self.stacked_widget.currentWidget()
             self.show_password_generator_widget()
         else:
             self.show_last_widget()
+            self.ui.actionOpenDatabase.setEnabled(True)
 
     @Slot()
     def on_actionAbout_triggered(self) -> None:
@@ -318,6 +320,7 @@ class MainWindow(QMainWindow):
     @Slot()
     def show_last_widget(self) -> None:
         self.ui.actionPasswordGenerator.setChecked(False)
+        self.ui.actionOpenDatabase.setEnabled(True)
         if self.last_widget == self.welcome_widget:
             self.show_welcome_widget()
         elif self.last_widget == self.unlock_widget:
