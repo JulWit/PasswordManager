@@ -57,6 +57,10 @@ class PasswordGeneratorFrame(QFrame):
 
     @Slot()
     def new_password(self) -> None:
+        """
+        Erzeugt ein neues Passwort unter Berücksichtigung der Vorgaben
+        :return: None
+        """
         self.refresh_password_length_slider()
         self.refresh_included_characters()
 
@@ -77,14 +81,26 @@ class PasswordGeneratorFrame(QFrame):
 
     @Slot()
     def refresh_password_length_label(self) -> None:
+        """
+        Aktualisiert die Anzeige für die Länge des zu generierenden Passworts
+        :return: None
+        """
         self.ui.passwordLengthLabel.setText(str(self.password_length))
 
     @Slot()
     def refresh_password_length_slider(self) -> None:
+        """
+        Aktualisiert die Anzahl von Zeichen anhand der Sliderposition die das zu generiende Passwort haben soll.
+        :return: None
+        """
         self.password_length = self.ui.passwordLengthSlider.value()
 
     @Slot()
     def refresh_included_characters(self) -> None:
+        """
+        Aktualisiert die Liste der für die Passwort generierung zu verwendenden Zeichen.
+        :return:  None
+        """
         self.included_characters = password_combination(self.ui.capitalLettersCheckBox.isChecked(),
                                                         self.ui.numbersCheckBox.isChecked(),
                                                         self.ui.spacesCheckBox.isChecked(),
@@ -93,15 +109,27 @@ class PasswordGeneratorFrame(QFrame):
 
     @Slot()
     def on_refreshButton_clicked(self) -> None:
+        """
+        Generiert bei einem Button-click auf refresh ein neues Passwort unter Beachtung der Vorgaben
+        :return: None
+        """
         self.new_password()
 
     @Slot()
     def on_copyToClipboardButton_clicked(self) -> None:
+        """
+        Kopiert das generierte Passwort in die Zwischenablage
+        :return: None
+        """
         clipboard = QApplication.clipboard()
         clipboard.setText(self.password)
 
     @Slot()
     def on_echoButton_toggled(self) -> None:
+        """
+        Wechselt zwischen dem Anzeigen des Passworts in Klartext oder als unkenntlich gemachtes Passwort
+        :return:
+        """
         if self.ui.echoButton.isChecked():
             self.ui.passwordLineEdit.setEchoMode(QLineEdit.Normal)
         else:

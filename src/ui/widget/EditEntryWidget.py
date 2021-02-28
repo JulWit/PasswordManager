@@ -14,7 +14,7 @@ class EditEntryWidget(EntryWidget):
     Widget mit einer Maske für das Bearbeiten eines Eintrags.
     """
 
-    # Signal, dass entsandt wird, wenn ein Eintrag geändert wurde
+    # Signal, dass entsandt wird, wenn ein Eintrag geändert wurde, Empfänger ist das DatabaseWidget
     entryEdited = Signal(Entry)
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:

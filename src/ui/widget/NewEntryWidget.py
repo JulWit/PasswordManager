@@ -13,7 +13,7 @@ class NewEntryWidget(EntryWidget):
     Widget mit einer Maske für das Erstellen eines Eintrags.
     """
 
-    # Signal, dass entsandt wird, wenn ein neuer Eintrag erstell wurde
+    # Signal, dass entsandt wird, wenn ein neuer Eintrag erstell wurde, Empfänger ist das DatabaseWidget
     entryCreated = Signal(Entry)
 
     def __init__(self, parent: Optional[QWidget] = None) -> None:
