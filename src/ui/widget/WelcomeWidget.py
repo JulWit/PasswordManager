@@ -89,8 +89,8 @@ class WelcomeWidget(QWidget):
                                             title       VARCHAR(128) NOT NULL,
                                             username    VARCHAR(128),
                                             password    VARCHAR(128),
-                                            url         VARCHAR(1024),
-                                            notes       VARCHAR(128),
+                                            url         VARCHAR(512),
+                                            notes       VARCHAR(1024),
                                             icon        BLOB,
                                             modified    DATE DEFAULT CURRENT_TIMESTAMP
                                         );"""
