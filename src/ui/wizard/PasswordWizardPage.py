@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QWizardPage, QWidget
 
 from src import ROOT_DIR
 from src.ui import UiLoader
-from src.util import PasswordUtils
+from src.util import PasswordStrength
 
 
 class PasswordWizardPage(QWizardPage):
@@ -49,16 +49,8 @@ class PasswordWizardPage(QWizardPage):
 
         :return: None.
         """
-        strength = PasswordUtils.evaluate_password_strength(self.password())
-        color = "white"
-        if 0 <= strength < 0.25:
-            color = "red"
-        if 0.25 < strength < 0.50:
-            color = "orange"
-        elif 0.50 < strength < 0.75:
-            color = "MediumSeaGreen"
-        elif 0.75 < strength <= 1:
-            color = "green"
+        strength = PasswordStrength.evaluate_password_strength(self.password())
+        color = PasswordStrength.get_password_strength_category_color(strength)
         self.ui.passwordStrength.setStyleSheet("QProgressBar::chunk{background-color: " + color + "}")
         self.ui.passwordStrength.setValue(round(strength * 100, 0))
 
