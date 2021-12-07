@@ -4,11 +4,12 @@ Die Einträge werden in einer lokalen SQLite Datenbank gespeichert, welche mit A
 verschlüsselt wird.
 
 ## Funktionen
-* Verschlüsselte Speicherung von Einträgen, welche aus einem Benutzernamne, Passwort, URL und ggf. Notizen bestehen
-* Passwortgenerator mit anpassbarer Länge und Auswahl von Sonderzeichen
+* Verschlüsselte Speicherung von Einträgen, welche aus einem Benutzernamen, Passwort, URL und ggf. Notizen bestehen
+* Passwortgenerator mit anpassbarer Passwortlänge und enthaltenen Sonderzeichen
 * Einfaches kopieren von Benutzername und Passwort
 * Aufruf von gespeicherten URLs im Browser
 * Automatischer Favicon-Download für eingetragene URLs
+* Durchsuchen von Einträgen
 
 ## Bilder
 [![Screenshot-from-2021-12-07-05-22-17.png](https://i.postimg.cc/KcwCTbtw/Screenshot-from-2021-12-07-05-22-17.png)](https://postimg.cc/nMKd86RG)
