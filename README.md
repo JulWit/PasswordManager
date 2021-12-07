@@ -1,5 +1,5 @@
 # Passwort Manager
-Passwort Manager auf Basis von Python. Die grafische Benutzeroberfläche wurde mit PySide und Qt6 umgesetzt.
+Implementierung eines Passwort Managers in Python. Die grafische Benutzeroberfläche wurde mit PySide und Qt6 umgesetzt.
 Die Einträge werden in einer lokalen SQLite Datenbank gespeichert, welche mit AES256 und dem Betriebsmodus CBC
 verschlüsselt wird.
 
