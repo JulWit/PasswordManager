@@ -2,16 +2,18 @@ import logging
 from typing import Optional
 
 from PySide6.QtCore import Signal, Slot, QMetaObject
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget
 
 from src import ROOT_DIR
 from src.ui import UiLoader
 from src.ui.widget.PasswordGeneratorFrame import PasswordGeneratorFrame
+from src.util.Theme import icon_path
 
 
 class PasswordGeneratorWidget(QWidget):
     """
-    Widget für das generieren von Passwörtern
+    Widget für das Generieren von Passwörtern.
     """
 
     # Ui-Datei
@@ -28,6 +30,7 @@ class PasswordGeneratorWidget(QWidget):
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self, {"PasswordGeneratorFrame": PasswordGeneratorFrame})
+
 
         # Setup Signal/Slots
         QMetaObject.connectSlotsByName(self)

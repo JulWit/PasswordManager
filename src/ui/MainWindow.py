@@ -1,6 +1,7 @@
 import logging
 import sys
 import webbrowser
+from pathlib import Path
 
 from typing import Optional
 
@@ -12,7 +13,7 @@ from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget, QMenu, QAppl
 from src import ROOT_DIR
 from src.db.DBConnection import DBConnection
 from src.ui.dialog.AboutDialog import AboutDialog
-from src.ui.dialog.ConfirmDeletionMessageBox import ConfirmDeletetionMessageBox
+from src.ui.dialog.ConfirmDeletionMessageBox import ConfirmDeletionMessageBox
 from src.ui.dialog.DatabaseInformationDialog import DatabaseInformationDialog
 from src.ui.widget.DatabaseWidget import DatabaseWidget
 from src.ui.widget.EditEntryWidget import EditEntryWidget
@@ -22,13 +23,13 @@ from src.ui.widget.SearchBar import SearchBar
 from src.ui.widget.UnlockDatabaseWidget import UnlockDatabaseWidget
 from src.ui.widget.WelcomeWidget import WelcomeWidget
 from src.ui import UiLoader
+from src.util.Theme import is_dark_theme_enabled, icon_path
 
 
 class MainWindow(QMainWindow):
     """
     Hauptfenster der Anwendung.
     """
-
     # UI-Datei
     UI_FILE = ROOT_DIR + "/ui/MainWindow.ui"
 
@@ -83,7 +84,7 @@ class MainWindow(QMainWindow):
         # Connect signals / slots
         QMetaObject.connectSlotsByName(self)
         self.customContextMenuRequested.connect(self.showContextMenu)
-        self.welcome_widget.open.connect(self.unlock_widget.database_changed)
+        self.welcome_widget.open.connect(self.unlock_widget.on_database_changed)
         self.welcome_widget.open.connect(self.show_unlock_widget)
         self.unlock_widget.unlock.connect(self.database_widget.database_changed)
         self.unlock_widget.unlock.connect(self.show_database_widget)
@@ -98,10 +99,25 @@ class MainWindow(QMainWindow):
         self.password_generator_widget.back.connect(self.show_last_widget)
         self.searchBar.textChanged.connect(self.database_widget.filter)
 
+        self.set_action_icons()
+
+    def set_action_icons(self) -> None:
+        self.ui.actionOpenDatabase.setIcon(QIcon(str(icon_path / "document-open.svg")))
+        self.ui.actionLockDatabase.setIcon(QIcon(str(icon_path / "object-locked.svg")))
+        self.ui.actionNewEntry.setIcon(QIcon(str(icon_path / "entry-new.svg")))
+        self.ui.actionEditEntry.setIcon(QIcon(str(icon_path / "entry-edit.svg")))
+        self.ui.actionDeleteEntry.setIcon(QIcon(str(icon_path / "entry-delete.svg")))
+        self.ui.actionCopyUsername.setIcon(QIcon(str(icon_path / "username-copy.svg")))
+        self.ui.actionCopyPassword.setIcon(QIcon(str(icon_path / "password-copy.svg")))
+        self.ui.actionCopyUrl.setIcon(QIcon(str(icon_path / "url-copy.svg")))
+        self.ui.actionOpenUrl.setIcon(QIcon(str(icon_path / "web.svg")))
+        self.ui.actionPasswordGenerator.setIcon(QIcon(str(icon_path / "password-generate.svg")))
+        self.ui.actionAbout.setIcon(QIcon(str(icon_path / "help-about.svg")))
+
     @Slot()
     def on_actionNewDatabase_triggered(self) -> None:
         """
-        Wird aufgerufen, wenn die Aktion für die Erstelltung einer neuen Datenbank geklickt wurde.
+        Wird aufgerufen, wenn die Aktion für die Erstellung einer neuen Datenbank geklickt wurde.
 
         :return: None.
         """
@@ -190,7 +206,7 @@ class MainWindow(QMainWindow):
 
         :return: None.
         """
-        message_box = ConfirmDeletetionMessageBox(self)
+        message_box = ConfirmDeletionMessageBox(self)
         if message_box.exec_() == QMessageBox.Ok:
             self.database_widget.delete_selected_entry()
 
@@ -365,7 +381,7 @@ class MainWindow(QMainWindow):
 
     def enable_entry_actions(self) -> None:
         """
-        Aktiviert die Eintragsaktionen.
+        Aktiviert die Eintrags-Aktionen.
 
         :return: None.
         """
@@ -381,7 +397,7 @@ class MainWindow(QMainWindow):
 
     def disable_entry_actions(self) -> None:
         """
-        Deaktiviert die Eintragsaktionen.
+        Deaktiviert die Eintrags-Aktionen.
 
         :return: None.
         """

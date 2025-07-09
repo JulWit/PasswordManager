@@ -25,7 +25,7 @@ class PasswordWizardPage(QWizardPage):
         super(PasswordWizardPage, self).__init__(parent)
 
         # Setup Pattern
-        self.pattern = re.compile(r"^[^\s]{1,128}$")
+        self.pattern = re.compile(r"^\S{1,128}$")
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
@@ -56,7 +56,7 @@ class PasswordWizardPage(QWizardPage):
 
     def isComplete(self) -> bool:
         """
-        Wird aufgerufen, wenn die eingegbenen Passwörter geändert wurden.
+        Wird aufgerufen, wenn die eingegebenen Passwörter geändert wurden.
         Überprüft, ob die Passwörter gültig sind und deaktiviert ggf. den next-Button.
 
         :return: True, falls die Passwörter gültig sind, False sonst.

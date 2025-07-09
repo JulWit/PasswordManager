@@ -1,13 +1,14 @@
-import logging
+from sqlite3 import Connection, Cursor
+from typing import List
+
 import sqlcipher3
 
-from typing import List, Optional
-from sqlite3 import Connection, Cursor
+from src.util.Logger import logger
 
 
 class Singleton:
     """
-    Singeleton Dekorierer.
+    Singleton Dekorierer.
 
     :attributes:
         _instance: Einzige Instanz der dekorierten Klasse.
@@ -37,7 +38,7 @@ class Singleton:
     @classmethod
     def delete_instance(cls) -> None:
         """
-        Entfent die einzige Instanz der Klasse.
+        Entfernt die einzige Instanz der Klasse.
 
         :return: None.
         """
@@ -73,9 +74,6 @@ class DBConnection(object):
         if not password or not isinstance(password, str):
             raise TypeError("Passwort ist None oder kein String")
 
-        # Setup logging
-        self.logger = logging.getLogger("Logger")
-
         # Mit Datenbank verbinden und ggf. Datenbank erstellen
         self._connection = sqlcipher3.connect(file)
         self._cursor = self._connection.cursor()
@@ -89,9 +87,10 @@ class DBConnection(object):
             self.execute("SELECT COUNT(*) FROM sqlite_master")
         except sqlcipher3.dbapi2.DatabaseError as e:
             self.close()
-            self.logger.error(f"Die Datenbank {file} konnte nicht entschlüsselt werden: {e}")
+            logger.error(f"Die Datenbank {file} konnte nicht entschlüsselt werden: {e}")
             raise e
-        self.logger.debug(f"Die Datenbank {file} wurde erfolgreich entschlüsselt")
+
+        logger.debug(f"Die Datenbank {file} wurde erfolgreich entschlüsselt")
 
     @property
     def connection(self) -> Connection:
@@ -113,7 +112,7 @@ class DBConnection(object):
 
     def commit(self) -> None:
         """
-        Commited auststehende Änderungen an der Datenabank.
+        Commited ausstehende Änderungen an der Datenbank.
 
         :return: None.
         """
@@ -143,7 +142,7 @@ class DBConnection(object):
 
     def fetchall(self) -> List[List[str]]:
         """
-        Gibt eine Ergebnisliste aller Einträge der zurletzt ausgeführten Anfrage zurück.
+        Gibt eine Ergebnisliste aller Einträge der zuletzt ausgeführten Anfrage zurück.
 
         :return: Ergebnisliste der Anfrage.
         """

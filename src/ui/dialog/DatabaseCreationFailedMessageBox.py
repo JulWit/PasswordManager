@@ -15,6 +15,6 @@ class DatabaseCreationFailedMessageBox(QMessageBox):
         :param parent: Übergeordnetes QWidget.
         """
         super(DatabaseCreationFailedMessageBox, self).__init__(parent)
-        self.setWindowTitle("Datenbankerstllung fehlgeschlagen")
+        self.setWindowTitle("Datenbankerstellung fehlgeschlagen")
         self.setText("Die Datenbank konnte nicht erstellt werden")
-        self.setIcon(QMessageBox.Critical)
+        self.setIcon(QMessageBox.Icon.Critical)

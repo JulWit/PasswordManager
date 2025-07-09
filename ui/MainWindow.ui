@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>33</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDatenbank">
@@ -109,28 +109,16 @@
    <addaction name="separator"/>
   </widget>
   <action name="actionNewDatabase">
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/document-new.svg</normaloff>../img/document-new.svg</iconset>
-   </property>
    <property name="text">
     <string>Neue Datenbank</string>
    </property>
   </action>
   <action name="actionOpenDatabase">
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/document-open.svg</normaloff>../img/document-open.svg</iconset>
-   </property>
    <property name="text">
     <string>Datenbank öffnen</string>
    </property>
   </action>
   <action name="actionExit">
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/application-exit.svg</normaloff>../img/application-exit.svg</iconset>
-   </property>
    <property name="text">
     <string>Beenden</string>
    </property>
@@ -138,10 +126,6 @@
   <action name="actionNewEntry">
    <property name="enabled">
     <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/entry-new.svg</normaloff>../img/entry-new.svg</iconset>
    </property>
    <property name="text">
     <string>Neuer Eintrag</string>
@@ -151,10 +135,6 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/entry-edit.svg</normaloff>../img/entry-edit.svg</iconset>
-   </property>
    <property name="text">
     <string>Eintrag bearbeiten</string>
    </property>
@@ -162,10 +142,6 @@
   <action name="actionDeleteEntry">
    <property name="enabled">
     <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/entry-delete.svg</normaloff>../img/entry-delete.svg</iconset>
    </property>
    <property name="text">
     <string>Eintrag löschen</string>
@@ -175,10 +151,6 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/username-copy.svg</normaloff>../img/username-copy.svg</iconset>
-   </property>
    <property name="text">
     <string>Benutzernamen kopieren</string>
    </property>
@@ -186,10 +158,6 @@
   <action name="actionCopyPassword">
    <property name="enabled">
     <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/password-copy.svg</normaloff>../img/password-copy.svg</iconset>
    </property>
    <property name="text">
     <string>Passwort kopieren</string>
@@ -199,10 +167,6 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/url-copy.svg</normaloff>../img/url-copy.svg</iconset>
-   </property>
    <property name="text">
     <string>URL kopieren</string>
    </property>
@@ -210,10 +174,6 @@
   <action name="actionLockDatabase">
    <property name="enabled">
     <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/object-locked.svg</normaloff>../img/object-locked.svg</iconset>
    </property>
    <property name="text">
     <string>Datenbank sperren</string>
@@ -223,10 +183,6 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/web.svg</normaloff>../img/web.svg</iconset>
-   </property>
    <property name="text">
     <string>URL öffnen</string>
    </property>
@@ -235,19 +191,11 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/password-generator.svg</normaloff>../img/password-generator.svg</iconset>
-   </property>
    <property name="text">
     <string>Passwortgenerator</string>
    </property>
   </action>
   <action name="actionAbout">
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/help-about.svg</normaloff>../img/help-about.svg</iconset>
-   </property>
    <property name="text">
     <string>Über</string>
    </property>
@@ -255,10 +203,6 @@
   <action name="actionShowInformation">
    <property name="enabled">
     <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/help-about.svg</normaloff>../img/help-about.svg</iconset>
    </property>
    <property name="text">
     <string>Informationen anzeigen</string>
@@ -270,10 +214,6 @@
   <action name="actionCloseDatabase">
    <property name="enabled">
     <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../img/document-close.svg</normaloff>../img/document-close.svg</iconset>
    </property>
    <property name="text">
     <string>Datenbank schließen</string>

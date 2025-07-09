@@ -63,7 +63,7 @@ class EditEntryWidget(EntryWidget):
     @Slot(Entry)
     def entry_changed(self, entry: Entry) -> None:
         """
-        Wird aufgerufen, wenn der in der TableView ausgewählte Eintrag geängert wurde.
+        Wird aufgerufen, wenn der in der TableView ausgewählte Eintrag geändert wurde.
         Aktualisiert den Eintrag des Widgets.
 
         :param entry: Ausgewählter Eintrag.

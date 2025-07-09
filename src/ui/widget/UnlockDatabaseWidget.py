@@ -1,15 +1,16 @@
-import logging
-import sqlcipher3
-
 from typing import Optional
 
+import sqlcipher3
 from PySide6.QtCore import QMetaObject, Slot, Signal
-from PySide6.QtWidgets import QWidget
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QWidget, QLineEdit
 
 from src import ROOT_DIR
 from src.db.DBConnection import DBConnection
 from src.ui import UiLoader
 from src.ui.dialog.DecryptionFailedMessageBox import DecryptionFailedMessageBox
+from src.util.Theme import icon_path
+from src.util.Logger import logger
 
 
 class UnlockDatabaseWidget(QWidget):
@@ -35,29 +36,24 @@ class UnlockDatabaseWidget(QWidget):
         """
         super(UnlockDatabaseWidget, self).__init__(parent)
 
-        # Setup logging
-        self.logger = logging.getLogger("Logger")
-
         # Datenbankdatei
         self._file = file
-
-        # Setup logging
-        self.logger = logging.getLogger("Logger")
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
         self.ui.pathLabel.setText(file)
         self.ui.okButton.setEnabled(False)
+        self.ui.echoButton.setIcon(QIcon(str(icon_path / "eye.svg")))
 
         # Connect signals/slots
         QMetaObject.connectSlotsByName(self)
-        self.ui.passwordLineEdit.textChanged.connect(self.password_changed)
+        self.ui.passwordLineEdit.textChanged.connect(self.on_password_changed)
 
     @Slot()
     def on_okButton_clicked(self) -> None:
         """
         Wird aufgerufen, wenn der ok-Button geklickt wurde.
-        Versucht die Datenbank mit dem eigegebenen Passwort zu entschlüsseln.
+        Versucht die Datenbank mit dem eingegebenen Passwort zu entschlüsseln.
 
         :return: None.
         """
@@ -74,6 +70,22 @@ class UnlockDatabaseWidget(QWidget):
             DecryptionFailedMessageBox(self).exec_()
 
     @Slot()
+    def on_echoButton_clicked(self) -> None:
+        """
+        Wird aufgerufen, wenn der Password-Anzeigen-Button geklickt wurde.
+        Zeigt das Passwort an oder versteckt es wieder.
+
+        :return: None.
+        """
+        lineEdit = self.ui.passwordLineEdit
+        if lineEdit.echoMode() == QLineEdit.EchoMode.Password:
+            lineEdit.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.ui.echoButton.setIcon(QIcon(str(icon_path / "eye-off.svg")))
+        else:
+            lineEdit.setEchoMode(QLineEdit.EchoMode.Password)
+            self.ui.echoButton.setIcon(QIcon(str(icon_path / "eye.svg")))
+
+    @Slot()
     def on_cancelButton_clicked(self) -> None:
         """
         Wird aufgerufen, wenn der abbrechen-Button geklickt wurde. Entsendet ein cancel-Signal.
@@ -84,7 +96,7 @@ class UnlockDatabaseWidget(QWidget):
         self.cancel.emit()
 
     @Slot()
-    def password_changed(self) -> None:
+    def on_password_changed(self) -> None:
         """
         Wird aufgerufen, wenn das Passwort geändert wurde.
         Überprüft, ob das Passwort nichtleer ist und deaktiviert ggf. den ok-Button.
@@ -94,8 +106,10 @@ class UnlockDatabaseWidget(QWidget):
         password = bool(self.ui.passwordLineEdit.text().strip())
         self.ui.okButton.setEnabled(password)
 
+
+
     @Slot(str)
-    def database_changed(self, file: str) -> None:
+    def on_database_changed(self, file: str) -> None:
         """
         Wird aufgerufen, wenn die Datenbank gewechselt wurde.
         Setzt die aktuelle Datenbank.
@@ -103,6 +117,8 @@ class UnlockDatabaseWidget(QWidget):
         :param file: Datenbankdatei.
         :return: None
         """
-        self.logger.debug(f"Datenbank: {file}")
+        logger.debug(f"Datenbank: {file}")
         self._file = file
         self.ui.pathLabel.setText(file)
+
+

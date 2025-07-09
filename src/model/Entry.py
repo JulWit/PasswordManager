@@ -6,11 +6,11 @@ from PySide6.QtCore import QByteArray
 
 @dataclass
 class Entry:
-    id: str = None
+    id: str | None  = None
     title: str = None
     username: str = None
     password: str = None
     url: str = None
     notes: str = None
-    icon: QByteArray = None
+    icon: QByteArray | bytearray = None
     modified: str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

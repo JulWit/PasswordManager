@@ -1,7 +1,7 @@
 import logging
 
 from typing import Optional, List
-from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
+from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, QByteArray
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QWidget
 
@@ -41,7 +41,7 @@ class TableModel(QAbstractTableModel):
         else:
             self._data = data
 
-    def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.DisplayRole) -> Optional[str]:
+    def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole) -> Optional[str] | QIcon:
         """
         Gibt die Daten für die übergebene Rolle am übergebenen Index zurück.
 
@@ -56,15 +56,15 @@ class TableModel(QAbstractTableModel):
         if not 0 <= index.row() < len(self._data):
             return None
 
-        if role == Qt.DecorationRole:
+        if role == Qt.ItemDataRole.DecorationRole:
             entry = self._data[index.row()]
             if index.column() == 1:
                 pixmap = QPixmap()
-                pixmap.loadFromData(entry.icon, "")
+                pixmap.loadFromData(entry.icon)
                 return QIcon(pixmap)
             return None
 
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             entry = self._data[index.row()]
             if index.column() == 0:
                 return entry.id
@@ -85,7 +85,7 @@ class TableModel(QAbstractTableModel):
                 return entry.modified
         return None
 
-    def setData(self, index: QModelIndex, value: str, role: Qt.ItemDataRole = Qt.EditRole) -> bool:
+    def setData(self, index: QModelIndex, value: str | QByteArray, role: Qt.ItemDataRole = Qt.ItemDataRole.EditRole) -> bool:
         """
         Setzt die Daten für die übergebene Rolle am übergebenen Index.
 
@@ -95,13 +95,13 @@ class TableModel(QAbstractTableModel):
         :return: True, falls das Setzen funktioniert hat, false sonst.
         """
 
-        if role == Qt.DecorationRole:
+        if role == Qt.ItemDataRole.DecorationRole:
             entry = self._data[index.row()]
             if index.column() == 1:
                 entry.icon = value
             return False
 
-        if role == Qt.EditRole:
+        if role == Qt.ItemDataRole.EditRole:
             if index.isValid() and 0 <= index.row() < len(self._data):
                 entry = self._data[index.row()]
                 if index.column() == 0:
@@ -142,7 +142,7 @@ class TableModel(QAbstractTableModel):
         return len(self._sections)
 
     def headerData(self, section: int, orientation: Qt.Orientation,
-                   role: Qt.ItemDataRole = Qt.DisplayRole) -> Optional[str]:
+                   role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole) -> Optional[str]:
         """
         Gibt die Daten für die übergebene Rolle und Sektion im Header mit der übergebenen Orientierung zurück.
 
@@ -151,9 +151,9 @@ class TableModel(QAbstractTableModel):
         :param role: Rolle der Daten.
         :return: Daten für die übergebene Rolle und Sektion im Header mit der übergebenen Orientierung.
         """
-        if role != Qt.DisplayRole:
+        if role != Qt.ItemDataRole.DisplayRole:
             return None
-        if orientation == Qt.Horizontal:
+        if orientation == Qt.Orientation.Horizontal:
             return self._sections[section]
         return None
 

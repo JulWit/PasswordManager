@@ -17,4 +17,4 @@ class DecryptionFailedMessageBox(QMessageBox):
         self.setWindowTitle("Entschlüsselung fehlgeschlagen")
         self.setText("Die Datenbank konnte nicht entschlüsselt werden")
         self.setInformativeText("Das eingegebene Passwort ist falsch.")
-        self.setIcon(QMessageBox.Critical)
+        self.setIcon(QMessageBox.Icon.Critical)

@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QDialog, QWidget
 from src import ROOT_DIR
 from src.db.DBConnection import DBConnection
 from src.ui import UiLoader
+from src.util.Center import center_on_parent
 
 
 class DatabaseInformationDialog(QDialog):
@@ -33,3 +34,6 @@ class DatabaseInformationDialog(QDialog):
             description = connection.query("SELECT Description FROM Metadata")[0][0]
             self.ui.nameLabel.setText(name)
             self.ui.descriptionLabel.setText(description)
+
+        # zentrieren
+        center_on_parent(self)

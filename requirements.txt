@@ -1,5 +1,5 @@
-PySide6~=6.0.0
-sqlcipher3-binary~=0.4.5
-password-strength~=0.0.3.post2
-favicon~=0.7.0
-requests~=2.25.1
+PySide6
+sqlcipher3-wheels
+password-strength
+favicon
+requests

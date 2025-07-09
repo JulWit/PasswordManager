@@ -1,17 +1,19 @@
 from typing import Optional
 
 from PySide6.QtCore import Slot, QMetaObject
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QFrame, QWidget, QApplication, QLineEdit
 
 from src import ROOT_DIR
 from src.ui import UiLoader
 from src.util import PasswordStrength
 from src.util.PasswordGenerator import password_combination, password_generator
+from src.util.Theme import icon_path
 
 
 class PasswordGeneratorFrame(QFrame):
     """
-    Frame für das generieren von Passwörtern.
+    Frame für das Generieren von Passwörtern.
     """
 
     # UI-Datei
@@ -25,11 +27,14 @@ class PasswordGeneratorFrame(QFrame):
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
-        self.ui.passwordLineEdit.textChanged.connect(self.refresh_password_strength)
-        self.ui.passwordLineEdit.textChanged.connect(self.password_changed)
+        self.ui.echoButton.setIcon(QIcon(str(icon_path / "eye.svg")))
+        self.ui.refreshButton.setIcon(QIcon(str(icon_path / "refresh.svg")))
+        self.ui.copyToClipboardButton.setIcon(QIcon(str(icon_path / "copy-text.svg")))
 
         # Connect signals / slots
         QMetaObject.connectSlotsByName(self)
+        self.ui.passwordLineEdit.textChanged.connect(self.refresh_password_strength)
+        self.ui.passwordLineEdit.textChanged.connect(self.password_changed)
 
         # Passwortlänge
         self.ui.passwordLengthSlider.valueChanged.connect(self.new_password)
@@ -90,7 +95,7 @@ class PasswordGeneratorFrame(QFrame):
     @Slot()
     def refresh_password_length_slider(self) -> None:
         """
-        Aktualisiert die Anzahl von Zeichen anhand der Sliderposition die das zu generiende Passwort haben soll.
+        Aktualisiert die Anzahl von Zeichen anhand der Sliderposition, die das generierte Passwort haben soll.
         :return: None
         """
         self.password_length = self.ui.passwordLengthSlider.value()
@@ -125,12 +130,15 @@ class PasswordGeneratorFrame(QFrame):
         clipboard.setText(self.password)
 
     @Slot()
-    def on_echoButton_toggled(self) -> None:
+    def on_echoButton_clicked(self) -> None:
         """
-        Wechselt zwischen dem Anzeigen des Passworts in Klartext oder als unkenntlich gemachtes Passwort
+        Wechselt zwischen der Anzeigen des Passworts in Klartext oder der Anzeige des unkenntlich gemachten Passworts.
         :return:
         """
-        if self.ui.echoButton.isChecked():
-            self.ui.passwordLineEdit.setEchoMode(QLineEdit.Normal)
+        lineEdit = self.ui.passwordLineEdit
+        if lineEdit.echoMode() == QLineEdit.EchoMode.Password:
+            lineEdit.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.ui.echoButton.setIcon(QIcon(str(icon_path / "eye-off.svg")))
         else:
-            self.ui.passwordLineEdit.setEchoMode(QLineEdit.Password)
+            lineEdit.setEchoMode(QLineEdit.EchoMode.Password)
+            self.ui.echoButton.setIcon(QIcon(str(icon_path / "eye.svg")))

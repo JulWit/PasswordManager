@@ -1,12 +1,13 @@
 from typing import Optional
 
 from PySide6.QtCore import Slot, QMetaObject
-from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QFrame, QWidget, QLabel
+from PySide6.QtGui import QPixmap, QIcon
+from PySide6.QtWidgets import QFrame, QWidget
 
 from src import ROOT_DIR
 from src.model.Entry import Entry
 from src.ui import UiLoader
+from src.util.Theme import icon_path
 
 
 class EntryDetailsFrame(QFrame):
@@ -30,6 +31,7 @@ class EntryDetailsFrame(QFrame):
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
+        self.ui.echoButton.setIcon(QIcon(str(icon_path / "eye.svg")))
 
         # Connect Signals/Slots
         QMetaObject.connectSlotsByName(self)
@@ -37,7 +39,7 @@ class EntryDetailsFrame(QFrame):
     @Slot()
     def entry_changed(self, entry: Entry):
         """
-        Wird aufgerufen, wenn der in der TableView ausgewählte Eintrag geängert wurde.
+        Wird aufgerufen, wenn der in der TableView ausgewählte Eintrag geändert wurde.
         Aktualisiert den Eintrag des Widgets.
 
         :param entry: Ausgewählter Eintrag.
@@ -53,7 +55,7 @@ class EntryDetailsFrame(QFrame):
             self.ui.notesLabel.setText(entry.notes)
 
             pixmap = QPixmap()
-            pixmap.loadFromData(entry.icon, "")
+            pixmap.loadFromData(entry.icon)
             self.ui.iconLabel.setPixmap(pixmap)
         else:
             self.clear_details()
@@ -66,7 +68,7 @@ class EntryDetailsFrame(QFrame):
         self.ui.urlLabel.clear()
         self.ui.notesLabel.clear()
 
-        pixmap = QPixmap(ROOT_DIR + "/img/globe.svg")
+        pixmap = QPixmap(str(icon_path / "globe.svg"))
         self.ui.iconLabel.setPixmap(pixmap)
 
 
@@ -80,5 +82,7 @@ class EntryDetailsFrame(QFrame):
         """
         if self.ui.echoButton.isChecked():
             self.ui.passwordLabel.setText(self._entry.password)
+            self.ui.echoButton.setIcon(QIcon(str(icon_path / "eye-off.svg")))
         else:
             self.ui.passwordLabel.setText("*" * len(self._entry.password))
+            self.ui.echoButton.setIcon(QIcon(str(icon_path / "eye.svg")))

@@ -30,7 +30,7 @@ class NewDatabaseWizard(QWizard):
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
-        self.setPixmap(self.BackgroundPixmap, QPixmap(self.BACKGROUND_IMAGE))
+        self.setPixmap(QWizard.WizardPixmap.BackgroundPixmap, QPixmap(self.BACKGROUND_IMAGE))
 
         # Add pages
         self.name_page = NameWizardPage(self)

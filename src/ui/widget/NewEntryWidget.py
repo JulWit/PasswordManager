@@ -27,7 +27,7 @@ class NewEntryWidget(EntryWidget):
     def on_okButton_clicked(self) -> None:
         """
         Wird aufgerufen, wenn der ok-Button geklickt wurde.
-        Liest die Informationen aus der Maske aus und entsendet ein entryCreated-Signal mit dem neuem Eintrag.
+        Liest die Informationen aus der Maske aus und entsendet ein entryCreated-Signal mit dem neuen Eintrag.
         Entsendet darüber hinaus ein ok-Signal.
 
         :return: None

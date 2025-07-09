@@ -6,15 +6,15 @@ from PySide6.QtCore import QDir, QMetaObject, Slot, Signal
 from PySide6.QtWidgets import QWidget, QFileDialog
 
 from src import ROOT_DIR
-from src.db.DBConnection import DBConnection
 from src.ui import UiLoader
 from src.ui.dialog.DatabaseCreationFailedMessageBox import DatabaseCreationFailedMessageBox
 from src.ui.wizard.NewDatabaseWizard import NewDatabaseWizard
+from src.util.Logger import logger
 
 
 class WelcomeWidget(QWidget):
     """
-    Widget, dass eine Willkommensnachricht anzeigt und das Erstellen und Öffenn von Datenbanken ermöglicht.
+    Widget, dass eine Willkommensnachricht anzeigt und das Erstellen und Öffnen von Datenbanken ermöglicht.
     """
 
     # UI-Datei
@@ -31,9 +31,6 @@ class WelcomeWidget(QWidget):
         """
         super(WelcomeWidget, self).__init__(parent)
 
-        # Setup logging
-        self.logger = logging.getLogger("Logger")
-
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
 
@@ -43,7 +40,7 @@ class WelcomeWidget(QWidget):
     @Slot()
     def on_newDatabaseButton_clicked(self) -> None:
         """
-        Wird aufgerufen, wenn der Button für die Erstelltung einer neuen Datenbank geklickt wurde.
+        Wird aufgerufen, wenn der Button für die Erstellung einer neuen Datenbank geklickt wurde.
 
         :return: None.
         """
@@ -73,7 +70,7 @@ class WelcomeWidget(QWidget):
             # Speicherort der Datenbank erfragen
             file = QFileDialog.getSaveFileName(self, "Datenbank speichern", QDir.homePath() + f"/{data.name}.db")[0]
 
-            # Wenn das Speichern abgebrochen wurde ist file = None
+            # Wenn das Speichern abgebrochen wurde, ist file = None
             if file:
                 connection = None
                 try:
@@ -113,11 +110,12 @@ class WelcomeWidget(QWidget):
                     connection.commit()
                 except sqlcipher3.dbapi2.DatabaseError as e:
                     connection.close()
-                    self.logger.error(f"Datenbank: {file} konnte nicht erstellt werden: {e}")
+                    logger.error(f"Datenbank: {file} konnte nicht erstellt werden: {e}")
                     DatabaseCreationFailedMessageBox(self).exec_()
-                self.logger.debug(f"Datenbank: {file} erfolgreich erstellt")
+
+                logger.debug(f"Datenbank: {file} erfolgreich erstellt")
             else:
-                self.logger.debug("Speichern der Datenbank abgebrochen")
+                logger.debug("Speichern der Datenbank abgebrochen")
 
     def open_database(self) -> None:
         """

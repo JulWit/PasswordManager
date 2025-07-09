@@ -1,4 +1,3 @@
-import logging
 from typing import Optional
 
 from PySide6.QtCore import Slot, Signal, QModelIndex, QSortFilterProxyModel
@@ -11,6 +10,7 @@ from src.model.Entry import Entry
 from src.model.TableModel import TableModel
 from src.ui import UiLoader
 from src.ui.widget.EntryDetailsFrame import EntryDetailsFrame
+from src.util.Logger import logger
 
 
 class DatabaseWidget(QWidget):
@@ -32,12 +32,9 @@ class DatabaseWidget(QWidget):
         """
         super(DatabaseWidget, self).__init__(parent)
 
-        # Setup logging
-        self.logger = logging.getLogger("Logger")
-
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self, {"EntryDetailsFrame": EntryDetailsFrame})
-        self.ui.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+        self.ui.tableView.horizontalHeader().setDefaultAlignment(Qt.AlignmentFlag.AlignLeft)
 
         # Splitter anpassen
         self.ui.splitter.setSizes([400, 50])
@@ -68,7 +65,7 @@ class DatabaseWidget(QWidget):
         self.model = TableModel(entries)
         self.proxy_model = QSortFilterProxyModel()
         self.proxy_model.setSourceModel(self.model)
-        self.proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self.proxy_model.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.proxy_model.setFilterKeyColumn(1)
 
         # Setup UI
@@ -85,7 +82,6 @@ class DatabaseWidget(QWidget):
         self.model.layoutChanged.connect(self.selection_changed)
         self.selection_changed()
 
-
     @Slot()
     def selection_changed(self) -> None:
         """
@@ -101,7 +97,7 @@ class DatabaseWidget(QWidget):
     @Slot(str)
     def filter(self, regex: str = "") -> None:
         """
-        Filtert die in der TableView angezeigten Einträge mit Hilfe des übergebenen regulären Ausdrucks.
+        Filtert die in der TableView angezeigten Einträge mithilfe des übergebenen regulären Ausdrucks.
 
         :param regex: Regulärer Ausdruck, dem die Einträge entsprechen müssen.
         :return: None.
@@ -151,32 +147,32 @@ class DatabaseWidget(QWidget):
 
         # ID Setzen
         index = self.model.index(0, 0, QModelIndex())
-        self.model.setData(index, entry.id, Qt.EditRole)
+        self.model.setData(index, entry.id, Qt.ItemDataRole.EditRole)
 
         # Titel setzen
         index = self.model.index(0, 1, QModelIndex())
-        self.model.setData(index, entry.icon, Qt.DecorationRole)
-        self.model.setData(index, entry.title, Qt.EditRole)
+        self.model.setData(index, entry.icon, Qt.ItemDataRole.DecorationRole)
+        self.model.setData(index, entry.title, Qt.ItemDataRole.EditRole)
 
         # Benutzernamen setzen
         index = self.model.index(0, 2, QModelIndex())
-        self.model.setData(index, entry.username, Qt.EditRole)
+        self.model.setData(index, entry.username, Qt.ItemDataRole.EditRole)
 
         # Passwort setzen
         index = self.model.index(0, 3, QModelIndex())
-        self.model.setData(index, entry.password, Qt.EditRole)
+        self.model.setData(index, entry.password, Qt.ItemDataRole.EditRole)
 
         # URL setzen
         index = self.model.index(0, 4, QModelIndex())
-        self.model.setData(index, entry.url, Qt.EditRole)
+        self.model.setData(index, entry.url, Qt.ItemDataRole.EditRole)
 
         # Notizen setzen
         index = self.model.index(0, 5, QModelIndex())
-        self.model.setData(index, entry.notes, Qt.EditRole)
+        self.model.setData(index, entry.notes, Qt.ItemDataRole.EditRole)
 
         # Zuletzt geändert setzen
         index = self.model.index(0, 6, QModelIndex())
-        self.model.setData(index, entry.modified, Qt.EditRole)
+        self.model.setData(index, entry.modified, Qt.ItemDataRole.EditRole)
 
         self.ui.tableView.resizeColumnsToContents()
         self.ui.tableView.selectRow(0)
@@ -216,4 +212,4 @@ class DatabaseWidget(QWidget):
             connection.execute(query, (entry.id,))
             connection.commit()
         except ValueError as e:
-            self.logger.debug(f"Element {entry} nicht gefunden: {e}")
+            logger.debug(f"Element {entry} nicht gefunden: {e}")

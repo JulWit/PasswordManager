@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QDialog, QWidget
 from src import ROOT_DIR
 from src.ui import UiLoader
 from src.ui.widget.PasswordGeneratorFrame import PasswordGeneratorFrame
+from src.util.Center import center_on_parent
 
 
 class PasswordGeneratorDialog(QDialog):
@@ -25,6 +26,9 @@ class PasswordGeneratorDialog(QDialog):
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self, {"PasswordGeneratorFrame": PasswordGeneratorFrame})
+
+        # zentrieren
+        center_on_parent(self)
 
     def password(self):
         return self.ui.passwordGeneratorFrame.password

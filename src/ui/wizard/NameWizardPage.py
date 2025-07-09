@@ -25,7 +25,7 @@ class NameWizardPage(QWizardPage):
         super(NameWizardPage, self).__init__(parent)
 
         # Setup Pattern
-        self.pattern = re.compile(r"^[^\s]{1,128}$")
+        self.pattern = re.compile(r"^\S{1,128}$")
 
         # Setup UI
         self.ui = UiLoader.loadUi(self.UI_FILE, self)
