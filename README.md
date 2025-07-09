@@ -16,6 +16,7 @@ verschlüsselt wird.
 [![Screenshot-from-2021-12-07-05-24-16.png](https://i.postimg.cc/X75mcP8J/Screenshot-from-2021-12-07-05-24-16.png)](https://postimg.cc/QHXfj0vG)
 [![Screenshot-from-2021-12-07-05-26-49.png](https://i.postimg.cc/V6TZX90n/Screenshot-from-2021-12-07-05-26-49.png)](https://postimg.cc/1nGKQqH3)
 [![Screenshot-from-2021-12-07-05-26-53.png](https://i.postimg.cc/2yZcGqnJ/Screenshot-from-2021-12-07-05-26-53.png)](https://postimg.cc/1Vyr53Cc)
+[![Screenshot-from-2025-09-07-13-92-53.png](https://i.postimg.cc/prPW8cNx/Screenshot-2025-07-09-130048.png)](https://postimg.cc/xJFVVRTF)
 
 ## Installation (Ubuntu)
 1. `sudo apt install git`
