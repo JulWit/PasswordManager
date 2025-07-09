@@ -21,7 +21,7 @@ verschlüsselt wird.
 1. `sudo apt install git`
 2. `sudo apt install libopengl0`
 3. `sudo apt install python3-pip`
-4. Wechsel in das Verzeichnis in dem das Projekt geklont werden soll (z. B. home)
+4. Wechsel in das Verzeichnis in dem das Projekt geklont werden soll (z. B. /home/PasswordManager)
 5. `git clone https://github.com/JulWit/PasswordManager.git`
 6. `cd PasswordManager`
 7. `pip3 install -r requirements.txt`
