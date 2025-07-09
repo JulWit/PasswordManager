@@ -17,11 +17,11 @@ verschlüsselt wird.
 [![Screenshot-from-2021-12-07-05-26-49.png](https://i.postimg.cc/V6TZX90n/Screenshot-from-2021-12-07-05-26-49.png)](https://postimg.cc/1nGKQqH3)
 [![Screenshot-from-2021-12-07-05-26-53.png](https://i.postimg.cc/2yZcGqnJ/Screenshot-from-2021-12-07-05-26-53.png)](https://postimg.cc/1Vyr53Cc)
 
-## Installation
+## Installation (Ubuntu)
 1. `sudo apt install git`
 2. `sudo apt install libopengl0`
 3. `sudo apt install python3-pip`
-4. Wechsel in das Verzeichnis in dem sich das Projekt befinden soll
+4. Wechsel in das Verzeichnis in dem das Projekt geklont werden soll (z. B. home)
 5. `git clone https://github.com/JulWit/PasswordManager.git`
 6. `cd PasswordManager`
 7. `pip3 install -r requirements.txt`
