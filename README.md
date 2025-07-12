@@ -19,11 +19,9 @@ verschlüsselt wird.
 [![Screenshot-from-2025-09-07-13-92-53.png](https://i.postimg.cc/prPW8cNx/Screenshot-2025-07-09-130048.png)](https://postimg.cc/xJFVVRTF)
 
 ## Installation (Ubuntu)
-1. `sudo apt install git`
-2. `sudo apt install libopengl0`
-3. `sudo apt install python3-pip`
-4. Wechsel in das Verzeichnis in dem das Projekt geklont werden soll (z. B. /home/PasswordManager)
-5. `git clone https://github.com/JulWit/PasswordManager.git`
-6. `cd PasswordManager`
-7. `pip3 install -r requirements.txt`
-8. `python3 start.py`
+1. `sudo apt install git libopengl0 python3-pip`
+3. Wechsel in das Verzeichnis in dem das Projekt geklont werden soll (z. B. /home/PasswordManager)
+4. `git clone https://github.com/JulWit/PasswordManager.git`
+5. `cd PasswordManager`
+6. `pip3 install -r requirements.txt`
+7. `python3 start.py`
